@@ -1,0 +1,7 @@
+:host {
+  font-size: 15.4px;
+}
+
+@media screen and (min-width: 1150px) {
+  font-size: 16.4px;
+}

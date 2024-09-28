@@ -1,0 +1,3 @@
+@for (element of elements; track element.text) {
+  <app-item [element]="element" (mousedown)="onMouseDown(itemComponent)" #itemComponent/>
+}

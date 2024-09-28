@@ -1,0 +1,18 @@
+:host {
+  width: 21px;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 1150px) {
+  :host {
+    width: 22px;
+  }
+}
+
+:host(:hover) {
+  transform: scale(1.05);
+}
+
+:host { /* TODO */
+  filter: var(--svg-filter);
+}

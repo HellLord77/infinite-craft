@@ -1,0 +1,22 @@
+:host {
+  position: fixed;
+  right: 314px;
+  bottom: 7px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  display: flex;
+  grid-gap: 19px;
+}
+
+@media screen and (min-width: 1150px) {
+  :host {
+    right: 361px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  :host {
+    display: none;
+  }
+}

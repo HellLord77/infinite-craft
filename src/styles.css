@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: Roboto;
+  src: url(assets/fonts/Roboto-Medium.woff2)
+}
+
+@font-face {
+  font-family: Roboto;
+  font-weight: 700;
+  src: url(assets/fonts/Roboto-Bold.woff2)
+}
+
+html {
+  font-size: 16px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  color: #000;
+  font-family: Roboto, sans-serif;
+  background: #fff
+}
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+  margin: 0
+}

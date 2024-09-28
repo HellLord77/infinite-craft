@@ -1,0 +1,52 @@
+:host {
+  margin: 4px;
+  cursor: pointer;
+  padding: 8px 8px 7px;
+  border-radius: 5px;
+  display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  border: 1px solid var(--border-color);
+  transition: background .15s linear;
+  background: var(--item-bg);
+  line-height: 1em;
+  contain: layout style paint;
+}
+
+:host {
+  font-size: 15.4px
+}
+
+@media screen and (min-width: 1150px) {
+  font-size: 16.4px;
+  padding: 9px 10px 8px;
+}
+
+@media screen and (max-width: 800px) {
+  :host {
+    width: auto;
+    min-height: 32px;
+    grid-gap: 5px;
+    line-height: 32px;
+    font-size: 15px;
+    padding: 1px 9px 0;
+    border: 1px solid #9f9f9f;
+    color: var(--text-color);
+    transition: background .1s linear;
+    touch-action: manipulation;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  :host {
+    white-space: nowrap;
+  }
+}
+
+@media (hover: hover) {
+  :host(:hover) {
+    background: var(--instance-bg-hover);
+    border: 1px solid var(--instance-border-hover);
+  }
+}

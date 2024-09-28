@@ -1,0 +1,26 @@
+:host {
+  width: 21px;
+  cursor: pointer;
+  opacity: .8;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+:host {
+  transform: scale(.92);
+}
+
+@media screen and (min-width: 1150px) {
+  :host {
+    width: 23px;
+  }
+}
+
+:host(:hover) {
+  transform: scale(1.05);
+}
+
+:host { /* TODO */
+  filter: var(--svg-filter);
+}

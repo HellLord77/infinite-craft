@@ -1,0 +1,18 @@
+:host {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: 13px;
+  text-align: right;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  background: var(--sidebar-bg);
+}
+
+@media screen and (max-width: 800px) {
+  :host {
+    display: none;
+  }
+}
