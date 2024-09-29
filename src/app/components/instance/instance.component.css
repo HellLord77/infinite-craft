@@ -1,73 +1,76 @@
 app-item {
-    position: fixed;
-    font-size: 18px;
-    padding: 11px 10px 10px;
-    transition: scale .15s ease-in;
-    border-radius: 5px;
-    transform-origin: center center;
-    display: flex;
-    align-items: center;
-    contain: layout;
-    border: 1px solid var(--instance-border);
-    background: var(--instance-bg);
+  position: fixed;
+  font-size: 18px;
+  padding: 11px 10px 10px;
+  transition: scale .15s ease-in;
+  border-radius: 5px;
+  transform-origin: center center;
+  display: flex;
+  align-items: center;
+  contain: layout;
+  border: 1px solid var(--instance-border);
+  background: var(--instance-bg);
 }
 
 app-item {
-    animation: scaleIn .13s ease-in 1 forwards
+  animation: scaleIn .13s ease-in 1 forwards
 }
 
 @media screen and (min-width: 1150px) {
-    app-item {
-        font-size: 19.5px;
-        padding: 11px 11px 10px;
-    }
-}
-
-app-item.instance-selected {
-    background: var(--instance-bg-hover);
-    border: 1px solid var(--instance-border-hover);
+  app-item {
+    font-size: 19.5px;
+    padding: 11px 11px 10px;
+  }
 }
 
 :host(::ng-deep) app-item-emoji {
-    font-size: 21px;
-    margin-right: 5px;
+  font-size: 21px;
+  margin-right: 5px;
+}
+
+app-item.instance-selected {
+  background: var(--instance-bg-hover);
+  border: 1px solid var(--instance-border-hover);
 }
 
 app-item.instance-hover {
-    scale: 1.04;
-    background: var(--instance-bg-hover);
-    border: 1px solid var(--instance-border-hover);
+  scale: 1.04; /*TODO*/
+  background: var(--instance-bg-hover);
+  border: 1px solid var(--instance-border-hover);
 }
 
 app-item.instance-disabled {
-    pointer-events: none;
-    opacity: .7;
-    transition: .15s linear;
-    animation: pulse .8s ease-in-out .15s infinite alternate-reverse
+  pointer-events: none;
+  opacity: .7;
+  transition: .15s linear;
+  animation: pulse .8s ease-in-out .15s infinite alternate-reverse
 }
 
 @keyframes scaleIn {
-    0% {
-        scale: .5
-    }
-    to {
-        scale: 1
-    }
+  0% {
+    scale: .5
+  }
+
+  to {
+    scale: 1
+  }
 }
 
 @keyframes pulse {
-    0% {
-        opacity: .2
-    }
-    to {
-        opacity: .7
-    }
+  0% {
+    opacity: .2
+  }
+
+  to {
+    opacity: .7
+  }
 }
 
-:host { /*TODO*/
-    position: absolute;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+:host {
+  /*TODO*/
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

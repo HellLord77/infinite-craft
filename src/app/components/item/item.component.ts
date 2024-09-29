@@ -18,6 +18,6 @@ export class ItemComponent {
 
   get center(): Point {
     const boundingClientRect = this.elementRef.nativeElement.getBoundingClientRect();
-    return this.utilityService.getCenter(boundingClientRect);
+    return this.utilityService.rectToCenter(boundingClientRect);
   }
 }

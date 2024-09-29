@@ -1,8 +1,8 @@
 import {Component, inject} from '@angular/core';
 import {ItemComponent} from "../item/item.component";
 import {InfiniteCraftDataService} from "../../services/infinite-craft-data.service";
-import {InstanceElement} from "../../models/instance-element.model";
-import {UtilityService} from "../../services/utility.service";
+import {Instance} from "../../models/instance.model";
+import {ConstantService} from "../../services/constant.service";
 
 @Component({
   selector: 'app-items',
@@ -13,14 +13,19 @@ import {UtilityService} from "../../services/utility.service";
 })
 export class ItemsComponent {
   private infiniteCraftDataService = inject(InfiniteCraftDataService);
-  private utilityService = inject(UtilityService);
+  private constantService = inject(ConstantService);
 
   get elements() { /* TODO */
     return this.infiniteCraftDataService.elements;
   }
 
   onMouseDown(itemComponent: ItemComponent) {
-    let instanceElement: InstanceElement = {...itemComponent.element(), 'center': itemComponent.center};
-    this.utilityService.elements.push(instanceElement);
+    let instance: Instance = {
+      element: itemComponent.element(),
+      id: this.constantService.id,
+      center: itemComponent.center,
+      zIndex: this.constantService.zIndex
+    };
+    this.constantService.instances.push(instance);
   }
 }

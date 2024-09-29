@@ -1,6 +1,6 @@
-@for (element of elements; track $index) {
-  <app-instance [element]="element" [ngStyle]="{'translate': element.center.x + 'px ' + element.center.y + 'px'}"
-                [style.z-index]="instanceComponent.zIndex()" (cdkDragStarted)="onDragStarted(instanceComponent)"
+@for (instance of instances; track $index) {
+  <app-instance [instance]="instance" [id]="instance.id" [ngStyle]="{'translate': pointToTranslate(instance.center)}"
+                [style.z-index]="instance.zIndex" (cdkDragStarted)="onDragStarted(instanceComponent)"
                 (cdkDragEnded)="onDragEnded(instanceComponent)" (cdkDragMoved)="onDragMoved(instanceComponent)"
                 (cdkDragReleased)="onDragReleased()" cdkDrag #instanceComponent/>
 }

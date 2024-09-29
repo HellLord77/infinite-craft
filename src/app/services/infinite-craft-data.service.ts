@@ -28,7 +28,7 @@ export class InfiniteCraftDataService implements InfiniteCraftData, HasToJSON {
       }
       if (Array.isArray(infiniteCraftData.elements)) {
         for (const element of infiniteCraftData.elements) {
-          if (this.utilityService.isStorageElement(element) && !elementTexts.has(element.text)) {
+          if (this.utilityService.isObjectStorageElement(element) && !elementTexts.has(element.text)) {
             this._elements.push(element);
             elementTexts.add(element.text);
           }
@@ -66,15 +66,12 @@ export class InfiniteCraftDataService implements InfiniteCraftData, HasToJSON {
   }
 
   init() {
-    this._elements = [{
-      "text": "Water", "emoji": "💧", "discovered": false
-    }, {
-      "text": "Fire", "emoji": "🔥", "discovered": false
-    }, {
-      "text": "Wind", "emoji": "🌬️", "discovered": false
-    }, {
-      "text": "Earth", "emoji": "🌍", "discovered": false
-    }];
+    this._elements = [
+      {"text": "Water", "emoji": "💧", "discovered": false},
+      {"text": "Fire", "emoji": "🔥", "discovered": false},
+      {"text": "Wind", "emoji": "🌬️", "discovered": false},
+      {"text": "Earth", "emoji": "🌍", "discovered": false}
+    ];
     this._darkMode = false;
   }
 

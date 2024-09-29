@@ -1,10 +1,11 @@
-import {Component, inject} from '@angular/core';
-import {InstanceElement} from "../../models/instance-element.model";
+import {Component, ElementRef, inject} from '@angular/core';
 import {NgStyle} from "@angular/common";
 import {ItemComponent} from "../item/item.component";
-import {CdkDrag} from "@angular/cdk/drag-drop";
+import {CdkDrag, Point} from "@angular/cdk/drag-drop";
 import {InstanceComponent} from "../instance/instance.component";
 import {UtilityService} from "../../services/utility.service";
+import {Instance} from "../../models/instance.model";
+import {ConstantService} from "../../services/constant.service";
 
 @Component({
   selector: 'app-instances',
@@ -14,21 +15,25 @@ import {UtilityService} from "../../services/utility.service";
   styleUrl: './instances.component.css'
 })
 export class InstancesComponent {
+  private instanceSelectedClass = 'instance-selected';
   private instanceHoverClass = 'instance-hover';
   private instanceDisabledClass = 'instance-disabled';
   private utilityService = inject(UtilityService);
+  private elementRef = inject(ElementRef);
+  private constantService = inject(ConstantService);
   private intersectionItem: Element | null = null;
 
-  get elements(): InstanceElement[] {
-    return this.utilityService.elements;
+  get instances(): Instance[] {
+    return this.constantService.instances;
   }
 
-  get zIndex(): number {
-    return this.utilityService.zIndex;
+  pointToTranslate(point: Point): string {
+    return this.utilityService.pointToTranslate(point);
   }
 
   onDragStarted(instanceComponent: InstanceComponent) {
-    instanceComponent.zIndex.set(this.zIndex);
+    instanceComponent.instance().zIndex = this.constantService.zIndex;
+    instanceComponent.item.classList.add(this.instanceSelectedClass);
     this.intersectionItem = null;
   }
 
@@ -36,6 +41,7 @@ export class InstancesComponent {
     if (this.intersectionItem !== null) {
       this.onDragDropped(instanceComponent);
     }
+    instanceComponent.item.classList.remove(this.instanceSelectedClass);
     this.intersectionItem = null;
   }
 
@@ -43,7 +49,7 @@ export class InstancesComponent {
     const boundingClientRect1 = instanceComponent.item.getBoundingClientRect();
     if (this.intersectionItem !== null) {
       const boundingClientRect2 = this.intersectionItem.getBoundingClientRect();
-      if (this.utilityService.doesIntersect(boundingClientRect1, boundingClientRect2)) {
+      if (this.utilityService.doRectsIntersect(boundingClientRect1, boundingClientRect2)) {
         return;
       } else {
         this.onDragExited(instanceComponent);
@@ -51,13 +57,12 @@ export class InstancesComponent {
       }
     }
 
-    const instances = document.getElementsByTagName('app-instance');
-    for (let index = 0; index < instances.length; ++index) {
-      const instance = instances[index];
-      const item = instance.getElementsByTagName('app-item')[0];
-      if (item !== instanceComponent.item) {
+    const items = this.elementRef.nativeElement.getElementsByTagName('app-item');
+    for (let index = 0; index < items.length; ++index) {
+      const item = items[index];
+      if (item !== instanceComponent.item && !item.classList.contains(this.instanceDisabledClass)) {
         const boundingClientRect2 = item.getBoundingClientRect();
-        if (this.utilityService.doesIntersect(boundingClientRect1, boundingClientRect2)) {
+        if (this.utilityService.doRectsIntersect(boundingClientRect1, boundingClientRect2)) {
           this.intersectionItem = item;
           this.onDragEntered(instanceComponent);
           break;
