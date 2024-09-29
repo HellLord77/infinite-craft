@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {TrashComponent} from "../trash/trash.component";
-import {DarkModeIconComponent} from "../dark-mode-icon/dark-mode-icon.component";
-import {ClearComponent} from "../clear/clear.component";
-import {SoundComponent} from "../sound/sound.component";
+import { Component } from '@angular/core';
+import { TrashComponent } from '../trash/trash.component';
+import { DarkModeIconComponent } from '../dark-mode-icon/dark-mode-icon.component';
+import { ClearComponent } from '../clear/clear.component';
+import { SoundComponent } from '../sound/sound.component';
 
 @Component({
   selector: 'app-side-controls',
@@ -11,11 +11,9 @@ import {SoundComponent} from "../sound/sound.component";
     TrashComponent,
     DarkModeIconComponent,
     ClearComponent,
-    SoundComponent
+    SoundComponent,
   ],
   templateUrl: './side-controls.component.html',
-  styleUrl: './side-controls.component.css'
+  styleUrl: './side-controls.component.css',
 })
-export class SideControlsComponent {
-
-}
+export class SideControlsComponent {}

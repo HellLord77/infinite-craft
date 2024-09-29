@@ -1,4 +1,4 @@
-import {Element} from "./element.model";
+import { Element } from './element.model';
 
 export interface StorageElement extends Element {
   discovered: boolean;

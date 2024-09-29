@@ -1,6 +1,6 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {SidebarControlsComponent} from './sidebar-controls.component';
+import { SidebarControlsComponent } from './sidebar-controls.component';
 
 describe('SidebarControlsComponent', () => {
   let component: SidebarControlsComponent;
@@ -8,9 +8,8 @@ describe('SidebarControlsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SidebarControlsComponent]
-    })
-      .compileComponents();
+      imports: [SidebarControlsComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SidebarControlsComponent);
     component = fixture.componentInstance;

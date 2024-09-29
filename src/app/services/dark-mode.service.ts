@@ -1,17 +1,26 @@
-import {Injectable} from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { ContainerComponent } from '../components/container/container.component';
+import { AppComponent } from '../app.component';
+import { UtilityService } from './utility.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DarkModeService {
-  private darkModeClass = 'dark-mode';
-  private container = document.getElementsByTagName('app-container')[0];
+  appComponent!: AppComponent;
+
+  private utilityService = inject(UtilityService);
 
   set darkMode(darkMode: boolean) {
     if (darkMode) {
-      this.container.classList.add(this.darkModeClass);
+      this.appComponent.containerClassList.push(
+        ContainerComponent.darkModeClass,
+      );
     } else {
-      this.container.classList.remove(this.darkModeClass);
+      this.utilityService.arrayRemoveItem(
+        this.appComponent.containerClassList,
+        ContainerComponent.darkModeClass,
+      );
     }
   }
 }

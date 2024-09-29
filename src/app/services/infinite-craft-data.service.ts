@@ -1,11 +1,11 @@
-import {inject, Injectable} from '@angular/core';
-import {InfiniteCraftData} from "../models/infinite-craft-data.model";
-import {HasToJSON} from "../models/has-to-json.model";
-import {StorageElement} from "../models/storage-element.model";
-import {UtilityService} from "./utility.service";
+import { inject, Injectable } from '@angular/core';
+import { InfiniteCraftData } from '../models/infinite-craft-data.model';
+import { HasToJSON } from '../models/has-to-json.model';
+import { StorageElement } from '../models/storage-element.model';
+import { UtilityService } from './utility.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InfiniteCraftDataService implements InfiniteCraftData, HasToJSON {
   private utilityService = inject(UtilityService);
@@ -28,7 +28,10 @@ export class InfiniteCraftDataService implements InfiniteCraftData, HasToJSON {
       }
       if (Array.isArray(infiniteCraftData.elements)) {
         for (const element of infiniteCraftData.elements) {
-          if (this.utilityService.isObjectStorageElement(element) && !elementTexts.has(element.text)) {
+          if (
+            this.utilityService.isObjectStorageElement(element) &&
+            !elementTexts.has(element.text)
+          ) {
             this._elements.push(element);
             elementTexts.add(element.text);
           }
@@ -62,15 +65,19 @@ export class InfiniteCraftDataService implements InfiniteCraftData, HasToJSON {
   }
 
   toJSON(): InfiniteCraftData {
-    return {elements: this._elements, darkMode: this._darkMode};
+    return { elements: this._elements, darkMode: this._darkMode };
   }
 
   init() {
     this._elements = [
-      {"text": "Water", "emoji": "💧", "discovered": false},
-      {"text": "Fire", "emoji": "🔥", "discovered": false},
-      {"text": "Wind", "emoji": "🌬️", "discovered": false},
-      {"text": "Earth", "emoji": "🌍", "discovered": false}
+      { text: 'Water', emoji: '💧', discovered: false },
+      {
+        text: 'Fire',
+        emoji: '🔥',
+        discovered: false,
+      },
+      { text: 'Wind', emoji: '🌬️', discovered: false },
+      { text: 'Earth', emoji: '🌍', discovered: false },
     ];
     this._darkMode = false;
   }
@@ -85,6 +92,6 @@ export class InfiniteCraftDataService implements InfiniteCraftData, HasToJSON {
   }
 
   toggleDarkMode(): boolean {
-    return this.darkMode = !this._darkMode;
+    return (this.darkMode = !this._darkMode);
   }
 }

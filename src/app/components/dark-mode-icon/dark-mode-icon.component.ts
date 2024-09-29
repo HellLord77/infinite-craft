@@ -1,6 +1,6 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {InfiniteCraftDataService} from "../../services/infinite-craft-data.service";
-import {DarkModeService} from "../../services/dark-mode.service";
+import { Component, inject, OnInit } from '@angular/core';
+import { InfiniteCraftDataService } from '../../services/infinite-craft-data.service';
+import { DarkModeService } from '../../services/dark-mode.service';
 
 @Component({
   selector: 'app-dark-mode-icon',
@@ -13,15 +13,16 @@ export class DarkModeIconComponent implements OnInit {
   private infiniteCraftDataService = inject(InfiniteCraftDataService);
   private darkModeService = inject(DarkModeService);
 
-  get darkMode() { /* TODO */
+  getDarkMode() {
     return this.infiniteCraftDataService.darkMode;
   }
 
   ngOnInit() {
-    this.darkModeService.darkMode = this.darkMode;
+    this.darkModeService.darkMode = this.getDarkMode();
   }
 
   onClick() {
-    this.darkModeService.darkMode = this.infiniteCraftDataService.toggleDarkMode();
+    this.darkModeService.darkMode =
+      this.infiniteCraftDataService.toggleDarkMode();
   }
 }

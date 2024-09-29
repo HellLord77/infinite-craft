@@ -1,6 +1,6 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {ConstantService} from './constant.service';
+import { ConstantService } from './constant.service';
 
 describe('ConstantService', () => {
   let service: ConstantService;

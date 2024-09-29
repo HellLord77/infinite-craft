@@ -1,6 +1,6 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {ClearComponent} from './clear.component';
+import { ClearComponent } from './clear.component';
 
 describe('ClearComponent', () => {
   let component: ClearComponent;
@@ -8,9 +8,8 @@ describe('ClearComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ClearComponent]
-    })
-      .compileComponents();
+      imports: [ClearComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ClearComponent);
     component = fixture.componentInstance;

@@ -1,29 +1,28 @@
-import {Component, ElementRef, inject} from '@angular/core';
-import {NgStyle} from "@angular/common";
-import {ItemComponent} from "../item/item.component";
-import {CdkDrag, Point} from "@angular/cdk/drag-drop";
-import {InstanceComponent} from "../instance/instance.component";
-import {UtilityService} from "../../services/utility.service";
-import {Instance} from "../../models/instance.model";
-import {ConstantService} from "../../services/constant.service";
+import { Component, inject, viewChildren } from '@angular/core';
+import { NgStyle } from '@angular/common';
+import { ItemComponent } from '../item/item.component';
+import { CdkDrag, Point } from '@angular/cdk/drag-drop';
+import { InstanceComponent } from '../instance/instance.component';
+import { UtilityService } from '../../services/utility.service';
+import { Instance } from '../../models/instance.model';
+import { ConstantService } from '../../services/constant.service';
 
 @Component({
   selector: 'app-instances',
   standalone: true,
-  imports: [NgStyle, ItemComponent, CdkDrag, InstanceComponent],
+  imports: [NgStyle, CdkDrag, InstanceComponent],
   templateUrl: './instances.component.html',
-  styleUrl: './instances.component.css'
+  styleUrl: './instances.component.css',
 })
 export class InstancesComponent {
-  private instanceSelectedClass = 'instance-selected';
-  private instanceHoverClass = 'instance-hover';
-  private instanceDisabledClass = 'instance-disabled';
-  private utilityService = inject(UtilityService);
-  private elementRef = inject(ElementRef);
-  private constantService = inject(ConstantService);
-  private intersectionItem: Element | null = null;
+  private intersectionInstanceComponent: InstanceComponent | null = null;
 
-  get instances(): Instance[] {
+  private instanceComponents = viewChildren(InstanceComponent);
+
+  private utilityService = inject(UtilityService);
+  private constantService = inject(ConstantService);
+
+  getInstances(): Instance[] {
     return this.constantService.instances;
   }
 
@@ -32,38 +31,57 @@ export class InstancesComponent {
   }
 
   onDragStarted(instanceComponent: InstanceComponent) {
-    instanceComponent.instance().zIndex = this.constantService.zIndex;
-    instanceComponent.item.classList.add(this.instanceSelectedClass);
-    this.intersectionItem = null;
+    const instance = instanceComponent.instance();
+    instance.zIndex = this.constantService.getZIndex();
+    instanceComponent.itemClassList.push(ItemComponent.instanceSelectedClass);
+    this.intersectionInstanceComponent = null;
   }
 
   onDragEnded(instanceComponent: InstanceComponent) {
-    if (this.intersectionItem !== null) {
+    if (this.intersectionInstanceComponent !== null) {
       this.onDragDropped(instanceComponent);
     }
-    instanceComponent.item.classList.remove(this.instanceSelectedClass);
-    this.intersectionItem = null;
+    this.utilityService.arrayRemoveItem(
+      instanceComponent.itemClassList,
+      ItemComponent.instanceSelectedClass,
+    );
+    this.intersectionInstanceComponent = null;
   }
 
   onDragMoved(instanceComponent: InstanceComponent) {
-    const boundingClientRect1 = instanceComponent.item.getBoundingClientRect();
-    if (this.intersectionItem !== null) {
-      const boundingClientRect2 = this.intersectionItem.getBoundingClientRect();
-      if (this.utilityService.doRectsIntersect(boundingClientRect1, boundingClientRect2)) {
+    const itemComponent = instanceComponent.itemComponent();
+    const boundingClientRect = itemComponent.getBoundingClientRect();
+
+    if (this.intersectionInstanceComponent !== null) {
+      const otherItemComponent =
+        this.intersectionInstanceComponent.itemComponent();
+      const otherBoundingClientRect =
+        otherItemComponent.getBoundingClientRect();
+      if (
+        this.utilityService.doRectsIntersect(
+          boundingClientRect,
+          otherBoundingClientRect,
+        )
+      ) {
         return;
       } else {
         this.onDragExited(instanceComponent);
-        this.intersectionItem = null;
+        this.intersectionInstanceComponent = null;
       }
     }
 
-    const items = this.elementRef.nativeElement.getElementsByTagName('app-item');
-    for (let index = 0; index < items.length; ++index) {
-      const item = items[index];
-      if (item !== instanceComponent.item && !item.classList.contains(this.instanceDisabledClass)) {
-        const boundingClientRect2 = item.getBoundingClientRect();
-        if (this.utilityService.doRectsIntersect(boundingClientRect1, boundingClientRect2)) {
-          this.intersectionItem = item;
+    for (const otherInstanceComponent of this.instanceComponents()) {
+      const otherItemComponent = otherInstanceComponent.itemComponent();
+      if (otherInstanceComponent !== instanceComponent) {
+        const otherBoundingClientRect =
+          otherItemComponent.getBoundingClientRect();
+        if (
+          this.utilityService.doRectsIntersect(
+            boundingClientRect,
+            otherBoundingClientRect,
+          )
+        ) {
+          this.intersectionInstanceComponent = otherInstanceComponent;
           this.onDragEntered(instanceComponent);
           break;
         }
@@ -72,19 +90,26 @@ export class InstancesComponent {
   }
 
   onDragEntered(instanceComponent: InstanceComponent) {
-    console.log('instances.onDragEntered()', instanceComponent, this.intersectionItem);
-    this.intersectionItem?.classList.add(this.instanceHoverClass);
+    console.log('instances.onDragEntered()', instanceComponent);
+    this.intersectionInstanceComponent!.itemClassList.push(
+      ItemComponent.instanceHoverClass,
+    );
   }
 
   onDragExited(instanceComponent: InstanceComponent) {
-    console.log('instances.onDragExited()', instanceComponent, this.intersectionItem);
-    this.intersectionItem?.classList.remove(this.instanceHoverClass);
+    console.log('instances.onDragExited()', instanceComponent);
+    this.utilityService.arrayRemoveItem(
+      this.intersectionInstanceComponent!.itemClassList,
+      ItemComponent.instanceHoverClass,
+    );
   }
 
   onDragDropped(instanceComponent: InstanceComponent) {
-    console.log('instances.onDragDropped()', instanceComponent, this.intersectionItem);
-    instanceComponent.item.classList.add(this.instanceDisabledClass);
-    this.intersectionItem?.classList.add(this.instanceDisabledClass);
+    console.log('instances.onDragDropped()', instanceComponent);
+    instanceComponent.itemClassList.push(ItemComponent.instanceDisabledClass);
+    this.intersectionInstanceComponent!.itemClassList.push(
+      ItemComponent.instanceDisabledClass,
+    );
     // httpClient service
     // reactive if request failed or result === Nothing
     // pinwheel if result not in local storage

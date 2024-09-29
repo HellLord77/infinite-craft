@@ -12,10 +12,6 @@ app-item {
   background: var(--instance-bg);
 }
 
-app-item {
-  animation: scaleIn .13s ease-in 1 forwards
-}
-
 @media screen and (min-width: 1150px) {
   app-item {
     font-size: 19.5px;
@@ -34,7 +30,7 @@ app-item.instance-selected {
 }
 
 app-item.instance-hover {
-  scale: 1.04; /*TODO*/
+  scale: 1.04;
   background: var(--instance-bg-hover);
   border: 1px solid var(--instance-border-hover);
 }
@@ -46,15 +42,28 @@ app-item.instance-disabled {
   animation: pulse .8s ease-in-out .15s infinite alternate-reverse
 }
 
-@keyframes scaleIn {
-  0% {
-    scale: .5
-  }
+/*app-item.instance-anim-enter-active {*/
+/*  animation: scaleIn .13s ease-in 1 forwards*/
+/*}*/
 
-  to {
-    scale: 1
-  }
-}
+/*app-item.instance-anim-leave-to {*/
+/*  opacity: 0;*/
+/*  scale: 0*/
+/*}*/
+
+/*app-item.instance-anim-leave-active {*/
+/*  transition: opacity .16s linear, scale .16s linear*/
+/*}*/
+
+/*@keyframes scaleIn {*/
+/*  0% {*/
+/*    scale: .5*/
+/*  }*/
+
+/*  to {*/
+/*    scale: 1*/
+/*  }*/
+/*}*/
 
 @keyframes pulse {
   0% {
@@ -66,8 +75,7 @@ app-item.instance-disabled {
   }
 }
 
-:host {
-  /*TODO*/
+:host { /* TODO */
   position: absolute;
   transform: translate(-50%, -50%);
   display: flex;

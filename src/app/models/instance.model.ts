@@ -1,5 +1,5 @@
-import {Point} from "@angular/cdk/drag-drop";
-import {Element} from "./element.model";
+import { Point } from '@angular/cdk/drag-drop';
+import { Element } from './element.model';
 
 export interface Instance {
   element: Element;

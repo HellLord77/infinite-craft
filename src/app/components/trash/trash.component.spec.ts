@@ -1,6 +1,6 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {TrashComponent} from './trash.component';
+import { TrashComponent } from './trash.component';
 
 describe('TrashComponent', () => {
   let component: TrashComponent;
@@ -8,9 +8,8 @@ describe('TrashComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TrashComponent]
-    })
-      .compileComponents();
+      imports: [TrashComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TrashComponent);
     component = fixture.componentInstance;
