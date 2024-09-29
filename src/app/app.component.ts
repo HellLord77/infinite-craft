@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ContainerComponent } from './components/container/container.component';
+import { ContainerComponent } from './components/container.component';
 import { NgClass } from '@angular/common';
 import { DarkModeService } from './services/dark-mode.service';
 

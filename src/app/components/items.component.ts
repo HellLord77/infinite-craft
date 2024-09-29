@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { ItemComponent } from '../item/item.component';
-import { InfiniteCraftDataService } from '../../services/infinite-craft-data.service';
-import { Instance } from '../../models/instance.model';
-import { ConstantService } from '../../services/constant.service';
+import { ItemComponent } from './item.component';
+import { InfiniteCraftDataService } from '../services/infinite-craft-data.service';
+import { Instance } from '../models/instance.model';
+import { ConstantService } from '../services/constant.service';
 
 @Component({
   selector: 'app-items',

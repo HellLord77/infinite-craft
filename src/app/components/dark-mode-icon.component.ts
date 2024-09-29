@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { InfiniteCraftDataService } from '../../services/infinite-craft-data.service';
-import { DarkModeService } from '../../services/dark-mode.service';
+import { InfiniteCraftDataService } from '../services/infinite-craft-data.service';
+import { DarkModeService } from '../services/dark-mode.service';
 
 @Component({
   selector: 'app-dark-mode-icon',

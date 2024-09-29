@@ -1,11 +1,11 @@
 import { Component, inject, viewChildren } from '@angular/core';
 import { NgStyle } from '@angular/common';
-import { ItemComponent } from '../item/item.component';
+import { ItemComponent } from './item.component';
 import { CdkDrag, Point } from '@angular/cdk/drag-drop';
-import { InstanceComponent } from '../instance/instance.component';
-import { UtilityService } from '../../services/utility.service';
-import { Instance } from '../../models/instance.model';
-import { ConstantService } from '../../services/constant.service';
+import { InstanceComponent } from './instance.component';
+import { UtilityService } from '../services/utility.service';
+import { Instance } from '../models/instance.model';
+import { ConstantService } from '../services/constant.service';
 
 @Component({
   selector: 'app-instances',

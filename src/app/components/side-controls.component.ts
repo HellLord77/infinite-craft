@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { TrashComponent } from '../trash/trash.component';
-import { DarkModeIconComponent } from '../dark-mode-icon/dark-mode-icon.component';
-import { ClearComponent } from '../clear/clear.component';
-import { SoundComponent } from '../sound/sound.component';
+import { TrashComponent } from './trash.component';
+import { DarkModeIconComponent } from './dark-mode-icon.component';
+import { ClearComponent } from './clear.component';
+import { SoundComponent } from './sound.component';
 
 @Component({
   selector: 'app-side-controls',

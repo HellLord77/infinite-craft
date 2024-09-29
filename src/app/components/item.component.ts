@@ -1,8 +1,8 @@
 import { Component, ElementRef, inject, input } from '@angular/core';
-import { Element } from '../../models/element.model';
-import { ItemEmojiComponent } from '../item-emoji/item-emoji.component';
+import { Element } from '../models/element.model';
+import { ItemEmojiComponent } from './item-emoji.component';
 import { Point } from '@angular/cdk/drag-drop';
-import { UtilityService } from '../../services/utility.service';
+import { UtilityService } from '../services/utility.service';
 
 @Component({
   selector: 'app-item',

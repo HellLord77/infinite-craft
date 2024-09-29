@@ -1,8 +1,8 @@
 import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
-import { ItemComponent } from '../item/item.component';
-import { UtilityService } from '../../services/utility.service';
-import { Instance } from '../../models/instance.model';
-import { ConstantService } from '../../services/constant.service';
+import { ItemComponent } from './item.component';
+import { UtilityService } from '../services/utility.service';
+import { Instance } from '../models/instance.model';
+import { ConstantService } from '../services/constant.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { NgClass } from '@angular/common';
 

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ContainerComponent } from '../components/container/container.component';
+import { ContainerComponent } from '../components/container.component';
 import { AppComponent } from '../app.component';
 import { UtilityService } from './utility.service';
 
