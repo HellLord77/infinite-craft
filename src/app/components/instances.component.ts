@@ -6,13 +6,40 @@ import { InstanceComponent } from './instance.component';
 import { UtilityService } from '../services/utility.service';
 import { Instance } from '../models/instance.model';
 import { ConstantService } from '../services/constant.service';
+import {
+  animate,
+  query,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-instances',
   standalone: true,
-  imports: [NgStyle, CdkDrag, InstanceComponent],
+  imports: [NgStyle, CdkDrag, InstanceComponent, ItemComponent],
   templateUrl: './instances.component.html',
   styleUrl: './instances.component.css',
+  animations: [
+    trigger('instance-anim', [
+      transition(':enter', [
+        style({ transform: 'scale(0.5)' }),
+        animate('0.13s ease-in', style({ transform: 'scale(1)' })),
+      ]),
+      transition(':leave', [
+        query(
+          'app-item',
+          animate(
+            '0.16s linear',
+            style({
+              transform: 'scale(0)',
+              opacity: 0,
+            }),
+          ),
+        ),
+      ]),
+    ]),
+  ],
 })
 export class InstancesComponent {
   private intersectionInstanceComponent: InstanceComponent | null = null;

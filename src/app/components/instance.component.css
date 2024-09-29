@@ -42,29 +42,6 @@ app-item.instance-disabled {
   animation: pulse .8s ease-in-out .15s infinite alternate-reverse
 }
 
-/*app-item.instance-anim-enter-active {*/
-/*  animation: scaleIn .13s ease-in 1 forwards*/
-/*}*/
-
-/*app-item.instance-anim-leave-to {*/
-/*  opacity: 0;*/
-/*  scale: 0*/
-/*}*/
-
-/*app-item.instance-anim-leave-active {*/
-/*  transition: opacity .16s linear, scale .16s linear*/
-/*}*/
-
-/*@keyframes scaleIn {*/
-/*  0% {*/
-/*    scale: .5*/
-/*  }*/
-
-/*  to {*/
-/*    scale: 1*/
-/*  }*/
-/*}*/
-
 @keyframes pulse {
   0% {
     opacity: .2
