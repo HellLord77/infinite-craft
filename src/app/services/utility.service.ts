@@ -6,6 +6,15 @@ import { Point } from '@angular/cdk/drag-drop';
   providedIn: 'root',
 })
 export class UtilityService {
+  zip<T, U>(array1: T[], array2: U[]): [T, U][] {
+    const length: number = Math.min(array1.length, array2.length);
+    const zipped: [T, U][] = [];
+    for (let i = 0; i < length; i++) {
+      zipped.push([array1[i], array2[i]]);
+    }
+    return zipped;
+  }
+
   arrayRemoveItem<T>(array: T[], item: T): void {
     const index: number = array.indexOf(item);
     if (index !== -1) {
@@ -25,6 +34,12 @@ export class UtilityService {
 
   pointToTranslate(point: Point): string {
     return `${point.x}px ${point.y}px`;
+  }
+
+  getPointsDistance(point1: Point, point2: Point): number {
+    return Math.sqrt(
+      Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2),
+    );
   }
 
   rectToCenter(boundingClientRect: DOMRect): Point {

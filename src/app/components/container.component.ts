@@ -5,12 +5,14 @@ import { ResetComponent } from './reset.component';
 import { LogoComponent } from './logo.component';
 import { InstancesComponent } from './instances.component';
 import { PinwheelComponent } from './pinwheel.component';
+import { ParticlesComponent } from './particles.component';
 
 @Component({
   selector: 'app-container',
   standalone: true,
   imports: [
     SideControlsComponent,
+    ParticlesComponent,
     SidebarComponent,
     InstancesComponent,
     PinwheelComponent,

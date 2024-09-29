@@ -1,7 +1,7 @@
 import { Component, inject, viewChildren } from '@angular/core';
 import { NgStyle } from '@angular/common';
 import { ItemComponent } from './item.component';
-import { CdkDrag, Point } from '@angular/cdk/drag-drop';
+import { CdkDrag } from '@angular/cdk/drag-drop';
 import { InstanceComponent } from './instance.component';
 import { UtilityService } from '../services/utility.service';
 import { Instance } from '../models/instance.model';
@@ -53,10 +53,6 @@ export class InstancesComponent {
     return this.constantService.instances;
   }
 
-  pointToTranslate(point: Point): string {
-    return this.utilityService.pointToTranslate(point);
-  }
-
   onDragStarted(instanceComponent: InstanceComponent) {
     const instance = instanceComponent.instance();
     instance.zIndex = this.constantService.getZIndex();
@@ -78,6 +74,7 @@ export class InstancesComponent {
   onDragMoved(instanceComponent: InstanceComponent) {
     const itemComponent = instanceComponent.itemComponent();
     const boundingClientRect = itemComponent.getBoundingClientRect();
+    instanceComponent.instance().center = itemComponent.getCenter();
 
     if (this.intersectionInstanceComponent !== null) {
       const otherItemComponent =

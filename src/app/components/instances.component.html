@@ -1,6 +1,6 @@
 @for (instance of getInstances(); track instance.id) {
-  <app-instance [instance]="instance" [id]="instance.id" [ngStyle]="{'translate': pointToTranslate(instance.center)}"
-                [style.z-index]="instance.zIndex" (cdkDragStarted)="onDragStarted(instanceComponent)"
-                (cdkDragEnded)="onDragEnded(instanceComponent)" (cdkDragMoved)="onDragMoved(instanceComponent)"
-                (cdkDragReleased)="onDragReleased()" cdkDrag #instanceComponent @instance-anim/>
+  <app-instance [instance]="instance" [id]="instance.id" [style.z-index]="instance.zIndex"
+                (cdkDragStarted)="onDragStarted(instanceComponent)" (cdkDragEnded)="onDragEnded(instanceComponent)"
+                (cdkDragMoved)="onDragMoved(instanceComponent)" (cdkDragReleased)="onDragReleased()" cdkDrag
+                #instanceComponent @instance-anim/>
 }

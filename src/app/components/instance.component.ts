@@ -1,4 +1,11 @@
-import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  input,
+  OnInit,
+  viewChild,
+} from '@angular/core';
 import { ItemComponent } from './item.component';
 import { UtilityService } from '../services/utility.service';
 import { Instance } from '../models/instance.model';
@@ -12,7 +19,7 @@ import { NgClass } from '@angular/common';
   templateUrl: './instance.component.html',
   styleUrl: './instance.component.css',
 })
-export class InstanceComponent {
+export class InstanceComponent implements OnInit {
   itemClassList: string[] = [];
 
   itemComponent = viewChild.required(ItemComponent);
@@ -22,6 +29,12 @@ export class InstanceComponent {
   private elementRef = inject(ElementRef);
   private constantService = inject(ConstantService);
   private utilityService = inject(UtilityService);
+
+  ngOnInit() {
+    const instance = this.instance();
+    this.elementRef.nativeElement.style.translate =
+      this.utilityService.pointToTranslate(instance.center);
+  }
 
   onContextMenu(mouseEvent: MouseEvent) {
     console.log('instance.onContextMenu()', mouseEvent);
