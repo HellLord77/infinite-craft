@@ -4,6 +4,7 @@ import { SideControlsComponent } from './side-controls.component';
 import { ResetComponent } from './reset.component';
 import { LogoComponent } from './logo.component';
 import { InstancesComponent } from './instances.component';
+import { PinwheelComponent } from './pinwheel.component';
 
 @Component({
   selector: 'app-container',
@@ -12,6 +13,7 @@ import { InstancesComponent } from './instances.component';
     SideControlsComponent,
     SidebarComponent,
     InstancesComponent,
+    PinwheelComponent,
     LogoComponent,
     ResetComponent,
   ],
