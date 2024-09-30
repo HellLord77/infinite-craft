@@ -22,9 +22,9 @@ export class InstanceComponent implements OnInit {
 
   instance = input.required<Instance>();
 
-  private elementRef = inject(ElementRef);
-  private utilityService = inject(UtilityService);
-  private constantService = inject(ConstantService);
+  elementRef = inject(ElementRef);
+  utilityService = inject(UtilityService);
+  constantService = inject(ConstantService);
 
   ngOnInit() {
     this.zIndex = this.constantService.getZIndex();
@@ -39,7 +39,7 @@ export class InstanceComponent implements OnInit {
 
   onDblClickItem() {
     const instance = this.instance();
-    const boundingClientRect: DOMRect = this.elementRef.nativeElement.getBoundingClientRect();
+    const boundingClientRect = this.utilityService.elementRefGetBoundingClientRect(this.elementRef);
     const center = this.utilityService.rectGetCenter(boundingClientRect);
     center.x += 10;
     center.y -= 10;

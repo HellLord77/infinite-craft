@@ -5,6 +5,7 @@ import {Instance} from '../models/instance.model';
 import {ConstantService} from '../services/constant.service';
 import {NgClass} from '@angular/common';
 import {DeleteModeService} from '../services/delete-mode.service';
+import {UtilityService} from '../services/utility.service';
 
 @Component({
   selector: 'app-items',
@@ -16,23 +17,20 @@ import {DeleteModeService} from '../services/delete-mode.service';
 export class ItemsComponent implements OnInit {
   itemComponents = viewChildren(ItemComponent);
 
-  private constantService = inject(ConstantService);
-  private infiniteCraftDataService = inject(InfiniteCraftDataService);
-  private deleteModeService = inject(DeleteModeService);
+  utilityService = inject(UtilityService);
+  constantService = inject(ConstantService);
+  infiniteCraftDataService = inject(InfiniteCraftDataService);
+  deleteModeService = inject(DeleteModeService);
 
   ngOnInit() {
     this.deleteModeService.itemsComponent = this;
-  }
-
-  getElements() {
-    return this.infiniteCraftDataService.getElements();
   }
 
   onMouseDownItem(itemComponent: ItemComponent) {
     if (!this.deleteModeService.isDeleteMode()) {
       const instance: Instance = {
         element: itemComponent.element(),
-        center: itemComponent.getCenter(),
+        center: this.utilityService.elementRefGetCenter(itemComponent.elementRef),
       };
       this.constantService.instances.push(instance);
     }

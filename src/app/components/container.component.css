@@ -35,15 +35,7 @@
   --text-color: #fff;
 }
 
-:host {
-  /* TODO */
-  --item-remove-background-color: #22252b;
-  --item-remove-background-image: url(../../assets/svgs/close-white.svg);
-}
-
 :host(.dark-mode) {
   /* TODO */
   --svg-filter: invert(1);
-  --item-remove-background-color: #fff;
-  --item-remove-background-image: url(../../assets/svgs/close.svg);
 }

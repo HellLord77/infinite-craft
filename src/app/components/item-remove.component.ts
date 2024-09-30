@@ -12,7 +12,7 @@ import {InfiniteCraftDataService} from '../services/infinite-craft-data.service'
 export class ItemRemoveComponent {
   element = input.required<StorageElement>();
 
-  private infiniteCraftDataService = inject(InfiniteCraftDataService);
+  infiniteCraftDataService = inject(InfiniteCraftDataService);
 
   @HostListener('click') onClick() {
     const element = this.element();

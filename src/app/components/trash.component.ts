@@ -11,7 +11,7 @@ import {DeleteModeService} from '../services/delete-mode.service';
 export class TrashComponent implements OnInit {
   @HostBinding('class.trash-active') trashActive = false;
 
-  private deleteModeService = inject(DeleteModeService);
+  deleteModeService = inject(DeleteModeService);
 
   ngOnInit() {
     this.deleteModeService.trashComponent = this;

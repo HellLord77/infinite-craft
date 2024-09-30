@@ -1,5 +1,5 @@
 <app-item-emoji [emoji]="element().emoji" />
 {{ element().text }}
 @if (deleteMode) {
-  <app-item-remove [element]="element()" />
+  <app-item-remove [class.dark-mode]="infiniteCraftDataService.getDarkMode()" [element]="element()" />
 }

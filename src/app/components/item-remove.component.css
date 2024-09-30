@@ -15,16 +15,10 @@
 }
 
 :host(.dark-mode) {
-  --item-remove-background-color: #fff;
-  --item-remove-background-image: url(../../assets/svgs/close.svg);
+  background-color: #fff;
+  background-image: url(../../assets/svgs/close.svg);
 }
 
 :host(:hover) {
   transform: scale(1.07);
-}
-
-:host {
-  /* TODO */
-  background-color: var(--item-remove-background-color);
-  background-image: var(--item-remove-background-image);
 }

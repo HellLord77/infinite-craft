@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {ElementRef, Injectable} from '@angular/core';
 import {Point} from '../models/point.model';
 
 @Injectable({
@@ -31,6 +31,14 @@ export class UtilityService {
       rect.top < other.bottom &&
       rect.bottom > other.top
     );
+  }
+
+  elementRefGetBoundingClientRect(elementRef: ElementRef): DOMRect {
+    return elementRef.nativeElement.getBoundingClientRect();
+  }
+
+  elementRefGetCenter(elementRef: ElementRef): Point {
+    return this.rectGetCenter(this.elementRefGetBoundingClientRect(elementRef));
   }
 
   isMobile(): boolean {

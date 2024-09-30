@@ -1,5 +1,5 @@
-<app-side-controls [hidden]="isMobile()" />
-<app-side-controls-mobile [hidden]="!isMobile()" />
+<app-side-controls [hidden]="utilityService.isMobile()" />
+<app-side-controls-mobile [hidden]="!utilityService.isMobile()" />
 <app-particles />
 <app-sidebar />
 <app-instances />

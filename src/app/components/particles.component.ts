@@ -2,9 +2,9 @@ import {Component, ElementRef, HostBinding, inject, OnInit, viewChild} from '@an
 import {Particle} from '../models/particle.model';
 import {ConstantService} from '../services/constant.service';
 import {Color} from '../models/color.model';
-import {DarkModeService} from '../services/dark-mode.service';
 import {Instance} from '../models/instance.model';
 import {getDistance, getUpdated} from '../models/point.model';
+import {InfiniteCraftDataService} from '../services/infinite-craft-data.service';
 
 @Component({
   selector: 'app-particles',
@@ -19,7 +19,8 @@ export class ParticlesComponent implements OnInit {
   width!: number;
   height!: number;
 
-  color: Color = {r: 0, g: 0, b: 0};
+  constantService = inject(ConstantService);
+  infiniteCraftDataService = inject(InfiniteCraftDataService);
 
   private pixelRatio!: number;
   private context!: CanvasRenderingContext2D;
@@ -29,12 +30,7 @@ export class ParticlesComponent implements OnInit {
   private boundFrameRequestCallback = this.frameRequestCallback.bind(this);
   private canvasElementRef = viewChild.required<ElementRef<HTMLCanvasElement>>('canvasElement');
 
-  private constantService = inject(ConstantService);
-  private darkModeService = inject(DarkModeService);
-
   ngOnInit() {
-    this.darkModeService.particleComponent = this;
-
     this.onWindowResize();
     const canvasElementRef = this.canvasElementRef();
     this.context = canvasElementRef.nativeElement.getContext('2d')!;
@@ -89,10 +85,10 @@ export class ParticlesComponent implements OnInit {
     }
   }
 
-  drawParticle(particle: Particle) {
+  drawParticle(particle: Particle, color: Color) {
     this.context.beginPath();
     this.context.arc(particle.center.x, particle.center.y, particle.radius, 0, 2 * Math.PI);
-    this.context.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${particle.opacity})`;
+    this.context.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${particle.opacity})`;
     this.context.fill();
     this.context.closePath();
   }
@@ -119,8 +115,13 @@ export class ParticlesComponent implements OnInit {
 
     this.context.clearRect(0, 0, this.width, this.height);
 
+    const color: Color = {r: 0, g: 0, b: 0};
+    if (this.infiniteCraftDataService.getDarkMode()) {
+      color.r = color.g = color.b = 255;
+    }
+
     for (const particle of this.particles) {
-      this.drawParticle(particle);
+      this.drawParticle(particle, color);
     }
 
     const particleLineCounts: number[] = Array(this.particles.length).fill(0);

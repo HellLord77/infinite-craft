@@ -4,7 +4,6 @@ import {ItemComponent} from './item.component';
 import {CdkDrag} from '@angular/cdk/drag-drop';
 import {InstanceComponent} from './instance.component';
 import {UtilityService} from '../services/utility.service';
-import {Instance} from '../models/instance.model';
 import {ConstantService} from '../services/constant.service';
 import {animate, query, style, transition, trigger} from '@angular/animations';
 
@@ -36,16 +35,10 @@ import {animate, query, style, transition, trigger} from '@angular/animations';
   ],
 })
 export class InstancesComponent {
+  utilityService = inject(UtilityService);
+  constantService = inject(ConstantService);
   private intersectedItemComponent: ItemComponent | null = null;
-
   private instanceComponents = viewChildren(InstanceComponent);
-
-  private utilityService = inject(UtilityService);
-  private constantService = inject(ConstantService);
-
-  getInstances(): Instance[] {
-    return this.constantService.instances;
-  }
 
   onDragStartedInstance(instanceComponent: InstanceComponent) {
     instanceComponent.zIndex = this.constantService.getZIndex();
@@ -65,12 +58,16 @@ export class InstancesComponent {
 
   onDragMovedInstance(instanceComponent: InstanceComponent) {
     const itemComponent = instanceComponent.itemComponent();
-    const boundingClientRect = itemComponent.getBoundingClientRect();
+    const boundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
+      itemComponent.elementRef,
+    );
     const instance = instanceComponent.instance();
-    instance.center = itemComponent.getCenter();
+    instance.center = this.utilityService.elementRefGetCenter(itemComponent.elementRef);
 
     if (this.intersectedItemComponent !== null) {
-      const otherBoundingClientRect = this.intersectedItemComponent.getBoundingClientRect();
+      const otherBoundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
+        this.intersectedItemComponent.elementRef,
+      );
       if (this.utilityService.rectIntersects(boundingClientRect, otherBoundingClientRect)) {
         return;
       } else {
@@ -82,7 +79,9 @@ export class InstancesComponent {
     for (const otherInstanceComponent of this.instanceComponents()) {
       const otherItemComponent = otherInstanceComponent.itemComponent();
       if (otherItemComponent !== itemComponent) {
-        const otherBoundingClientRect = otherItemComponent.getBoundingClientRect();
+        const otherBoundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
+          otherItemComponent.elementRef,
+        );
         if (this.utilityService.rectIntersects(boundingClientRect, otherBoundingClientRect)) {
           this.intersectedItemComponent = otherItemComponent;
           this.dragEnter();

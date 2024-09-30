@@ -1,9 +1,8 @@
 import {Component, ElementRef, HostBinding, inject, input} from '@angular/core';
 import {ItemEmojiComponent} from './item-emoji.component';
-import {Point} from '../models/point.model';
-import {UtilityService} from '../services/utility.service';
 import {ItemRemoveComponent} from './item-remove.component';
 import {StorageElement} from '../models/storage-element.model';
+import {InfiniteCraftDataService} from '../services/infinite-craft-data.service';
 
 @Component({
   selector: 'app-item',
@@ -20,14 +19,6 @@ export class ItemComponent {
 
   element = input.required<StorageElement>();
 
-  private elementRef = inject(ElementRef);
-  private utilityService = inject(UtilityService);
-
-  getBoundingClientRect(): DOMRect {
-    return this.elementRef.nativeElement.getBoundingClientRect();
-  }
-
-  getCenter(): Point {
-    return this.utilityService.rectGetCenter(this.getBoundingClientRect());
-  }
+  elementRef = inject(ElementRef);
+  infiniteCraftDataService = inject(InfiniteCraftDataService);
 }

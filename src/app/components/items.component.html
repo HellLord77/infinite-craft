@@ -1,4 +1,4 @@
-@for (element of getElements(); track element.text) {
+@for (element of infiniteCraftDataService.getElements(); track element.text) {
   <app-item [element]="element" [class.item-hidden]="element.hidden" (mousedown)="onMouseDownItem(itemComponent)"
             #itemComponent />
 }
