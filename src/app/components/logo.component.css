@@ -25,7 +25,6 @@
   }
 }
 
-:host {
-  /* TODO */
-  filter: var(--svg-filter);
+:host(.dark-mode) {
+  filter: invert(1);
 }

@@ -34,8 +34,3 @@
   --discoveries-bg-active: #423a24;
   --text-color: #fff;
 }
-
-:host(.dark-mode) {
-  /* TODO */
-  --svg-filter: invert(1);
-}

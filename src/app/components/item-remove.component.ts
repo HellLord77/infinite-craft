@@ -1,4 +1,4 @@
-import {Component, HostListener, inject, input} from '@angular/core';
+import {Component, HostBinding, HostListener, inject, input} from '@angular/core';
 import {StorageElement} from '../models/storage-element.model';
 import {InfiniteCraftDataService} from '../services/infinite-craft-data.service';
 
@@ -13,6 +13,10 @@ export class ItemRemoveComponent {
   element = input.required<StorageElement>();
 
   infiniteCraftDataService = inject(InfiniteCraftDataService);
+
+  @HostBinding('class.dark-mode') get darkMode() {
+    return this.infiniteCraftDataService.isDarkMode();
+  }
 
   @HostListener('click') onClick() {
     const element = this.element();

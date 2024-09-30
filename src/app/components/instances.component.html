@@ -1,5 +1,7 @@
 @for (instance of constantService.instances; track instance) {
-  <app-instance [instance]="instance" (cdkDragStarted)="onDragStartedInstance(instanceComponent)"
-                (cdkDragEnded)="onDragEndedInstance(instanceComponent)" (cdkDragMoved)="onDragMovedInstance(instanceComponent)"
-                (cdkDragReleased)="onDragReleasedInstance()" cdkDrag #instanceComponent @instance-anim />
+  <app-instance [instance]="instance" #instanceComponent @instance-anim
+                (cdkDragStarted)="onDragStartedInstance(instanceComponent)"
+                (cdkDragEnded)="onDragEndedInstance(instanceComponent)"
+                (cdkDragMoved)="onDragMovedInstance(instanceComponent)" (cdkDragReleased)="onDragReleasedInstance()"
+                cdkDrag />
 }

@@ -5,12 +5,16 @@ export interface StorageElement extends Element {
   hidden?: boolean;
 }
 
-export function isInstance(object: any): object is StorageElement {
+export function isInstance(object: unknown): object is StorageElement {
   return (
+    object !== null &&
     typeof object === 'object' &&
+    'text' in object &&
     typeof object.text === 'string' &&
+    'emoji' in object &&
     typeof object.emoji === 'string' &&
+    'discovered' in object &&
     typeof object.discovered === 'boolean' &&
-    (object.hidden === undefined || typeof object.hidden === 'boolean')
+    (!('hidden' in object) || typeof object.hidden === 'boolean')
   );
 }

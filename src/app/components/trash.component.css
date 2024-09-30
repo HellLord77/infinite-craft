@@ -16,6 +16,10 @@
   transform: scale(1.05);
 }
 
+:host(.dark-mode) {
+  filter: invert(1);
+}
+
 :host(.trash-active) {
   animation: sway 0.3s linear infinite alternate-reverse;
 }
@@ -29,7 +33,3 @@
   }
 }
 
-:host {
-  /* TODO */
-  filter: var(--svg-filter);
-}

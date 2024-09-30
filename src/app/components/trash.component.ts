@@ -1,5 +1,6 @@
-import {Component, HostBinding, HostListener, inject, OnInit} from '@angular/core';
-import {DeleteModeService} from '../services/delete-mode.service';
+import {Component, HostBinding, HostListener, inject} from '@angular/core';
+import {InfiniteCraftDataService} from '../services/infinite-craft-data.service';
+import {ConstantService} from '../services/constant.service';
 
 @Component({
   selector: 'app-trash',
@@ -8,16 +9,19 @@ import {DeleteModeService} from '../services/delete-mode.service';
   templateUrl: './trash.component.html',
   styleUrl: './trash.component.css',
 })
-export class TrashComponent implements OnInit {
-  @HostBinding('class.trash-active') trashActive = false;
+export class TrashComponent {
+  constantService = inject(ConstantService);
+  infiniteCraftDataService = inject(InfiniteCraftDataService);
 
-  deleteModeService = inject(DeleteModeService);
+  @HostBinding('class.dark-mode') get darkMode() {
+    return this.infiniteCraftDataService.isDarkMode();
+  }
 
-  ngOnInit() {
-    this.deleteModeService.trashComponent = this;
+  @HostBinding('class.trash-active') get trashActive() {
+    return this.constantService.isDeleteMode();
   }
 
   @HostListener('click') onClick() {
-    this.deleteModeService.toggleDeleteMode();
+    this.constantService.toggleDeleteMode();
   }
 }

@@ -1,5 +1,6 @@
-import {Component, HostListener, inject} from '@angular/core';
+import {Component, HostBinding, HostListener, inject} from '@angular/core';
 import {ConstantService} from '../services/constant.service';
+import {InfiniteCraftDataService} from '../services/infinite-craft-data.service';
 
 @Component({
   selector: 'app-clear',
@@ -10,6 +11,11 @@ import {ConstantService} from '../services/constant.service';
 })
 export class ClearComponent {
   constantService = inject(ConstantService);
+  infiniteCraftDataService = inject(InfiniteCraftDataService);
+
+  @HostBinding('class.dark-mode') get darkMode() {
+    return this.infiniteCraftDataService.isDarkMode();
+  }
 
   @HostListener('click') onClick() {
     this.constantService.instances.length = 0;

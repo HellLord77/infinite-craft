@@ -74,7 +74,7 @@ export class InfiniteCraftDataService implements HasToJSON {
     return this.elements;
   }
 
-  getDarkMode(): boolean {
+  isDarkMode(): boolean {
     return this.darkMode;
   }
 

@@ -1,4 +1,4 @@
-import {Component, HostListener, inject} from '@angular/core';
+import {Component, HostBinding, HostListener, inject} from '@angular/core';
 import {InfiniteCraftDataService} from '../services/infinite-craft-data.service';
 
 @Component({
@@ -10,6 +10,10 @@ import {InfiniteCraftDataService} from '../services/infinite-craft-data.service'
 })
 export class DarkModeIconComponent {
   infiniteCraftDataService = inject(InfiniteCraftDataService);
+
+  @HostBinding('class.dark-mode') get darkMode() {
+    return this.infiniteCraftDataService.isDarkMode();
+  }
 
   @HostListener('click') onClick() {
     this.infiniteCraftDataService.toggleDarkMode();

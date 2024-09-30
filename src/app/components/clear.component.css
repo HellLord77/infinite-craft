@@ -17,6 +17,6 @@
   transform: scale(1.05);
 }
 
-:host { /* TODO */
-  filter: var(--svg-filter);
+:host(.dark-mode) {
+  filter: invert(1);
 }

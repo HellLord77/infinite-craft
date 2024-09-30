@@ -7,7 +7,7 @@ import {InstancesComponent} from './instances.component';
 import {PinwheelComponent} from './pinwheel.component';
 import {ParticlesComponent} from './particles.component';
 import {SideControlsMobileComponent} from './side-controls-mobile.component';
-import {UtilityService} from '../services/utility.service';
+import {InfiniteCraftDataService} from '../services/infinite-craft-data.service';
 
 @Component({
   selector: 'app-container',
@@ -26,7 +26,9 @@ import {UtilityService} from '../services/utility.service';
   styleUrl: './container.component.css',
 })
 export class ContainerComponent {
-  @HostBinding('class.dark-mode') darkMode = false;
+  infiniteCraftDataService = inject(InfiniteCraftDataService);
 
-  utilityService = inject(UtilityService);
+  @HostBinding('class.dark-mode') get darkMode() {
+    return this.infiniteCraftDataService.isDarkMode();
+  }
 }

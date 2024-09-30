@@ -116,7 +116,7 @@ export class ParticlesComponent implements OnInit {
     this.context.clearRect(0, 0, this.width, this.height);
 
     const color: Color = {r: 0, g: 0, b: 0};
-    if (this.infiniteCraftDataService.getDarkMode()) {
+    if (this.infiniteCraftDataService.isDarkMode()) {
       color.r = color.g = color.b = 255;
     }
 
