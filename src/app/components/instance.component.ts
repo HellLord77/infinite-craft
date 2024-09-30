@@ -1,16 +1,10 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  input,
-  OnInit,
-  viewChild,
-} from '@angular/core';
-import { ItemComponent } from './item.component';
-import { UtilityService } from '../services/utility.service';
-import { Instance } from '../models/instance.model';
-import { ConstantService } from '../services/constant.service';
-import { NgClass } from '@angular/common';
+import {Component, ElementRef, HostBinding, inject, input, OnInit, viewChild} from '@angular/core';
+import {ItemComponent} from './item.component';
+import {UtilityService} from '../services/utility.service';
+import {Instance} from '../models/instance.model';
+import {ConstantService} from '../services/constant.service';
+import {NgClass} from '@angular/common';
+import {toTranslate} from '../models/point.model';
 
 @Component({
   selector: 'app-instance',
@@ -20,43 +14,38 @@ import { NgClass } from '@angular/common';
   styleUrl: './instance.component.css',
 })
 export class InstanceComponent implements OnInit {
-  itemClassList: string[] = [];
+  /* TODO: fix size */
+
+  @HostBinding('style.z-index') zIndex = 0;
 
   itemComponent = viewChild.required(ItemComponent);
 
   instance = input.required<Instance>();
 
   private elementRef = inject(ElementRef);
-  private constantService = inject(ConstantService);
   private utilityService = inject(UtilityService);
+  private constantService = inject(ConstantService);
 
   ngOnInit() {
+    this.zIndex = this.constantService.getZIndex();
     const instance = this.instance();
-    this.elementRef.nativeElement.style.translate =
-      this.utilityService.pointToTranslate(instance.center);
+    this.elementRef.nativeElement.style.translate = toTranslate(instance.center);
   }
 
-  onContextMenu(mouseEvent: MouseEvent) {
-    console.log('instance.onContextMenu()', mouseEvent);
+  onContextMenuItem(mouseEvent: MouseEvent) {
     mouseEvent.preventDefault();
-    this.utilityService.arrayRemoveItem(
-      this.constantService.instances,
-      this.instance(),
-    );
+    this.utilityService.arrayRemoveItem(this.constantService.instances, this.instance());
   }
 
-  onDblClick() {
+  onDblClickItem() {
     const instance = this.instance();
-    const boundingClientRect: DOMRect =
-      this.elementRef.nativeElement.getBoundingClientRect();
-    const center = this.utilityService.rectToCenter(boundingClientRect);
+    const boundingClientRect: DOMRect = this.elementRef.nativeElement.getBoundingClientRect();
+    const center = this.utilityService.rectGetCenter(boundingClientRect);
     center.x += 10;
     center.y -= 10;
     const otherInstance: Instance = {
       element: instance.element,
-      id: this.constantService.getId(),
       center: center,
-      zIndex: this.constantService.getZIndex(),
     };
     this.constantService.instances.push(otherInstance);
   }

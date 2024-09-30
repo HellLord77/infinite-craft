@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, HostListener, inject} from '@angular/core';
+import {ConstantService} from '../services/constant.service';
 
 @Component({
   selector: 'app-clear',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
   templateUrl: './clear.component.html',
   styleUrl: './clear.component.css',
 })
-export class ClearComponent {}
+export class ClearComponent {
+  private constantService = inject(ConstantService);
+
+  @HostListener('click') onClick() {
+    this.constantService.instances.length = 0;
+  }
+}

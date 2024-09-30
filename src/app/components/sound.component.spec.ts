@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SoundComponent } from './sound.component';
+import {SoundComponent} from './sound.component';
 
 describe('SoundComponent', () => {
   let component: SoundComponent;

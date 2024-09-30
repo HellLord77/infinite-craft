@@ -1,18 +1,12 @@
-import { Component, inject, viewChildren } from '@angular/core';
-import { NgStyle } from '@angular/common';
-import { ItemComponent } from './item.component';
-import { CdkDrag } from '@angular/cdk/drag-drop';
-import { InstanceComponent } from './instance.component';
-import { UtilityService } from '../services/utility.service';
-import { Instance } from '../models/instance.model';
-import { ConstantService } from '../services/constant.service';
-import {
-  animate,
-  query,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import {Component, inject, viewChildren} from '@angular/core';
+import {NgStyle} from '@angular/common';
+import {ItemComponent} from './item.component';
+import {CdkDrag} from '@angular/cdk/drag-drop';
+import {InstanceComponent} from './instance.component';
+import {UtilityService} from '../services/utility.service';
+import {Instance} from '../models/instance.model';
+import {ConstantService} from '../services/constant.service';
+import {animate, query, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-instances',
@@ -23,8 +17,8 @@ import {
   animations: [
     trigger('instance-anim', [
       transition(':enter', [
-        style({ transform: 'scale(0.5)' }),
-        animate('0.13s ease-in', style({ transform: 'scale(1)' })),
+        style({transform: 'scale(0.5)'}),
+        animate('0.13s ease-in', style({transform: 'scale(1)'})),
       ]),
       transition(':leave', [
         query(
@@ -42,7 +36,7 @@ import {
   ],
 })
 export class InstancesComponent {
-  private intersectionInstanceComponent: InstanceComponent | null = null;
+  private intersectedItemComponent: ItemComponent | null = null;
 
   private instanceComponents = viewChildren(InstanceComponent);
 
@@ -53,94 +47,69 @@ export class InstancesComponent {
     return this.constantService.instances;
   }
 
-  onDragStarted(instanceComponent: InstanceComponent) {
-    const instance = instanceComponent.instance();
-    instance.zIndex = this.constantService.getZIndex();
-    instanceComponent.itemClassList.push(ItemComponent.instanceSelectedClass);
-    this.intersectionInstanceComponent = null;
+  onDragStartedInstance(instanceComponent: InstanceComponent) {
+    instanceComponent.zIndex = this.constantService.getZIndex();
+    const itemComponent = instanceComponent.itemComponent();
+    itemComponent.instanceSelected = true;
+    this.intersectedItemComponent = null;
   }
 
-  onDragEnded(instanceComponent: InstanceComponent) {
-    if (this.intersectionInstanceComponent !== null) {
-      this.onDragDropped(instanceComponent);
+  onDragEndedInstance(instanceComponent: InstanceComponent) {
+    const itemComponent = instanceComponent.itemComponent();
+    if (this.intersectedItemComponent !== null) {
+      this.drop(itemComponent);
     }
-    this.utilityService.arrayRemoveItem(
-      instanceComponent.itemClassList,
-      ItemComponent.instanceSelectedClass,
-    );
-    this.intersectionInstanceComponent = null;
+    itemComponent.instanceSelected = false;
+    this.intersectedItemComponent = null;
   }
 
-  onDragMoved(instanceComponent: InstanceComponent) {
+  onDragMovedInstance(instanceComponent: InstanceComponent) {
     const itemComponent = instanceComponent.itemComponent();
     const boundingClientRect = itemComponent.getBoundingClientRect();
-    instanceComponent.instance().center = itemComponent.getCenter();
+    const instance = instanceComponent.instance();
+    instance.center = itemComponent.getCenter();
 
-    if (this.intersectionInstanceComponent !== null) {
-      const otherItemComponent =
-        this.intersectionInstanceComponent.itemComponent();
-      const otherBoundingClientRect =
-        otherItemComponent.getBoundingClientRect();
-      if (
-        this.utilityService.doRectsIntersect(
-          boundingClientRect,
-          otherBoundingClientRect,
-        )
-      ) {
+    if (this.intersectedItemComponent !== null) {
+      const otherBoundingClientRect = this.intersectedItemComponent.getBoundingClientRect();
+      if (this.utilityService.rectIntersects(boundingClientRect, otherBoundingClientRect)) {
         return;
       } else {
-        this.onDragExited(instanceComponent);
-        this.intersectionInstanceComponent = null;
+        this.dragLeave();
+        this.intersectedItemComponent = null;
       }
     }
 
     for (const otherInstanceComponent of this.instanceComponents()) {
       const otherItemComponent = otherInstanceComponent.itemComponent();
-      if (otherInstanceComponent !== instanceComponent) {
-        const otherBoundingClientRect =
-          otherItemComponent.getBoundingClientRect();
-        if (
-          this.utilityService.doRectsIntersect(
-            boundingClientRect,
-            otherBoundingClientRect,
-          )
-        ) {
-          this.intersectionInstanceComponent = otherInstanceComponent;
-          this.onDragEntered(instanceComponent);
+      if (otherItemComponent !== itemComponent) {
+        const otherBoundingClientRect = otherItemComponent.getBoundingClientRect();
+        if (this.utilityService.rectIntersects(boundingClientRect, otherBoundingClientRect)) {
+          this.intersectedItemComponent = otherItemComponent;
+          this.dragEnter();
           break;
         }
       }
     }
   }
 
-  onDragEntered(instanceComponent: InstanceComponent) {
-    console.log('instances.onDragEntered()', instanceComponent);
-    this.intersectionInstanceComponent!.itemClassList.push(
-      ItemComponent.instanceHoverClass,
-    );
+  onDragReleasedInstance() {
+    console.log('instances.onDragReleased()');
   }
 
-  onDragExited(instanceComponent: InstanceComponent) {
-    console.log('instances.onDragExited()', instanceComponent);
-    this.utilityService.arrayRemoveItem(
-      this.intersectionInstanceComponent!.itemClassList,
-      ItemComponent.instanceHoverClass,
-    );
+  dragEnter() {
+    this.intersectedItemComponent!.instanceHover = true;
   }
 
-  onDragDropped(instanceComponent: InstanceComponent) {
-    console.log('instances.onDragDropped()', instanceComponent);
-    instanceComponent.itemClassList.push(ItemComponent.instanceDisabledClass);
-    this.intersectionInstanceComponent!.itemClassList.push(
-      ItemComponent.instanceDisabledClass,
-    );
+  dragLeave() {
+    this.intersectedItemComponent!.instanceHover = false;
+  }
+
+  drop(itemComponent: ItemComponent) {
+    itemComponent.instanceDisabled = true;
+    this.intersectedItemComponent!.instanceDisabled = true;
     // httpClient service
     // reactive if request failed or result === Nothing
     // pinwheel if result not in local storage
     // remove these and add new if valid result
-  }
-
-  onDragReleased() {
-    console.log('instances.onDragReleased()');
   }
 }

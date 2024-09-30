@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DarkModeIconComponent } from './dark-mode-icon.component';
+import {DarkModeIconComponent} from './dark-mode-icon.component';
 
 describe('DarkModeIconComponent', () => {
   let component: DarkModeIconComponent;

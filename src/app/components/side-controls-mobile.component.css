@@ -1,0 +1,21 @@
+:host {
+  position: fixed;
+  bottom: 190px;
+  right: 10px;
+  display: none;
+  grid-gap: 14px;
+}
+
+@media screen and (max-width: 800px) {
+  :host {
+    display: flex;
+  }
+}
+
+app-dark-mode-icon {
+  width: 20px;
+}
+
+app-sound {
+  width: 20px;
+}

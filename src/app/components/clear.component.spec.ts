@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ClearComponent } from './clear.component';
+import {ClearComponent} from './clear.component';
 
 describe('ClearComponent', () => {
   let component: ClearComponent;

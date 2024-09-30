@@ -1,3 +1,4 @@
 @for (element of getElements(); track element.text) {
-  <app-item [element]="element" (mousedown)="onMouseDown(itemComponent)" #itemComponent/>
+  <app-item [element]="element" [class.item-hidden]="element.hidden" (mousedown)="onMouseDownItem(itemComponent)"
+            #itemComponent />
 }

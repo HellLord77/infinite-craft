@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TrashComponent } from './trash.component';
+import {TrashComponent} from './trash.component';
 
 describe('TrashComponent', () => {
   let component: TrashComponent;

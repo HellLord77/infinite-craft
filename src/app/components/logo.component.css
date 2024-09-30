@@ -25,6 +25,7 @@
   }
 }
 
-:host { /* TODO */
+:host {
+  /* TODO */
   filter: var(--svg-filter);
 }

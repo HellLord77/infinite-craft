@@ -1,31 +1,40 @@
-import { Component, inject } from '@angular/core';
-import { ItemComponent } from './item.component';
-import { InfiniteCraftDataService } from '../services/infinite-craft-data.service';
-import { Instance } from '../models/instance.model';
-import { ConstantService } from '../services/constant.service';
+import {Component, inject, OnInit, viewChildren} from '@angular/core';
+import {ItemComponent} from './item.component';
+import {InfiniteCraftDataService} from '../services/infinite-craft-data.service';
+import {Instance} from '../models/instance.model';
+import {ConstantService} from '../services/constant.service';
+import {NgClass} from '@angular/common';
+import {DeleteModeService} from '../services/delete-mode.service';
 
 @Component({
   selector: 'app-items',
   standalone: true,
-  imports: [ItemComponent],
+  imports: [NgClass, ItemComponent],
   templateUrl: './items.component.html',
   styleUrl: './items.component.css',
 })
-export class ItemsComponent {
-  private infiniteCraftDataService = inject(InfiniteCraftDataService);
-  private constantService = inject(ConstantService);
+export class ItemsComponent implements OnInit {
+  itemComponents = viewChildren(ItemComponent);
 
-  getElements() {
-    return this.infiniteCraftDataService.elements;
+  private constantService = inject(ConstantService);
+  private infiniteCraftDataService = inject(InfiniteCraftDataService);
+  private deleteModeService = inject(DeleteModeService);
+
+  ngOnInit() {
+    this.deleteModeService.itemsComponent = this;
   }
 
-  onMouseDown(itemComponent: ItemComponent) {
-    let instance: Instance = {
-      element: itemComponent.element(),
-      id: this.constantService.getId(),
-      center: itemComponent.getCenter(),
-      zIndex: this.constantService.getZIndex(),
-    };
-    this.constantService.instances.push(instance);
+  getElements() {
+    return this.infiniteCraftDataService.getElements();
+  }
+
+  onMouseDownItem(itemComponent: ItemComponent) {
+    if (!this.deleteModeService.isDeleteMode()) {
+      const instance: Instance = {
+        element: itemComponent.element(),
+        center: itemComponent.getCenter(),
+      };
+      this.constantService.instances.push(instance);
+    }
   }
 }

@@ -1,7 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ContainerComponent } from './components/container.component';
-import { NgClass } from '@angular/common';
-import { DarkModeService } from './services/dark-mode.service';
+import {Component} from '@angular/core';
+import {ContainerComponent} from './components/container.component';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -10,15 +9,7 @@ import { DarkModeService } from './services/dark-mode.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   /* TODO */
   title = 'Infinite Craft';
-
-  containerClassList: string[] = [];
-
-  private darkModeService = inject(DarkModeService);
-
-  ngOnInit() {
-    this.darkModeService.appComponent = this;
-  }
 }

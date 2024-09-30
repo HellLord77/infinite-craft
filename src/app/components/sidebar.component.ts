@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { ItemsComponent } from './items.component';
-import { SidebarControlsComponent } from './sidebar-controls.component';
+import {Component} from '@angular/core';
+import {ItemsComponent} from './items.component';
+import {SidebarControlsComponent} from './sidebar-controls.component';
 
 @Component({
   selector: 'app-sidebar',

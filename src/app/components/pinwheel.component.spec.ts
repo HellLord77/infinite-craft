@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PinwheelComponent } from './pinwheel.component';
+import {PinwheelComponent} from './pinwheel.component';
 
 describe('PinwheelComponent', () => {
   let component: PinwheelComponent;

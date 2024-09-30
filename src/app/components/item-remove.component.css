@@ -1,0 +1,30 @@
+:host {
+  position: absolute;
+  right: -6px;
+  top: -6px;
+  width: 17px;
+  height: 17px;
+  background-color: #22252b;
+  border-radius: 100%;
+  background-image: url(../../assets/svgs/close-white.svg);
+  background-size: 13px 13px;
+  background-position: 2px 2px;
+  background-repeat: no-repeat;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+:host(.dark-mode) {
+  --item-remove-background-color: #fff;
+  --item-remove-background-image: url(../../assets/svgs/close.svg);
+}
+
+:host(:hover) {
+  transform: scale(1.07);
+}
+
+:host {
+  /* TODO */
+  background-color: var(--item-remove-background-color);
+  background-image: var(--item-remove-background-image);
+}

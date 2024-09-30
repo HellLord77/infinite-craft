@@ -1,9 +1,9 @@
-import { Point } from '@angular/cdk/drag-drop';
+import {Point} from './point.model';
+import {Speed} from './speed.model';
 
 export interface Particle {
   center: Point;
-  xSpeed: number;
-  ySpeed: number;
+  speed: Speed;
   radius: number;
   opacity: number;
 }

@@ -1,4 +1,4 @@
-import { StorageElement } from './storage-element.model';
+import {StorageElement} from './storage-element.model';
 
 export interface InfiniteCraftData {
   elements: StorageElement[];

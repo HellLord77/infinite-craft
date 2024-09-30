@@ -1,9 +1,7 @@
-import { Point } from '@angular/cdk/drag-drop';
-import { Element } from './element.model';
+import {Point} from './point.model';
+import {StorageElement} from './storage-element.model';
 
 export interface Instance {
-  element: Element;
-  id: number;
+  element: StorageElement;
   center: Point;
-  zIndex: number;
 }

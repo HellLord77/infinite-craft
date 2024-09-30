@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SideControlsComponent } from './side-controls.component';
+import {SideControlsComponent} from './side-controls.component';
 
 describe('SideControlsComponent', () => {
   let component: SideControlsComponent;

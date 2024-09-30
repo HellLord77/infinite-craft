@@ -19,44 +19,32 @@ app-item {
   }
 }
 
+@media screen and (max-width: 800px) {
+  app-item {
+    min-height: 34px;
+    line-height: 34px;
+    font-size: 16px;
+  }
+}
+
 :host(::ng-deep) app-item-emoji {
   font-size: 21px;
   margin-right: 5px;
 }
 
-app-item.instance-selected {
-  background: var(--instance-bg-hover);
-  border: 1px solid var(--instance-border-hover);
-}
-
-app-item.instance-hover {
-  scale: 1.04;
-  background: var(--instance-bg-hover);
-  border: 1px solid var(--instance-border-hover);
-}
-
-app-item.instance-disabled {
-  pointer-events: none;
-  opacity: .7;
-  transition: .15s linear;
-  animation: pulse .8s ease-in-out .15s infinite alternate-reverse
-}
-
-@keyframes pulse {
-  0% {
-    opacity: .2
-  }
-
-  to {
-    opacity: .7
-  }
-}
-
-:host { /* TODO */
+:host {
+  /* TODO */
   position: absolute;
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
+}
+
+@media screen and (max-width: 800px) {
+  /* TODO */
+  app-item {
+    line-height: 17px;
+  }
 }

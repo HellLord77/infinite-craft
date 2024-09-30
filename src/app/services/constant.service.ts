@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Instance } from '../models/instance.model';
+import {Injectable} from '@angular/core';
+import {Instance} from '../models/instance.model';
 
 @Injectable({
   providedIn: 'root',
@@ -7,12 +7,7 @@ import { Instance } from '../models/instance.model';
 export class ConstantService {
   readonly instances: Instance[] = [];
 
-  private _id: number = 0;
-  private _zIndex: number = 10;
-
-  getId(): number {
-    return (this._id += 1);
-  }
+  private _zIndex = 10;
 
   getZIndex(): number {
     return (this._zIndex += 1);

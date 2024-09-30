@@ -16,6 +16,20 @@
   transform: scale(1.05);
 }
 
-:host { /* TODO */
+:host(.trash-active) {
+  animation: sway 0.3s linear infinite alternate-reverse;
+}
+
+@keyframes sway {
+  0% {
+    rotate: -6deg;
+  }
+  to {
+    rotate: 6deg;
+  }
+}
+
+:host {
+  /* TODO */
   filter: var(--svg-filter);
 }

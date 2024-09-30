@@ -1,7 +1,8 @@
-<app-side-controls/>
-<app-particles/>
-<app-sidebar/>
-<app-instances/>
-<app-pinwheel/>
-<app-logo/>
-<app-reset/>
+<app-side-controls [hidden]="isMobile()" />
+<app-side-controls-mobile [hidden]="!isMobile()" />
+<app-particles />
+<app-sidebar />
+<app-instances />
+<app-pinwheel />
+<app-logo />
+<app-reset />

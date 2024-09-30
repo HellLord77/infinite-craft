@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, HostBinding, HostListener, inject, OnInit} from '@angular/core';
+import {DeleteModeService} from '../services/delete-mode.service';
 
 @Component({
   selector: 'app-trash',
@@ -7,4 +8,16 @@ import { Component } from '@angular/core';
   templateUrl: './trash.component.html',
   styleUrl: './trash.component.css',
 })
-export class TrashComponent {}
+export class TrashComponent implements OnInit {
+  @HostBinding('class.trash-active') trashActive = false;
+
+  private deleteModeService = inject(DeleteModeService);
+
+  ngOnInit() {
+    this.deleteModeService.trashComponent = this;
+  }
+
+  @HostListener('click') onClick() {
+    this.deleteModeService.toggleDeleteMode();
+  }
+}

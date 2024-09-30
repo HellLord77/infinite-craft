@@ -1,60 +1,39 @@
-import { Injectable } from '@angular/core';
-import { StorageElement } from '../models/storage-element.model';
-import { Point } from '@angular/cdk/drag-drop';
+import {Injectable} from '@angular/core';
+import {Point} from '../models/point.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilityService {
-  zip<T, U>(array1: T[], array2: U[]): [T, U][] {
-    const length: number = Math.min(array1.length, array2.length);
-    const zipped: [T, U][] = [];
-    for (let i = 0; i < length; i++) {
-      zipped.push([array1[i], array2[i]]);
-    }
-    return zipped;
+  isValid<T>(object: T | null | undefined): object is T {
+    return object !== null && object !== undefined;
   }
 
-  arrayRemoveItem<T>(array: T[], item: T): void {
-    const index: number = array.indexOf(item);
-    if (index !== -1) {
-      array.splice(index, 1);
+  arrayRemoveItem<T>(array: T[] | null | undefined, item: T): void {
+    if (this.isValid(array)) {
+      const index: number = array.indexOf(item);
+      if (index !== -1) {
+        array.splice(index, 1);
+      }
     }
   }
 
-  isObjectStorageElement(object: any): object is StorageElement {
+  rectGetCenter(rect: DOMRect): Point {
+    const centerX: number = rect.x + rect.width / 2;
+    const centerY: number = rect.y + rect.height / 2;
+    return {x: centerX, y: centerY};
+  }
+
+  rectIntersects(rect: DOMRect, other: DOMRect): boolean {
     return (
-      typeof object === 'object' &&
-      typeof object.text === 'string' &&
-      typeof object.emoji === 'string' &&
-      typeof object.discovered === 'boolean' &&
-      (object.hidden === undefined || typeof object.hidden === 'boolean')
+      rect.left < other.right &&
+      rect.right > other.left &&
+      rect.top < other.bottom &&
+      rect.bottom > other.top
     );
   }
 
-  pointToTranslate(point: Point): string {
-    return `${point.x}px ${point.y}px`;
-  }
-
-  getPointsDistance(point1: Point, point2: Point): number {
-    return Math.sqrt(
-      Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2),
-    );
-  }
-
-  rectToCenter(boundingClientRect: DOMRect): Point {
-    const centerX: number = boundingClientRect.x + boundingClientRect.width / 2;
-    const centerY: number =
-      boundingClientRect.y + boundingClientRect.height / 2;
-    return { x: centerX, y: centerY };
-  }
-
-  doRectsIntersect(domRect1: DOMRect, domRect2: DOMRect): boolean {
-    return (
-      domRect1.left < domRect2.right &&
-      domRect1.right > domRect2.left &&
-      domRect1.top < domRect2.bottom &&
-      domRect1.bottom > domRect2.top
-    );
+  isMobile(): boolean {
+    return innerWidth < 800;
   }
 }

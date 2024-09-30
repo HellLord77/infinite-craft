@@ -1,6 +1,5 @@
-@for (instance of getInstances(); track instance.id) {
-  <app-instance [instance]="instance" [id]="instance.id" [style.z-index]="instance.zIndex"
-                (cdkDragStarted)="onDragStarted(instanceComponent)" (cdkDragEnded)="onDragEnded(instanceComponent)"
-                (cdkDragMoved)="onDragMoved(instanceComponent)" (cdkDragReleased)="onDragReleased()" cdkDrag
-                #instanceComponent @instance-anim/>
+@for (instance of getInstances(); track instance) {
+  <app-instance [instance]="instance" (cdkDragStarted)="onDragStartedInstance(instanceComponent)"
+                (cdkDragEnded)="onDragEndedInstance(instanceComponent)" (cdkDragMoved)="onDragMovedInstance(instanceComponent)"
+                (cdkDragReleased)="onDragReleasedInstance()" cdkDrag #instanceComponent @instance-anim />
 }
