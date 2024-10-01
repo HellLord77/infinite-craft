@@ -1,5 +1,5 @@
 import {Component, HostBinding, inject} from '@angular/core';
-import {InfiniteCraftDataService} from '../services/infinite-craft-data.service';
+import {DataService} from '../services/data.service';
 
 @Component({
   selector: 'app-sound',
@@ -9,9 +9,9 @@ import {InfiniteCraftDataService} from '../services/infinite-craft-data.service'
   styleUrl: './sound.component.css',
 })
 export class SoundComponent {
-  infiniteCraftDataService = inject(InfiniteCraftDataService);
+  dataService = inject(DataService);
 
   @HostBinding('class.dark-mode') get darkMode() {
-    return this.infiniteCraftDataService.isDarkMode();
+    return this.dataService.isDarkMode();
   }
 }

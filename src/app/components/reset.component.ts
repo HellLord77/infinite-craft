@@ -1,5 +1,5 @@
 import {Component, HostListener, inject} from '@angular/core';
-import {InfiniteCraftDataService} from '../services/infinite-craft-data.service';
+import {DataService} from '../services/data.service';
 
 @Component({
   selector: 'app-reset',
@@ -9,12 +9,12 @@ import {InfiniteCraftDataService} from '../services/infinite-craft-data.service'
   styleUrl: './reset.component.css',
 })
 export class ResetComponent {
-  infiniteCraftDataService = inject(InfiniteCraftDataService);
+  dataService = inject(DataService);
 
   @HostListener('click') onClick() {
     const confirmed = confirm('Are you sure? This will delete all your progress!');
     if (confirmed) {
-      this.infiniteCraftDataService.reset();
+      this.dataService.clear();
       location.reload();
     }
   }

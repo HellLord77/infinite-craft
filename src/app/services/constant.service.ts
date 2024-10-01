@@ -14,8 +14,8 @@ export class ConstantService {
     return this.deleteMode;
   }
 
-  toggleDeleteMode(): void {
-    this.deleteMode = !this.deleteMode;
+  toggleDeleteMode(): boolean {
+    return (this.deleteMode = !this.deleteMode);
   }
 
   getZIndex(): number {

@@ -3,8 +3,9 @@ import {Particle, update} from '../models/particle.model';
 import {ConstantService} from '../services/constant.service';
 import {Color} from '../models/color.model';
 import {getDistance, Point} from '../models/point.model';
-import {InfiniteCraftDataService} from '../services/infinite-craft-data.service';
+import {DataService} from '../services/data.service';
 import {UtilityService} from '../services/utility.service';
+import {ConfigService} from '../services/config.service';
 
 @Component({
   selector: 'app-particles',
@@ -16,28 +17,24 @@ import {UtilityService} from '../services/utility.service';
 export class ParticlesComponent implements OnInit {
   /* TODO: optimize viewChild */
 
-  width!: number;
-  height!: number;
-
   utilityService = inject(UtilityService);
+  configService = inject(ConfigService);
   constantService = inject(ConstantService);
-  infiniteCraftDataService = inject(InfiniteCraftDataService);
+  dataService = inject(DataService);
 
-  private pixelRatio!: number;
   private context!: CanvasRenderingContext2D;
 
-  private readonly maxParticleLineCount = 3;
-  private readonly maxInstanceLineCount = 7;
-  private readonly maxLineLength = 250;
-
-  private lastTime = 0;
+  private lastTime: DOMHighResTimeStamp = 0;
   private particles: Particle[] = [];
   private boundFrameRequestCallback = this.frameRequestCallback.bind(this);
   private canvasElementRef = viewChild.required<ElementRef<HTMLCanvasElement>>('canvasElement');
 
   ngOnInit() {
-    const canvasElementRef = this.canvasElementRef();
-    this.context = canvasElementRef.nativeElement.getContext('2d')!;
+    if (!this.configService.particleIsEnabled) {
+      return;
+    }
+
+    this.context = this.canvasElementRef().nativeElement.getContext('2d')!;
 
     this.onWindowResize();
     this.createParticles();
@@ -46,18 +43,18 @@ export class ParticlesComponent implements OnInit {
   }
 
   @HostListener('window:resize') onWindowResize() {
-    this.pixelRatio = Math.min(2, devicePixelRatio);
-    this.width = this.pixelRatio * innerWidth;
-    this.height = this.pixelRatio * innerHeight;
+    const canvasElementRef = this.canvasElementRef();
+    canvasElementRef.nativeElement.width = innerWidth;
+    canvasElementRef.nativeElement.height = innerHeight;
   }
 
   createParticle(): Particle {
-    const centerX = this.width * Math.random();
-    const centerY = this.height * Math.random();
+    const centerX = innerWidth * Math.random();
+    const centerY = innerHeight * Math.random();
     const speedX = 0.03 * Math.random() - 0.015;
     const speedY = 0.03 * Math.random() - 0.015;
     const random = Math.random();
-    const radius = this.pixelRatio * (1.1 + 1.2 * random);
+    const radius = 1.1 + 1.2 * random;
     const opacity = 0.1 + 0.4 * (1 - random);
     return {
       center: {x: centerX, y: centerY},
@@ -68,25 +65,28 @@ export class ParticlesComponent implements OnInit {
   }
 
   createParticles() {
-    const count = Math.min(150, (innerWidth * innerHeight) / 12e3);
+    const count = Math.min(
+      this.configService.particleMinParticleCount,
+      (innerWidth * innerHeight) / 12e3,
+    );
     for (let index = 0; index < count; ++index) {
       const particle = this.createParticle();
       this.particles.push(particle);
     }
   }
 
-  updateParticle(particle: Particle, deltaTime: number) {
+  updateParticle(particle: Particle, deltaTime: DOMHighResTimeStamp) {
     update(particle, deltaTime);
 
     if (particle.center.x < 0) {
-      particle.center.x = this.width;
-    } else if (particle.center.x > this.width) {
+      particle.center.x = innerWidth;
+    } else if (particle.center.x > innerWidth) {
       particle.center.x = 0;
     }
 
     if (particle.center.y < 0) {
-      particle.center.y = this.height;
-    } else if (particle.center.y > this.height) {
+      particle.center.y = innerHeight;
+    } else if (particle.center.y > innerHeight) {
       particle.center.y = 0;
     }
   }
@@ -108,59 +108,54 @@ export class ParticlesComponent implements OnInit {
     this.context.closePath();
   }
 
-  frameRequestCallback(time: number) {
+  frameRequestCallback(time: DOMHighResTimeStamp) {
     let deltaTime = time - this.lastTime;
-    if (deltaTime > 15) {
+    if (deltaTime > this.configService.particleMinFrameInterval) {
       this.lastTime = time;
-      deltaTime = Math.min(30, deltaTime);
+      deltaTime = Math.min(this.configService.particleMaxFrameInterval, deltaTime);
 
       for (const particle of this.particles) {
         this.updateParticle(particle, deltaTime);
       }
-    }
 
-    this.context.clearRect(0, 0, this.width, this.height);
+      this.context.clearRect(0, 0, innerWidth, innerHeight);
 
-    const color: Color = {r: 0, g: 0, b: 0};
-    if (this.infiniteCraftDataService.isDarkMode()) {
-      color.r = color.g = color.b = 255;
-    }
+      const color: Color = {r: 0, g: 0, b: 0};
+      if (this.dataService.isDarkMode()) {
+        color.r = color.g = color.b = 255;
+      }
 
-    for (const particle of this.particles) {
-      this.drawParticle(particle, color);
-    }
+      for (const particle of this.particles) {
+        this.drawParticle(particle, color);
+      }
 
-    const particleLineCounts = this.utilityService.arrayFrom(this.particles.length, 0);
-    const instanceLineCounts = this.utilityService.arrayFrom(
-      this.constantService.instances.length,
-      0,
-    );
+      const particleLineCounts = this.utilityService.arrayFrom(this.particles.length, 0);
+      const instanceLineCounts = this.utilityService.arrayFrom(
+        this.constantService.instances.length,
+        0,
+      );
 
-    this.particles.forEach((particle, particleIndex) => {
-      this.constantService.instances.forEach((instance, instanceIndex) => {
-        if (
-          particleLineCounts[particleIndex] < this.maxParticleLineCount &&
-          instanceLineCounts[instanceIndex] < this.maxInstanceLineCount
-        ) {
-          const instanceCenter: Point = {
-            x: this.pixelRatio * instance.center.x,
-            y: this.pixelRatio * instance.center.y,
-          };
-          const lineLength = getDistance(particle.center, instanceCenter);
-          if (lineLength < this.maxLineLength) {
-            ++particleLineCounts[particleIndex];
-            ++instanceLineCounts[instanceIndex];
+      this.particles.forEach((particle, particleIndex) => {
+        this.constantService.instances.forEach((instance, instanceIndex) => {
+          if (
+            particleLineCounts[particleIndex] < this.configService.particleMaxParticleLineCount &&
+            instanceLineCounts[instanceIndex] < this.configService.particleMaxInstanceLineCount
+          ) {
+            const lineLength = getDistance(particle.center, instance.center);
+            if (lineLength < this.configService.particleMaxLineLength) {
+              ++particleLineCounts[particleIndex];
+              ++instanceLineCounts[instanceIndex];
 
-            this.drawLine(
-              particle,
-              instanceCenter,
-              Math.min(1, 1 - lineLength / this.maxLineLength),
-            );
+              this.drawLine(
+                particle,
+                instance.center,
+                Math.min(1, 1 - lineLength / this.configService.particleMaxLineLength),
+              );
+            }
           }
-        }
+        });
       });
-    });
-
+    }
     requestAnimationFrame(this.boundFrameRequestCallback);
   }
 }

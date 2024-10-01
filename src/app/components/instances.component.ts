@@ -7,6 +7,12 @@ import {UtilityService} from '../services/utility.service';
 import {ConstantService} from '../services/constant.service';
 import {animate, query, style, transition, trigger} from '@angular/animations';
 import {SidebarComponent} from './sidebar.component';
+import {ApiService} from '../services/api.service';
+import {toStorageElement} from '../models/result.model';
+import {DataService} from '../services/data.service';
+import {Instance} from '../models/instance.model';
+import {getCenter, toTranslate} from '../models/point.model';
+import {PinwheelComponent} from './pinwheel.component';
 
 @Component({
   selector: 'app-instances',
@@ -39,30 +45,34 @@ export class InstancesComponent {
   instanceComponents = viewChildren(InstanceComponent);
 
   sidebarComponent = input.required<SidebarComponent>();
+  pinwheelComponent = input.required<PinwheelComponent>();
 
   utilityService = inject(UtilityService);
   constantService = inject(ConstantService);
+  dataService = inject(DataService);
+  apiService = inject(ApiService);
 
   private intersectsSidebarComponent = false;
-  private intersectedItemComponent: ItemComponent | null = null;
+  private intersectedInstanceComponent: InstanceComponent | null = null;
 
-  onDragStartedInstance(instanceComponent: InstanceComponent) {
+  onInstanceDragStarted(instanceComponent: InstanceComponent) {
     instanceComponent.zIndex = this.constantService.getZIndex();
     instanceComponent.itemComponent().instanceSelected = true;
-    this.intersectedItemComponent = null;
+    this.intersectedInstanceComponent = null;
   }
 
-  onDragEndedInstance(instanceComponent: InstanceComponent) {
+  onInstanceDragEnded(instanceComponent: InstanceComponent) {
+    instanceComponent.itemComponent().instanceSelected = false;
     if (this.intersectsSidebarComponent) {
       this.drop(instanceComponent);
-    } else if (this.intersectedItemComponent !== null) {
+    } else if (this.intersectedInstanceComponent !== null) {
+      this.intersectedInstanceComponent.itemComponent().instanceHover = false;
       this.drop(instanceComponent);
     }
-    instanceComponent.itemComponent().instanceSelected = false;
-    this.intersectedItemComponent = null;
+    this.intersectedInstanceComponent = null;
   }
 
-  onDragMovedInstance(instanceComponent: InstanceComponent) {
+  onInstanceDragMoved(instanceComponent: InstanceComponent) {
     const itemComponent = instanceComponent.itemComponent();
     const boundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
       itemComponent.elementRef,
@@ -78,15 +88,15 @@ export class InstancesComponent {
       sidebarBoundingClientRect,
     );
 
-    if (this.intersectedItemComponent !== null) {
+    if (this.intersectedInstanceComponent !== null) {
       const otherBoundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
-        this.intersectedItemComponent.elementRef,
+        this.intersectedInstanceComponent.elementRef,
       );
       if (this.utilityService.rectIntersects(boundingClientRect, otherBoundingClientRect)) {
         return;
       } else {
         this.dragLeave();
-        this.intersectedItemComponent = null;
+        this.intersectedInstanceComponent = null;
       }
     }
 
@@ -97,7 +107,7 @@ export class InstancesComponent {
           otherItemComponent.elementRef,
         );
         if (this.utilityService.rectIntersects(boundingClientRect, otherBoundingClientRect)) {
-          this.intersectedItemComponent = otherItemComponent;
+          this.intersectedInstanceComponent = otherInstanceComponent;
           this.dragEnter();
           break;
         }
@@ -105,31 +115,52 @@ export class InstancesComponent {
     }
   }
 
-  onDragReleasedInstance() {
+  onInstanceDragReleased() {
     console.log('instances.onDragReleased()');
   }
 
   dragEnter() {
-    this.intersectedItemComponent!.instanceHover = true;
+    this.intersectedInstanceComponent!.itemComponent().instanceHover = true;
   }
 
   dragLeave() {
-    this.intersectedItemComponent!.instanceHover = false;
+    this.intersectedInstanceComponent!.itemComponent().instanceHover = false;
   }
 
   drop(instanceComponent: InstanceComponent) {
+    const instance = instanceComponent.instance();
     if (this.intersectsSidebarComponent) {
-      this.utilityService.arrayRemoveItem(
-        this.constantService.instances,
-        instanceComponent.instance(),
-      );
+      this.utilityService.arrayRemoveItem(this.constantService.instances, instance);
     } else {
-      instanceComponent.itemComponent().instanceDisabled = true;
-      this.intersectedItemComponent!.instanceDisabled = true;
-      // httpClient service
-      // reactive if request failed or result === Nothing
-      // pinwheel if result not in local storage
-      // remove these and add new if valid result
+      const itemComponent = instanceComponent.itemComponent();
+      itemComponent.instanceDisabled = true;
+      const intersectedInstanceComponent = this.intersectedInstanceComponent!;
+      const intersectedItemComponent = intersectedInstanceComponent.itemComponent();
+      intersectedItemComponent.instanceDisabled = true;
+      this.apiService
+        .pair(itemComponent.element(), intersectedItemComponent.element())
+        .subscribe((result) => {
+          if (result.result === 'Nothing') {
+            itemComponent.instanceDisabled = false;
+            intersectedItemComponent.instanceDisabled = false;
+          } else {
+            const intersectedInstance = intersectedInstanceComponent.instance();
+            this.utilityService.arrayRemoveItem(this.constantService.instances, instance);
+            this.utilityService.arrayRemoveItem(
+              this.constantService.instances,
+              intersectedInstance,
+            );
+            const element = toStorageElement(result);
+            const center = getCenter(instance.center, intersectedInstance.center);
+            const otherInstance: Instance = {element: element, center: center};
+            this.constantService.instances.push(otherInstance);
+            if (!this.dataService.hasElement(element)) {
+              // TODO: pinwheel
+              this.pinwheelComponent().translate = toTranslate(center);
+              this.dataService.setElement(element);
+            }
+          }
+        });
     }
   }
 }

@@ -1,4 +1,4 @@
 export interface Element {
-  text: string;
-  emoji: string;
+  readonly text: string;
+  readonly emoji: string;
 }

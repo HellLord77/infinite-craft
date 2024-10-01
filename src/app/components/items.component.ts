@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {ItemComponent} from './item.component';
-import {InfiniteCraftDataService} from '../services/infinite-craft-data.service';
+import {DataService} from '../services/data.service';
 import {Instance} from '../models/instance.model';
 import {ConstantService} from '../services/constant.service';
 import {NgClass} from '@angular/common';
@@ -16,7 +16,7 @@ import {UtilityService} from '../services/utility.service';
 export class ItemsComponent {
   utilityService = inject(UtilityService);
   constantService = inject(ConstantService);
-  infiniteCraftDataService = inject(InfiniteCraftDataService);
+  dataService = inject(DataService);
 
   onMouseDownItem(itemComponent: ItemComponent) {
     if (!this.constantService.isDeleteMode()) {

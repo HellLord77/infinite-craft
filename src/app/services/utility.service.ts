@@ -17,7 +17,7 @@ export class UtilityService {
 
   arrayRemoveItem<T>(array: T[] | null | undefined, item: T): void {
     if (this.isValid(array)) {
-      const index: number = array.indexOf(item);
+      const index = array.indexOf(item);
       if (index !== -1) {
         array.splice(index, 1);
       }
@@ -25,9 +25,7 @@ export class UtilityService {
   }
 
   rectGetCenter(rect: DOMRect): Point {
-    const centerX: number = rect.x + rect.width / 2;
-    const centerY: number = rect.y + rect.height / 2;
-    return {x: centerX, y: centerY};
+    return {x: rect.x + rect.width / 2, y: rect.y + rect.height / 2};
   }
 
   rectIntersects(rect: DOMRect, other: DOMRect): boolean {

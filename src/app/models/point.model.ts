@@ -7,6 +7,13 @@ export function toTranslate(point: Point): string {
   return `${point.x}px ${point.y}px`;
 }
 
+export function getCenter(point: Point, other: Point): Point {
+  return {
+    x: (point.x + other.x) / 2,
+    y: (point.y + other.y) / 2,
+  };
+}
+
 export function getDistance(point: Point, other: Point): number {
   return Math.sqrt(Math.pow(point.x - other.x, 2) + Math.pow(point.y - other.y, 2));
 }

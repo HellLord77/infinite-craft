@@ -1,14 +1,14 @@
 import {Element} from './element.model';
 
 export interface StorageElement extends Element {
-  discovered: boolean;
+  readonly discovered: boolean;
   hidden?: boolean;
 }
 
-export function isInstance(object: unknown): object is StorageElement {
+export function instanceOf(object: unknown): object is StorageElement {
   return (
-    object !== null &&
     typeof object === 'object' &&
+    object !== null &&
     'text' in object &&
     typeof object.text === 'string' &&
     'emoji' in object &&

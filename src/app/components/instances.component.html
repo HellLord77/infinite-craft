@@ -3,10 +3,10 @@
     [instance]="instance"
     #instanceComponent
     @instance-anim
-    (cdkDragStarted)="onDragStartedInstance(instanceComponent)"
-    (cdkDragEnded)="onDragEndedInstance(instanceComponent)"
-    (cdkDragMoved)="onDragMovedInstance(instanceComponent)"
-    (cdkDragReleased)="onDragReleasedInstance()"
+    (cdkDragStarted)="onInstanceDragStarted(instanceComponent)"
+    (cdkDragEnded)="onInstanceDragEnded(instanceComponent)"
+    (cdkDragMoved)="onInstanceDragMoved(instanceComponent)"
+    (cdkDragReleased)="onInstanceDragReleased()"
     cdkDrag
   />
 }

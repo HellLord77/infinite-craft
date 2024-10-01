@@ -34,12 +34,12 @@ export class InstanceComponent implements OnInit {
     itemComponent.emojiComponent().instanceEmoji = true;
   }
 
-  onContextMenuItem(mouseEvent: MouseEvent) {
+  onItemContextMenu(mouseEvent: MouseEvent) {
     mouseEvent.preventDefault();
     this.utilityService.arrayRemoveItem(this.constantService.instances, this.instance());
   }
 
-  onDblClickItem() {
+  onItemDblClick() {
     const boundingClientRect = this.utilityService.elementRefGetBoundingClientRect(this.elementRef);
     const center = this.utilityService.rectGetCenter(boundingClientRect);
     center.x += 10;

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, HostBinding} from '@angular/core';
 
 @Component({
   selector: 'app-pinwheel',
@@ -7,4 +7,6 @@ import {Component} from '@angular/core';
   templateUrl: './pinwheel.component.html',
   styleUrl: './pinwheel.component.css',
 })
-export class PinwheelComponent {}
+export class PinwheelComponent {
+  @HostBinding('style.translate') translate = 'none';
+}

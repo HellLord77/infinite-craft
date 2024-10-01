@@ -1,5 +1,5 @@
 import {Component, HostBinding, HostListener, inject} from '@angular/core';
-import {InfiniteCraftDataService} from '../services/infinite-craft-data.service';
+import {DataService} from '../services/data.service';
 import {ConstantService} from '../services/constant.service';
 
 @Component({
@@ -11,10 +11,10 @@ import {ConstantService} from '../services/constant.service';
 })
 export class TrashComponent {
   constantService = inject(ConstantService);
-  infiniteCraftDataService = inject(InfiniteCraftDataService);
+  dataService = inject(DataService);
 
   @HostBinding('class.dark-mode') get darkMode() {
-    return this.infiniteCraftDataService.isDarkMode();
+    return this.dataService.isDarkMode();
   }
 
   @HostBinding('class.trash-active') get trashActive() {

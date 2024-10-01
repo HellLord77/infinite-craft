@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {InfiniteCraftData} from '../models/infinite-craft-data.model';
 import {HasToJSON} from '../models/has-to-json.model';
-import {isInstance, StorageElement} from '../models/storage-element.model';
+import {instanceOf, StorageElement} from '../models/storage-element.model';
+import {Element} from '../models/element.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class InfiniteCraftDataService implements HasToJSON {
-  private elements!: StorageElement[];
+export class DataService implements HasToJSON {
+  private elements!: Map<string, StorageElement>;
   private darkMode!: boolean;
 
   constructor() {
@@ -22,56 +23,70 @@ export class InfiniteCraftDataService implements HasToJSON {
         return;
       }
 
-      const elementTexts = new Set<string>();
-      for (const element of this.elements) {
-        elementTexts.add(element.text);
-      }
       if (Array.isArray(infiniteCraftData.elements)) {
         for (const element of infiniteCraftData.elements) {
-          if (isInstance(element) && !elementTexts.has(element.text)) {
-            this.elements.push(element);
-            elementTexts.add(element.text);
+          if (instanceOf(element) && !this.elements.has(element.text)) {
+            this.elements.set(element.text, element);
           }
         }
       }
 
       this.darkMode = Boolean(infiniteCraftData.darkMode);
     }
+
+    this.store();
   }
 
   toJSON(): InfiniteCraftData {
-    for (const element of this.elements) {
+    for (const element of this.elements.values()) {
       if (element.hidden === false) {
         delete element.hidden;
       }
     }
-    return {elements: this.elements, darkMode: this.darkMode};
+    return {elements: [...this.elements.values()], darkMode: this.darkMode};
   }
 
   init() {
-    this.elements = [
-      {text: 'Water', emoji: '💧', discovered: false},
+    const elements: Element[] = [
+      {text: 'Water', emoji: '💧'},
+      {text: 'Fire', emoji: '🔥'},
       {
-        text: 'Fire',
-        emoji: '🔥',
-        discovered: false,
+        text: 'Wind',
+        emoji: '🌬️',
       },
-      {text: 'Wind', emoji: '🌬️', discovered: false},
-      {text: 'Earth', emoji: '🌍', discovered: false},
+      {text: 'Earth', emoji: '🌍'},
     ];
+    this.elements = new Map(
+      elements.map((element): [string, StorageElement] => [
+        element.text,
+        {
+          ...element,
+          discovered: false,
+        },
+      ]),
+    );
     this.darkMode = false;
   }
 
-  save() {
+  store() {
     localStorage.setItem('infinite-craft-data', JSON.stringify(this));
   }
 
-  reset() {
+  clear() {
     localStorage.removeItem('infinite-craft-data');
   }
 
-  getElements(): StorageElement[] {
-    return this.elements;
+  iterElements(): Iterable<StorageElement> {
+    return this.elements.values();
+  }
+
+  hasElement(element: Element): boolean {
+    return this.elements.has(element.text);
+  }
+
+  setElement(element: StorageElement) {
+    this.elements.set(element.text, element);
+    this.store();
   }
 
   isDarkMode(): boolean {
@@ -80,13 +95,13 @@ export class InfiniteCraftDataService implements HasToJSON {
 
   toggleElementHidden(element: StorageElement): boolean {
     element.hidden = !element.hidden;
-    this.save();
+    this.store();
     return element.hidden;
   }
 
   toggleDarkMode(): boolean {
     this.darkMode = !this.darkMode;
-    this.save();
+    this.store();
     return this.darkMode;
   }
 }

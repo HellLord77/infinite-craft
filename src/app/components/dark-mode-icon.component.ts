@@ -1,5 +1,5 @@
 import {Component, HostBinding, HostListener, inject} from '@angular/core';
-import {InfiniteCraftDataService} from '../services/infinite-craft-data.service';
+import {DataService} from '../services/data.service';
 
 @Component({
   selector: 'app-dark-mode-icon',
@@ -9,13 +9,13 @@ import {InfiniteCraftDataService} from '../services/infinite-craft-data.service'
   styleUrl: './dark-mode-icon.component.css',
 })
 export class DarkModeIconComponent {
-  infiniteCraftDataService = inject(InfiniteCraftDataService);
+  dataService = inject(DataService);
 
   @HostBinding('class.dark-mode') get darkMode() {
-    return this.infiniteCraftDataService.isDarkMode();
+    return this.dataService.isDarkMode();
   }
 
   @HostListener('click') onClick() {
-    this.infiniteCraftDataService.toggleDarkMode();
+    this.dataService.toggleDarkMode();
   }
 }
