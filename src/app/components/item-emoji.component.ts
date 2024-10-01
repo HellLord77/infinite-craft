@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {Component, HostBinding, input} from '@angular/core';
 
 @Component({
   selector: 'app-item-emoji',
@@ -8,5 +8,7 @@ import {Component, input} from '@angular/core';
   styleUrl: './item-emoji.component.css',
 })
 export class ItemEmojiComponent {
+  @HostBinding('class.instance-emoji') instanceEmoji = false;
+
   emoji = input.required<string>();
 }

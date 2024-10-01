@@ -29,6 +29,39 @@
   cursor: auto;
 }
 
+:host(.instance) {
+  position: fixed;
+  font-size: 18px;
+  /* TODO
+  z-index: 11;
+  left: 0;
+  top: 0; */
+  padding: 11px 10px 10px;
+  transition: scale .15s ease-in;
+  border-radius: 5px;
+  transform-origin: center center;
+  display: flex;
+  align-items: center;
+  contain: layout;
+  border: 1px solid var(--instance-border);
+  background: var(--instance-bg);
+}
+
+@media screen and (min-width: 1150px) {
+  :host(.instance) {
+    font-size: 19.5px;
+    padding: 11px 11px 10px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  :host(.instance) {
+    min-height: 34px;
+    line-height: 34px;
+    font-size: 16px;
+  }
+}
+
 :host(.instance-selected) {
   background: var(--instance-bg-hover);
   border: 1px solid var(--instance-border-hover);
@@ -111,5 +144,12 @@
 
   to {
     opacity: 0.7;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  /* TODO */
+  :host(.instance) {
+    line-height: 17px;
   }
 }

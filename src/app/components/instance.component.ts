@@ -14,8 +14,7 @@ import {toTranslate} from '../models/point.model';
   styleUrl: './instance.component.css',
 })
 export class InstanceComponent implements OnInit {
-  /* TODO: fix size */
-
+  @HostBinding('style.translate') translate = 'none';
   @HostBinding('style.z-index') zIndex = 0;
 
   itemComponent = viewChild.required(ItemComponent);
@@ -28,8 +27,11 @@ export class InstanceComponent implements OnInit {
 
   ngOnInit() {
     this.zIndex = this.constantService.getZIndex();
-    const instance = this.instance();
-    this.elementRef.nativeElement.style.translate = toTranslate(instance.center);
+    this.translate = toTranslate(this.instance().center);
+
+    const itemComponent = this.itemComponent();
+    itemComponent.instance = true;
+    itemComponent.emojiComponent().instanceEmoji = true;
   }
 
   onContextMenuItem(mouseEvent: MouseEvent) {
@@ -38,13 +40,12 @@ export class InstanceComponent implements OnInit {
   }
 
   onDblClickItem() {
-    const instance = this.instance();
     const boundingClientRect = this.utilityService.elementRefGetBoundingClientRect(this.elementRef);
     const center = this.utilityService.rectGetCenter(boundingClientRect);
     center.x += 10;
     center.y -= 10;
     const otherInstance: Instance = {
-      element: instance.element,
+      element: this.instance().element,
       center: center,
     };
     this.constantService.instances.push(otherInstance);

@@ -7,18 +7,18 @@ import {Instance} from '../models/instance.model';
 export class ConstantService {
   readonly instances: Instance[] = [];
 
-  private _deleteMode = false;
-  private _zIndex = 10;
+  private deleteMode = false;
+  private zIndex = 10;
 
   isDeleteMode(): boolean {
-    return this._deleteMode;
+    return this.deleteMode;
   }
 
   toggleDeleteMode(): void {
-    this._deleteMode = !this._deleteMode;
+    this.deleteMode = !this.deleteMode;
   }
 
   getZIndex(): number {
-    return (this._zIndex += 1);
+    return (this.zIndex += 1);
   }
 }

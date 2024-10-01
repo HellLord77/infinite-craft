@@ -1,8 +1,8 @@
 <app-side-controls />
 <app-side-controls-mobile />
 <app-particles />
-<app-sidebar />
-<app-instances />
+<app-sidebar #sidebarComponent />
+<app-instances [sidebarComponent]="sidebarComponent" />
 <app-pinwheel />
 <app-logo />
 <app-reset />

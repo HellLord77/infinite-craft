@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, inject} from '@angular/core';
 import {ItemsComponent} from './items.component';
 import {SidebarControlsComponent} from './sidebar-controls.component';
 
@@ -9,4 +9,6 @@ import {SidebarControlsComponent} from './sidebar-controls.component';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
-export class SidebarComponent {}
+export class SidebarComponent {
+  elementRef = inject(ElementRef);
+}

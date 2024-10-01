@@ -1,4 +1,4 @@
-import {Component, inject, viewChildren} from '@angular/core';
+import {Component, inject, input, viewChildren} from '@angular/core';
 import {NgStyle} from '@angular/common';
 import {ItemComponent} from './item.component';
 import {CdkDrag} from '@angular/cdk/drag-drop';
@@ -6,6 +6,7 @@ import {InstanceComponent} from './instance.component';
 import {UtilityService} from '../services/utility.service';
 import {ConstantService} from '../services/constant.service';
 import {animate, query, style, transition, trigger} from '@angular/animations';
+import {SidebarComponent} from './sidebar.component';
 
 @Component({
   selector: 'app-instances',
@@ -35,24 +36,29 @@ import {animate, query, style, transition, trigger} from '@angular/animations';
   ],
 })
 export class InstancesComponent {
+  instanceComponents = viewChildren(InstanceComponent);
+
+  sidebarComponent = input.required<SidebarComponent>();
+
   utilityService = inject(UtilityService);
   constantService = inject(ConstantService);
+
+  private intersectsSidebarComponent = false;
   private intersectedItemComponent: ItemComponent | null = null;
-  private instanceComponents = viewChildren(InstanceComponent);
 
   onDragStartedInstance(instanceComponent: InstanceComponent) {
     instanceComponent.zIndex = this.constantService.getZIndex();
-    const itemComponent = instanceComponent.itemComponent();
-    itemComponent.instanceSelected = true;
+    instanceComponent.itemComponent().instanceSelected = true;
     this.intersectedItemComponent = null;
   }
 
   onDragEndedInstance(instanceComponent: InstanceComponent) {
-    const itemComponent = instanceComponent.itemComponent();
-    if (this.intersectedItemComponent !== null) {
-      this.drop(itemComponent);
+    if (this.intersectsSidebarComponent) {
+      this.drop(instanceComponent);
+    } else if (this.intersectedItemComponent !== null) {
+      this.drop(instanceComponent);
     }
-    itemComponent.instanceSelected = false;
+    instanceComponent.itemComponent().instanceSelected = false;
     this.intersectedItemComponent = null;
   }
 
@@ -63,6 +69,14 @@ export class InstancesComponent {
     );
     const instance = instanceComponent.instance();
     instance.center = this.utilityService.elementRefGetCenter(itemComponent.elementRef);
+
+    const sidebarBoundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
+      this.sidebarComponent().elementRef,
+    );
+    this.intersectsSidebarComponent = this.utilityService.rectIntersects(
+      boundingClientRect,
+      sidebarBoundingClientRect,
+    );
 
     if (this.intersectedItemComponent !== null) {
       const otherBoundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
@@ -103,12 +117,19 @@ export class InstancesComponent {
     this.intersectedItemComponent!.instanceHover = false;
   }
 
-  drop(itemComponent: ItemComponent) {
-    itemComponent.instanceDisabled = true;
-    this.intersectedItemComponent!.instanceDisabled = true;
-    // httpClient service
-    // reactive if request failed or result === Nothing
-    // pinwheel if result not in local storage
-    // remove these and add new if valid result
+  drop(instanceComponent: InstanceComponent) {
+    if (this.intersectsSidebarComponent) {
+      this.utilityService.arrayRemoveItem(
+        this.constantService.instances,
+        instanceComponent.instance(),
+      );
+    } else {
+      instanceComponent.itemComponent().instanceDisabled = true;
+      this.intersectedItemComponent!.instanceDisabled = true;
+      // httpClient service
+      // reactive if request failed or result === Nothing
+      // pinwheel if result not in local storage
+      // remove these and add new if valid result
+    }
   }
 }

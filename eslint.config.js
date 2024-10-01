@@ -5,7 +5,6 @@ const angular = require("angular-eslint");
 
 const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
 
-const html = require("@html-eslint/eslint-plugin");
 const eslintConfigPrettier = require("eslint-config-prettier");
 
 module.exports = tseslint.config(

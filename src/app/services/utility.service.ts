@@ -9,6 +9,12 @@ export class UtilityService {
     return object !== null && object !== undefined;
   }
 
+  arrayFrom<T>(length: number, item: T): T[] {
+    const array: T[] = Array(length);
+    array.fill(item);
+    return array;
+  }
+
   arrayRemoveItem<T>(array: T[] | null | undefined, item: T): void {
     if (this.isValid(array)) {
       const index: number = array.indexOf(item);

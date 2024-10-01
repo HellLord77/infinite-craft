@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostBinding, inject, input} from '@angular/core';
+import {Component, ElementRef, HostBinding, inject, input, viewChild} from '@angular/core';
 import {ItemEmojiComponent} from './item-emoji.component';
 import {ItemRemoveComponent} from './item-remove.component';
 import {StorageElement} from '../models/storage-element.model';
@@ -12,9 +12,12 @@ import {ConstantService} from '../services/constant.service';
   styleUrl: './item.component.css',
 })
 export class ItemComponent {
+  @HostBinding('class.instance') instance = false;
   @HostBinding('class.instance-selected') instanceSelected = false;
   @HostBinding('class.instance-hover') instanceHover = false;
   @HostBinding('class.instance-disabled') instanceDisabled = false;
+
+  emojiComponent = viewChild.required(ItemEmojiComponent);
 
   element = input.required<StorageElement>();
 
