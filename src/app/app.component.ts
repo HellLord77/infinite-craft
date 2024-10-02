@@ -1,11 +1,13 @@
 import {Component} from '@angular/core';
 import {ContainerComponent} from './components/container.component';
-import {NgClass} from '@angular/common';
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgClass, ContainerComponent],
+  imports: [ContainerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {}
+export class AppComponent {
+  title = 'infinite-craft-client';
+}

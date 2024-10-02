@@ -3,13 +3,13 @@ import {ItemComponent} from './item.component';
 import {UtilityService} from '../services/utility.service';
 import {Instance} from '../models/instance.model';
 import {ConstantService} from '../services/constant.service';
-import {NgClass} from '@angular/common';
 import {toTranslate} from '../models/point.model';
+import {InstanceDiscoveredTextComponent} from './instance-discovered-text.component';
 
 @Component({
   selector: 'app-instance',
   standalone: true,
-  imports: [NgClass, ItemComponent],
+  imports: [ItemComponent, InstanceDiscoveredTextComponent],
   templateUrl: './instance.component.html',
   styleUrl: './instance.component.css',
 })

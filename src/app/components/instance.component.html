@@ -3,3 +3,6 @@
   (dblclick)="onItemDblClick()"
   [element]="instance().element"
 />
+@if (instance().element.discovered) {
+  <app-instance-discovered-text />
+}

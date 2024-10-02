@@ -21,6 +21,7 @@
   }
 }
 
-:host { /* TODO */
-  display: inline-block;
+:host {
+  /* TODO */
+  width: 100%;
 }

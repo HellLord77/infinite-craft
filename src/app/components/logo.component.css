@@ -25,6 +25,6 @@
   }
 }
 
-:host(.dark-mode) {
-  filter: invert(1);
+:host {
+  filter: var(--dark-mode-filter);
 }

@@ -9,7 +9,7 @@ import {interval, Subscription} from 'rxjs';
   templateUrl: './pinwheel.component.html',
   styleUrl: './pinwheel.component.css',
   animations: [
-    trigger('img-transition', [
+    trigger('pinwheel-animation', [
       transition(':leave', [
         animate(
           '0.4s ease-in-out',
@@ -25,21 +25,21 @@ import {interval, Subscription} from 'rxjs';
 export class PinwheelComponent {
   @HostBinding('style.translate') translate = 'none';
 
-  private spawn = false;
+  private show = false;
   private subscription: Subscription | null = null;
 
-  getSpawn() {
-    return this.spawn;
+  getShow() {
+    return this.show;
   }
 
-  setSpawn(spawn: boolean) {
+  setShow(show: boolean) {
     if (this.subscription !== null) {
       this.subscription.unsubscribe();
     }
-    this.spawn = spawn;
-    if (spawn) {
-      this.subscription = interval(1600).subscribe(() => {
-        this.spawn = false;
+    this.show = show;
+    if (show) {
+      this.subscription = interval(1200).subscribe(() => {
+        this.show = false;
       });
     }
   }

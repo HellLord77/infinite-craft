@@ -1,5 +1,4 @@
-import {Component, HostBinding, inject} from '@angular/core';
-import {DataService} from '../services/data.service';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-logo',
@@ -8,10 +7,4 @@ import {DataService} from '../services/data.service';
   templateUrl: './logo.component.html',
   styleUrl: './logo.component.css',
 })
-export class LogoComponent {
-  dataService = inject(DataService);
-
-  @HostBinding('class.dark-mode') get darkMode() {
-    return this.dataService.isDarkMode();
-  }
-}
+export class LogoComponent {}

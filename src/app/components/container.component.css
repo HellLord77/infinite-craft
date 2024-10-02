@@ -34,3 +34,7 @@
   --discoveries-bg-active: #423a24;
   --text-color: #fff;
 }
+
+:host(.dark-mode) {
+  --dark-mode-filter: invert(1);
+}

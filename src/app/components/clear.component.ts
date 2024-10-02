@@ -1,6 +1,5 @@
-import {Component, HostBinding, HostListener, inject} from '@angular/core';
+import {Component, HostListener, inject} from '@angular/core';
 import {ConstantService} from '../services/constant.service';
-import {DataService} from '../services/data.service';
 
 @Component({
   selector: 'app-clear',
@@ -11,10 +10,9 @@ import {DataService} from '../services/data.service';
 })
 export class ClearComponent {
   constantService = inject(ConstantService);
-  dataService = inject(DataService);
 
-  @HostBinding('class.dark-mode') get darkMode() {
-    return this.dataService.isDarkMode();
+  @HostListener('window:keydown.Escape') onWindowKeyDown() {
+    this.constantService.resetDeleteMode();
   }
 
   @HostListener('click') onClick() {

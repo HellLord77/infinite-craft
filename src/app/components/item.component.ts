@@ -25,11 +25,10 @@ export class ItemComponent {
   constantService = inject(ConstantService);
 
   @HostBinding('class.is-delete-mode') get isDeleteMode() {
-    return this.constantService.isDeleteMode();
+    return !this.instance && this.constantService.isDeleteMode();
   }
 
   @HostBinding('class.item-hidden') get itemHidden() {
-    const element = this.element();
-    return element.hidden;
+    return this.element().hidden;
   }
 }

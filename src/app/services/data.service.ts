@@ -76,8 +76,8 @@ export class DataService implements HasToJSON {
     localStorage.removeItem('infinite-craft-data');
   }
 
-  iterElements(): Iterable<StorageElement> {
-    return this.elements.values();
+  getElements(): StorageElement[] {
+    return Array.from(this.elements.values());
   }
 
   hasElement(element: Element): boolean {

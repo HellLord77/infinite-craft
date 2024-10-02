@@ -4,3 +4,8 @@
   place-items: center;
   white-space: nowrap;
 }
+
+:host {
+  /* TODO */
+  cursor: pointer;
+}

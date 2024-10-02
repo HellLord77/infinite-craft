@@ -1,4 +1,4 @@
-import {Component, HostBinding, HostListener, inject} from '@angular/core';
+import {Component, HostListener, inject} from '@angular/core';
 import {DataService} from '../services/data.service';
 
 @Component({
@@ -10,10 +10,6 @@ import {DataService} from '../services/data.service';
 })
 export class DarkModeIconComponent {
   dataService = inject(DataService);
-
-  @HostBinding('class.dark-mode') get darkMode() {
-    return this.dataService.isDarkMode();
-  }
 
   @HostListener('click') onClick() {
     this.dataService.toggleDarkMode();

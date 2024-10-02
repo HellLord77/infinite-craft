@@ -1,0 +1,7 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  position: relative;
+  background: var(--background-color);
+}

@@ -1,11 +1,11 @@
 import {Component, ElementRef, inject} from '@angular/core';
-import {ItemsComponent} from './items.component';
 import {SidebarControlsComponent} from './sidebar-controls.component';
+import {SidebarInnerComponent} from './sidebar-inner.component';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [ItemsComponent, SidebarControlsComponent],
+  imports: [SidebarInnerComponent, SidebarControlsComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })

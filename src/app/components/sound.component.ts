@@ -1,5 +1,4 @@
-import {Component, HostBinding, inject} from '@angular/core';
-import {DataService} from '../services/data.service';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-sound',
@@ -8,10 +7,4 @@ import {DataService} from '../services/data.service';
   templateUrl: './sound.component.html',
   styleUrl: './sound.component.css',
 })
-export class SoundComponent {
-  dataService = inject(DataService);
-
-  @HostBinding('class.dark-mode') get darkMode() {
-    return this.dataService.isDarkMode();
-  }
-}
+export class SoundComponent {}

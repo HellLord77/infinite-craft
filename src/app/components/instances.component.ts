@@ -115,10 +115,6 @@ export class InstancesComponent {
     }
   }
 
-  onInstanceDragReleased() {
-    console.log('instances.onDragReleased()');
-  }
-
   dragEnter() {
     this.intersectedInstanceComponent!.itemComponent().instanceHover = true;
   }
@@ -160,7 +156,7 @@ export class InstancesComponent {
             if (!this.dataService.hasElement(element)) {
               const pinwheelComponent = this.pinwheelComponent();
               pinwheelComponent.translate = toTranslate(center);
-              pinwheelComponent.setSpawn(true);
+              pinwheelComponent.setShow(true);
 
               this.dataService.setElement(element);
             }

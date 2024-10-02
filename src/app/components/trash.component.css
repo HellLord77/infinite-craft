@@ -16,8 +16,8 @@
   transform: scale(1.05);
 }
 
-:host(.dark-mode) {
-  filter: invert(1);
+:host {
+  filter: var(--dark-mode-filter);
 }
 
 :host(.trash-active) {

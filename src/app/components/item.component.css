@@ -96,10 +96,6 @@
   opacity: 0.35;
 }
 
-:host(:not(.is-delete-mode).item-hidden) {
-  display: none
-}
-
 @media screen and (min-width: 1150px) {
   font-size: 16.4px;
   padding: 9px 10px 8px;

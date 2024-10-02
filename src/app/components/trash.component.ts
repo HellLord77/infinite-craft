@@ -1,5 +1,4 @@
 import {Component, HostBinding, HostListener, inject} from '@angular/core';
-import {DataService} from '../services/data.service';
 import {ConstantService} from '../services/constant.service';
 
 @Component({
@@ -11,11 +10,6 @@ import {ConstantService} from '../services/constant.service';
 })
 export class TrashComponent {
   constantService = inject(ConstantService);
-  dataService = inject(DataService);
-
-  @HostBinding('class.dark-mode') get darkMode() {
-    return this.dataService.isDarkMode();
-  }
 
   @HostBinding('class.trash-active') get trashActive() {
     return this.constantService.isDeleteMode();

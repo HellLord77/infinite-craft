@@ -1,0 +1,36 @@
+:host {
+  position: absolute;
+  text-align: center;
+  font-size: 12px;
+  width: 110px;
+}
+
+:host {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media screen and (min-width: 1150px) {
+  :host {
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  :host {
+    bottom: 3px;
+  }
+}
+
+:host {
+  /* TODO */
+  transform: translateY(200%);
+}
+
+@media screen and (max-width: 800px) {
+  /* TODO */
+  :host {
+    transform: translateY(275%);
+  }
+}

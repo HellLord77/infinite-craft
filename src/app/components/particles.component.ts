@@ -15,8 +15,6 @@ import {ConfigService} from '../services/config.service';
   styleUrl: './particles.component.css',
 })
 export class ParticlesComponent implements OnInit {
-  /* TODO: optimize viewChild */
-
   utilityService = inject(UtilityService);
   configService = inject(ConfigService);
   constantService = inject(ConstantService);
