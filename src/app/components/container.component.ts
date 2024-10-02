@@ -26,8 +26,6 @@ import {DataService} from '../services/data.service';
   styleUrl: './container.component.css',
 })
 export class ContainerComponent {
-  pinwheelVisible = true;
-
   dataService = inject(DataService);
 
   @HostBinding('class.dark-mode') get darkMode() {

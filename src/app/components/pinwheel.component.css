@@ -1,8 +1,5 @@
 img {
   position: fixed;
-  /* TODO
-  top: 0;
-  left: 0; */
   width: 130px;
   height: 130px;
   pointer-events: none;
@@ -11,9 +8,6 @@ img {
   user-select: none;
   z-index: 1;
   animation: pinwheelSpin 2s linear infinite;
-  transition: scale .4s ease-in-out, opacity .4s ease-in-out;
-  scale: 1;
-  opacity: 1;
   transform-origin: center center;
 }
 
@@ -26,7 +20,7 @@ img {
 
 @keyframes pinwheelSpin {
   to {
-    rotate: 90deg
+    rotate: 90deg;
   }
 }
 

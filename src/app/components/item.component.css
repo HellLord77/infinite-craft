@@ -32,10 +32,6 @@
 :host(.instance) {
   position: fixed;
   font-size: 18px;
-  /* TODO
-  z-index: 11;
-  left: 0;
-  top: 0; */
   padding: 11px 10px 10px;
   transition: scale .15s ease-in;
   border-radius: 5px;

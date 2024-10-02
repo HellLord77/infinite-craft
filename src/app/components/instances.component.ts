@@ -137,6 +137,7 @@ export class InstancesComponent {
       const intersectedInstanceComponent = this.intersectedInstanceComponent!;
       const intersectedItemComponent = intersectedInstanceComponent.itemComponent();
       intersectedItemComponent.instanceDisabled = true;
+
       this.apiService
         .pair(itemComponent.element(), intersectedItemComponent.element())
         .subscribe((result) => {
@@ -150,13 +151,17 @@ export class InstancesComponent {
               this.constantService.instances,
               intersectedInstance,
             );
+
             const element = toStorageElement(result);
             const center = getCenter(instance.center, intersectedInstance.center);
             const otherInstance: Instance = {element: element, center: center};
             this.constantService.instances.push(otherInstance);
+
             if (!this.dataService.hasElement(element)) {
-              // TODO: pinwheel
-              this.pinwheelComponent().translate = toTranslate(center);
+              const pinwheelComponent = this.pinwheelComponent();
+              pinwheelComponent.translate = toTranslate(center);
+              pinwheelComponent.setSpawn(true);
+
               this.dataService.setElement(element);
             }
           }
