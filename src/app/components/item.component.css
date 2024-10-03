@@ -86,7 +86,7 @@
   pointer-events: none;
 }
 
-:host(.is-delete-mode.hidden) {
+:host(.hidden) {
   opacity: 0.35;
 }
 

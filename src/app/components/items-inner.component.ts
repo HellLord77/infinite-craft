@@ -40,7 +40,7 @@ export class ItemsInnerComponent {
     if (this.stateService.isDiscoveriesActive()) {
       elements = elements.filter((element) => element.discovered);
     }
-    if (this.stateService.isDeleteMode()) {
+    if (!this.stateService.isDeleteMode()) {
       elements = elements.filter((element) => !element.hidden);
     }
     return elements;

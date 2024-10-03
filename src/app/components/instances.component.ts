@@ -12,7 +12,7 @@ import {Instance} from '../models/instance.model';
 import {getCenter, toTranslate} from '../models/point.model';
 import {SidebarComponent} from './sidebar.component';
 import {PinwheelComponent} from './pinwheel.component';
-import {finalize} from 'rxjs';
+import {SoundService} from '../services/sound.service';
 
 @Component({
   selector: 'app-instances',
@@ -48,6 +48,7 @@ export class InstancesComponent {
 
   utilityService = inject(UtilityService);
   stateService = inject(StateService);
+  soundService = inject(SoundService);
   dataService = inject(DataService);
   apiService = inject(ApiService);
 
@@ -131,6 +132,7 @@ export class InstancesComponent {
     const instance = instanceComponent.instance();
     if (this.intersectsSidebarComponent) {
       this.utilityService.arrayRemoveItem(this.stateService.instances, instance);
+      this.soundService.playDelete();
     } else {
       const itemComponent = instanceComponent.itemComponent();
       itemComponent.instanceDisabled = true;
@@ -140,14 +142,13 @@ export class InstancesComponent {
 
       this.apiService
         .pair(itemComponent.element(), intersectedItemComponent.element())
-        .pipe(
-          finalize(() => {
+        .subscribe((result) => {
+          if (result.result === 'Nothing') {
+            this.soundService.playError();
+
             itemComponent.instanceDisabled = false;
             intersectedItemComponent.instanceDisabled = false;
-          }),
-        )
-        .subscribe((result) => {
-          if (result.result !== 'Nothing') {
+          } else {
             const intersectedInstance = intersectedInstanceComponent.instance();
             this.utilityService.arrayRemoveItem(this.stateService.instances, instance);
             this.utilityService.arrayRemoveItem(this.stateService.instances, intersectedInstance);
@@ -158,6 +159,9 @@ export class InstancesComponent {
             this.stateService.instances.push(otherInstance);
 
             if (!this.dataService.hasElement(element)) {
+              this.soundService.playDiscovery();
+              this.soundService.playReward();
+
               const pinwheelComponent = this.pinwheelComponent();
               pinwheelComponent.translate = toTranslate(center);
               pinwheelComponent.setShown(true);

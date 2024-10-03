@@ -10,17 +10,9 @@ export class StateService {
   readonly instances: Instance[] = [];
   readonly searchControl = new FormControl('');
 
-  private discoveriesActive = false;
   private deleteMode = false;
+  private discoveriesActive = false;
   private sort = Sort.time;
-
-  isDiscoveriesActive() {
-    return this.discoveriesActive;
-  }
-
-  toggleDiscoveriesActive() {
-    return (this.discoveriesActive = !this.discoveriesActive);
-  }
 
   isDeleteMode() {
     return this.deleteMode;
@@ -31,7 +23,15 @@ export class StateService {
   }
 
   toggleDeleteMode() {
-    return (this.deleteMode = !this.deleteMode);
+    this.deleteMode = !this.deleteMode;
+  }
+
+  isDiscoveriesActive() {
+    return this.discoveriesActive;
+  }
+
+  toggleDiscoveriesActive() {
+    return (this.discoveriesActive = !this.discoveriesActive);
   }
 
   getSort() {

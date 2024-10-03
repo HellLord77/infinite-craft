@@ -15,6 +15,10 @@ export class UtilityService {
     return array;
   }
 
+  arrayRandomItem<T>(array: T[]): T {
+    return array[Math.floor(Math.random() * array.length)];
+  }
+
   arrayRemoveItem<T>(array: T[] | null | undefined, item: T): void {
     if (this.isValid(array)) {
       const index = array.indexOf(item);

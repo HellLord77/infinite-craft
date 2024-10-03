@@ -15,6 +15,7 @@ import {StateService} from '../services/state.service';
 import {toTranslate} from '../models/point.model';
 import {InstanceDiscoveredTextComponent} from './instance-discovered-text.component';
 import {InstancesComponent} from './instances.component';
+import {SoundService} from '../services/sound.service';
 
 @Component({
   selector: 'app-instance',
@@ -35,6 +36,7 @@ export class InstanceComponent implements OnInit {
   elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   utilityService = inject(UtilityService);
   stateService = inject(StateService);
+  soundService = inject(SoundService);
 
   ngOnInit() {
     this.zIndex = ++this.instancesComponent().zIndex;
@@ -48,6 +50,7 @@ export class InstanceComponent implements OnInit {
   @HostListener('contextmenu', ['$event']) onItemContextMenu(mouseEvent: MouseEvent) {
     mouseEvent.preventDefault();
     this.utilityService.arrayRemoveItem(this.stateService.instances, this.instance());
+    this.soundService.playDelete();
   }
 
   @HostListener('dblclick') onItemDblClick() {

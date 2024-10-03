@@ -85,7 +85,7 @@ export class DataService implements HasToJSON {
     return Array.from(this.elements.values());
   }
 
-  hasElement(element: Element): boolean {
+  hasElement(element: Element) {
     return this.elements.has(element.text);
   }
 
@@ -94,19 +94,17 @@ export class DataService implements HasToJSON {
     this.store();
   }
 
-  isDarkMode(): boolean {
+  isDarkMode() {
     return this.darkMode;
   }
 
-  toggleElementHidden(element: StorageElement): boolean {
+  toggleElementHidden(element: StorageElement) {
     element.hidden = !element.hidden;
     this.store();
-    return element.hidden;
   }
 
-  toggleDarkMode(): boolean {
+  toggleDarkMode() {
     this.darkMode = !this.darkMode;
     this.store();
-    return this.darkMode;
   }
 }
