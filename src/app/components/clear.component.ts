@@ -1,5 +1,5 @@
 import {Component, HostListener, inject} from '@angular/core';
-import {ConstantService} from '../services/constant.service';
+import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-clear',
@@ -9,13 +9,13 @@ import {ConstantService} from '../services/constant.service';
   styleUrl: './clear.component.css',
 })
 export class ClearComponent {
-  constantService = inject(ConstantService);
+  stateService = inject(StateService);
 
   @HostListener('window:keydown.Escape') onWindowKeyDown() {
-    this.constantService.resetDeleteMode();
+    this.stateService.resetDeleteMode();
   }
 
   @HostListener('click') onClick() {
-    this.constantService.instances.length = 0;
+    this.stateService.instances.length = 0;
   }
 }

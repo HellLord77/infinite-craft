@@ -1,5 +1,5 @@
 import {Component, HostBinding, HostListener, inject} from '@angular/core';
-import {ConstantService} from '../services/constant.service';
+import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-trash',
@@ -9,13 +9,13 @@ import {ConstantService} from '../services/constant.service';
   styleUrl: './trash.component.css',
 })
 export class TrashComponent {
-  constantService = inject(ConstantService);
+  stateService = inject(StateService);
 
   @HostBinding('class.active') get active() {
-    return this.constantService.isDeleteMode();
+    return this.stateService.isDeleteMode();
   }
 
   @HostListener('click') onClick() {
-    this.constantService.toggleDeleteMode();
+    this.stateService.toggleDeleteMode();
   }
 }

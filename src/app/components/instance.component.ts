@@ -11,9 +11,10 @@ import {
 import {ItemComponent} from './item.component';
 import {UtilityService} from '../services/utility.service';
 import {Instance} from '../models/instance.model';
-import {ConstantService} from '../services/constant.service';
+import {StateService} from '../services/state.service';
 import {toTranslate} from '../models/point.model';
 import {InstanceDiscoveredTextComponent} from './instance-discovered-text.component';
+import {InstancesComponent} from './instances.component';
 
 @Component({
   selector: 'app-instance',
@@ -29,13 +30,14 @@ export class InstanceComponent implements OnInit {
   itemComponent = viewChild.required(ItemComponent);
 
   instance = input.required<Instance>();
+  instancesComponent = input.required<InstancesComponent>();
 
   elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   utilityService = inject(UtilityService);
-  constantService = inject(ConstantService);
+  stateService = inject(StateService);
 
   ngOnInit() {
-    this.zIndex = this.constantService.getZIndex();
+    this.zIndex = ++this.instancesComponent().zIndex;
     this.translate = toTranslate(this.instance().center);
 
     const itemComponent = this.itemComponent();
@@ -45,7 +47,7 @@ export class InstanceComponent implements OnInit {
 
   @HostListener('contextmenu', ['$event']) onItemContextMenu(mouseEvent: MouseEvent) {
     mouseEvent.preventDefault();
-    this.utilityService.arrayRemoveItem(this.constantService.instances, this.instance());
+    this.utilityService.arrayRemoveItem(this.stateService.instances, this.instance());
   }
 
   @HostListener('dblclick') onItemDblClick() {
@@ -57,6 +59,6 @@ export class InstanceComponent implements OnInit {
       element: this.instance().element,
       center: center,
     };
-    this.constantService.instances.push(otherInstance);
+    this.stateService.instances.push(otherInstance);
   }
 }

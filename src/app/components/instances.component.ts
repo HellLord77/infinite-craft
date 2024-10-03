@@ -3,7 +3,7 @@ import {ItemComponent} from './item.component';
 import {CdkDrag} from '@angular/cdk/drag-drop';
 import {InstanceComponent} from './instance.component';
 import {UtilityService} from '../services/utility.service';
-import {ConstantService} from '../services/constant.service';
+import {StateService} from '../services/state.service';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {ApiService} from '../services/api.service';
 import {toStorageElement} from '../models/result.model';
@@ -12,6 +12,7 @@ import {Instance} from '../models/instance.model';
 import {getCenter, toTranslate} from '../models/point.model';
 import {SidebarComponent} from './sidebar.component';
 import {PinwheelComponent} from './pinwheel.component';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-instances',
@@ -38,13 +39,15 @@ import {PinwheelComponent} from './pinwheel.component';
   ],
 })
 export class InstancesComponent {
+  zIndex = 10;
+
   instanceComponents = viewChildren(InstanceComponent);
 
   sidebarComponent = input.required<SidebarComponent>();
   pinwheelComponent = input.required<PinwheelComponent>();
 
   utilityService = inject(UtilityService);
-  constantService = inject(ConstantService);
+  stateService = inject(StateService);
   dataService = inject(DataService);
   apiService = inject(ApiService);
 
@@ -52,7 +55,7 @@ export class InstancesComponent {
   private intersectedInstanceComponent: InstanceComponent | null = null;
 
   onInstanceDragStarted(instanceComponent: InstanceComponent) {
-    instanceComponent.zIndex = this.constantService.getZIndex();
+    instanceComponent.zIndex = ++this.zIndex;
     instanceComponent.itemComponent().instanceSelected = true;
     this.intersectedInstanceComponent = null;
   }
@@ -127,7 +130,7 @@ export class InstancesComponent {
   drop(instanceComponent: InstanceComponent) {
     const instance = instanceComponent.instance();
     if (this.intersectsSidebarComponent) {
-      this.utilityService.arrayRemoveItem(this.constantService.instances, instance);
+      this.utilityService.arrayRemoveItem(this.stateService.instances, instance);
     } else {
       const itemComponent = instanceComponent.itemComponent();
       itemComponent.instanceDisabled = true;
@@ -137,22 +140,22 @@ export class InstancesComponent {
 
       this.apiService
         .pair(itemComponent.element(), intersectedItemComponent.element())
-        .subscribe((result) => {
-          if (result.result === 'Nothing') {
+        .pipe(
+          finalize(() => {
             itemComponent.instanceDisabled = false;
             intersectedItemComponent.instanceDisabled = false;
-          } else {
+          }),
+        )
+        .subscribe((result) => {
+          if (result.result !== 'Nothing') {
             const intersectedInstance = intersectedInstanceComponent.instance();
-            this.utilityService.arrayRemoveItem(this.constantService.instances, instance);
-            this.utilityService.arrayRemoveItem(
-              this.constantService.instances,
-              intersectedInstance,
-            );
+            this.utilityService.arrayRemoveItem(this.stateService.instances, instance);
+            this.utilityService.arrayRemoveItem(this.stateService.instances, intersectedInstance);
 
             const element = toStorageElement(result);
             const center = getCenter(instance.center, intersectedInstance.center);
             const otherInstance: Instance = {element: element, center: center};
-            this.constantService.instances.push(otherInstance);
+            this.stateService.instances.push(otherInstance);
 
             if (!this.dataService.hasElement(element)) {
               const pinwheelComponent = this.pinwheelComponent();

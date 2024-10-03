@@ -1,6 +1,6 @@
 import {Component, ElementRef, HostListener, inject, OnInit, viewChild} from '@angular/core';
 import {Particle, update} from '../models/particle.model';
-import {ConstantService} from '../services/constant.service';
+import {StateService} from '../services/state.service';
 import {Color} from '../models/color.model';
 import {getDistance, Point} from '../models/point.model';
 import {DataService} from '../services/data.service';
@@ -17,7 +17,7 @@ import {ConfigService} from '../services/config.service';
 export class ParticlesComponent implements OnInit {
   utilityService = inject(UtilityService);
   configService = inject(ConfigService);
-  constantService = inject(ConstantService);
+  stateService = inject(StateService);
   dataService = inject(DataService);
 
   private context!: CanvasRenderingContext2D;
@@ -129,12 +129,12 @@ export class ParticlesComponent implements OnInit {
 
       const particleLineCounts = this.utilityService.arrayFrom(this.particles.length, 0);
       const instanceLineCounts = this.utilityService.arrayFrom(
-        this.constantService.instances.length,
+        this.stateService.instances.length,
         0,
       );
 
       this.particles.forEach((particle, particleIndex) => {
-        this.constantService.instances.forEach((instance, instanceIndex) => {
+        this.stateService.instances.forEach((instance, instanceIndex) => {
           if (
             particleLineCounts[particleIndex] < this.configService.particleMaxParticleLineCount &&
             instanceLineCounts[instanceIndex] < this.configService.particleMaxInstanceLineCount

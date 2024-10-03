@@ -1,6 +1,7 @@
-@for (instance of constantService.instances; track instance) {
+@for (instance of stateService.instances; track instance) {
   <app-instance
     [instance]="instance"
+    [instancesComponent]="this"
     #instanceComponent
     @instance-anim
     (cdkDragStarted)="onInstanceDragStarted(instanceComponent)"

@@ -1,5 +1,5 @@
 import {Component, HostBinding, HostListener, inject} from '@angular/core';
-import {ConstantService} from '../services/constant.service';
+import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-sidebar-input-close',
@@ -9,13 +9,13 @@ import {ConstantService} from '../services/constant.service';
   styleUrl: './sidebar-input-close.component.css',
 })
 export class SidebarInputCloseComponent {
-  constantService = inject(ConstantService);
+  stateService = inject(StateService);
 
   @HostBinding('hidden') get hidden() {
-    return this.constantService.searchControl.value!.length === 0;
+    return this.stateService.searchControl.value!.length === 0;
   }
 
   @HostListener('click') onClick() {
-    this.constantService.searchControl.setValue('');
+    this.stateService.searchControl.setValue('');
   }
 }

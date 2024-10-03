@@ -1,5 +1,5 @@
 import {Component, HostListener, inject} from '@angular/core';
-import {ConstantService} from '../services/constant.service';
+import {StateService} from '../services/state.service';
 import {Sort} from '../enums/sort';
 
 @Component({
@@ -10,11 +10,11 @@ import {Sort} from '../enums/sort';
   styleUrl: './sidebar-sort.component.css',
 })
 export class SidebarSortComponent {
-  sort = 'time';
+  sort = Sort[Sort.time];
 
-  constantService = inject(ConstantService);
+  stateService = inject(StateService);
 
   @HostListener('click') onClick() {
-    this.sort = Sort[this.constantService.nextSort()];
+    this.sort = Sort[this.stateService.nextSort()];
   }
 }

@@ -1,7 +1,7 @@
 import {Component, ElementRef, HostListener, inject, OnInit, viewChild} from '@angular/core';
 import {SidebarControlsComponent} from './sidebar-controls.component';
 import {SidebarInnerComponent} from './sidebar-inner.component';
-import {ConstantService} from '../services/constant.service';
+import {StateService} from '../services/state.service';
 import {interval} from 'rxjs';
 
 @Component({
@@ -15,23 +15,23 @@ export class SidebarComponent implements OnInit {
   sidebarControlsComponent = viewChild.required(SidebarControlsComponent);
 
   elementRef: ElementRef<HTMLElement> = inject(ElementRef);
-  constantService = inject(ConstantService);
+  stateService = inject(StateService);
 
   private lastScroll = 0;
 
   ngOnInit() {
     this.onScroll();
 
-    this.constantService.searchControl.valueChanges.subscribe(() => {
+    this.stateService.searchControl.valueChanges.subscribe(() => {
       interval().subscribe(() => {
         this.elementRef.nativeElement.scrollTop =
-          this.constantService.searchControl.value!.length === 0 ? this.lastScroll : 0;
+          this.stateService.searchControl.value!.length === 0 ? this.lastScroll : 0;
       });
     });
   }
 
   @HostListener('scroll') onScroll() {
-    if (this.constantService.searchControl.value!.length === 0) {
+    if (this.stateService.searchControl.value!.length === 0) {
       this.lastScroll = this.elementRef.nativeElement.scrollTop;
     }
 

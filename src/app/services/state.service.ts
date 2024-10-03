@@ -6,13 +6,12 @@ import {FormControl} from '@angular/forms';
 @Injectable({
   providedIn: 'root',
 })
-export class ConstantService {
+export class StateService {
   readonly instances: Instance[] = [];
   readonly searchControl = new FormControl('');
 
   private discoveriesActive = false;
   private deleteMode = false;
-  private zIndex = 10;
   private sort = Sort.time;
 
   isDiscoveriesActive() {
@@ -33,10 +32,6 @@ export class ConstantService {
 
   toggleDeleteMode() {
     return (this.deleteMode = !this.deleteMode);
-  }
-
-  getZIndex() {
-    return (this.zIndex += 1);
   }
 
   getSort() {

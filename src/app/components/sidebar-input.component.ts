@@ -1,6 +1,6 @@
 import {Component, ElementRef, HostListener, inject, input, viewChild} from '@angular/core';
 import {DataService} from '../services/data.service';
-import {ConstantService} from '../services/constant.service';
+import {StateService} from '../services/state.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ItemsInnerComponent} from './items-inner.component';
 
@@ -14,14 +14,14 @@ import {ItemsInnerComponent} from './items-inner.component';
 export class SidebarInputComponent {
   itemsInnerComponent = input.required<ItemsInnerComponent>();
 
-  constantService = inject(ConstantService);
+  stateService = inject(StateService);
   dataService = inject(DataService);
 
   private inputElementRef = viewChild.required<ElementRef<HTMLInputElement>>('inputElement');
 
   @HostListener('window:keydown', ['$event']) onWindowKeyDown(keyboardEvent: KeyboardEvent) {
     if (keyboardEvent.key === 'Escape') {
-      this.constantService.searchControl.setValue('');
+      this.stateService.searchControl.setValue('');
     } else {
       this.inputElementRef().nativeElement.focus();
     }

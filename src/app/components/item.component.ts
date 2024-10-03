@@ -2,7 +2,7 @@ import {Component, ElementRef, HostBinding, inject, input, viewChild} from '@ang
 import {ItemEmojiComponent} from './item-emoji.component';
 import {ItemRemoveComponent} from './item-remove.component';
 import {StorageElement} from '../models/storage-element.model';
-import {ConstantService} from '../services/constant.service';
+import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-item',
@@ -22,10 +22,10 @@ export class ItemComponent {
   element = input.required<StorageElement>();
 
   elementRef: ElementRef<HTMLElement> = inject(ElementRef);
-  constantService = inject(ConstantService);
+  stateService = inject(StateService);
 
   @HostBinding('class.is-delete-mode') get isDeleteMode() {
-    return !this.instance && this.constantService.isDeleteMode();
+    return !this.instance && this.stateService.isDeleteMode();
   }
 
   @HostBinding('class.hidden') get hidden() {

@@ -1,6 +1,6 @@
 <input
   #inputElement
   [class.dark-mode]="dataService.isDarkMode()"
-  [formControl]="constantService.searchControl"
+  [formControl]="stateService.searchControl"
   placeholder="Search ({{ itemsInnerComponent().itemComponents().length }}) items..."
 />
