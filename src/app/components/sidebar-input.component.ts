@@ -2,6 +2,7 @@ import {Component, ElementRef, HostListener, inject, viewChild} from '@angular/c
 import {DataService} from '../services/data.service';
 import {ConstantService} from '../services/constant.service';
 import {ReactiveFormsModule} from '@angular/forms';
+import {ComponentService} from '../services/component.service';
 
 @Component({
   selector: 'app-sidebar-input',
@@ -12,13 +13,14 @@ import {ReactiveFormsModule} from '@angular/forms';
 })
 export class SidebarInputComponent {
   constantService = inject(ConstantService);
+  componentService = inject(ComponentService);
   dataService = inject(DataService);
 
   private inputElementRef = viewChild.required<ElementRef<HTMLInputElement>>('inputElement');
 
   @HostListener('window:keydown', ['$event']) onWindowKeyDown(keyboardEvent: KeyboardEvent) {
     if (keyboardEvent.key === 'Escape') {
-      this.constantService.search.setValue('');
+      this.constantService.searchControl.setValue('');
     } else {
       this.inputElementRef().nativeElement.focus();
     }

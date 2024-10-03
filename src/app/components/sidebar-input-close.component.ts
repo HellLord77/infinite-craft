@@ -12,10 +12,10 @@ export class SidebarInputCloseComponent {
   constantService = inject(ConstantService);
 
   @HostBinding('hidden') get hidden() {
-    return this.constantService.search.value!.length === 0;
+    return this.constantService.searchControl.value!.length === 0;
   }
 
   @HostListener('click') onClick() {
-    this.constantService.search.setValue('');
+    this.constantService.searchControl.setValue('');
   }
 }

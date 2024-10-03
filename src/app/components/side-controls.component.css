@@ -20,3 +20,7 @@
     display: none;
   }
 }
+
+:host {
+  filter: var(--dark-mode-filter);
+}

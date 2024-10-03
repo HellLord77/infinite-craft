@@ -1,8 +1,4 @@
-<app-item
-  (contextmenu)="onItemContextMenu($event)"
-  (dblclick)="onItemDblClick()"
-  [element]="instance().element"
-/>
+<app-item [element]="instance().element" />
 @if (instance().element.discovered) {
   <app-instance-discovered-text />
 }

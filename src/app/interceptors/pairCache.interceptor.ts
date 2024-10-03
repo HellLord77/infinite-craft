@@ -2,16 +2,16 @@ import {HttpContextToken, HttpInterceptorFn, HttpResponse} from '@angular/common
 import {inject} from '@angular/core';
 import {CacheService} from '../services/cache.service';
 import {of, tap} from 'rxjs';
-import {ConfigService} from '../services/config.service';
+import {ApiService} from '../services/api.service';
 
 export const CACHE_GET = new HttpContextToken(() => true);
 export const CACHE_SET = new HttpContextToken(() => true);
 
 export const pairCacheInterceptor: HttpInterceptorFn = (req, next) => {
-  const configService = inject(ConfigService);
+  const apiService = inject(ApiService);
   const cacheService = inject(CacheService);
 
-  if (req.url !== configService.apiPairUrl) {
+  if (!apiService.requestIsPair(req)) {
     return next(req);
   }
 

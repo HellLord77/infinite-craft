@@ -8,7 +8,7 @@ import {FormControl} from '@angular/forms';
 })
 export class ConstantService {
   readonly instances: Instance[] = [];
-  readonly search = new FormControl('');
+  readonly searchControl = new FormControl('');
 
   private discoveriesActive = false;
   private deleteMode = false;

@@ -14,5 +14,6 @@
 }
 
 :host {
-  filter: var(--dark-mode-filter);
+  /* TODO */
+  display: flex;
 }

@@ -8,7 +8,7 @@
   -moz-user-select: none;
   user-select: none;
   border: 1px solid var(--border-color);
-  transition: background .15s linear;
+  transition: background 0.15s linear;
   background: var(--item-bg);
   line-height: 1em;
   contain: layout style paint;
@@ -33,7 +33,7 @@
   position: fixed;
   font-size: 18px;
   padding: 11px 10px 10px;
-  transition: scale .15s ease-in;
+  transition: scale 0.15s ease-in;
   border-radius: 5px;
   transform-origin: center center;
   display: flex;
@@ -77,19 +77,13 @@
 }
 
 :host(.instance-disabled:after) {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-}
-
-:host(.instance-hover) {
-  scale: 1.04;
-  background: var(--instance-bg-hover);
-  border: 1px solid var(--instance-border-hover)
 }
 
 :host(.is-delete-mode.item-hidden) {
@@ -111,7 +105,7 @@
     padding: 1px 9px 0;
     border: 1px solid #9f9f9f;
     color: var(--text-color);
-    transition: background .1s linear;
+    transition: background 0.1s linear;
     touch-action: manipulation;
   }
 }

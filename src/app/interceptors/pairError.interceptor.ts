@@ -3,12 +3,12 @@ import {catchError, of} from 'rxjs';
 import {CACHE_SET} from './pairCache.interceptor';
 import {Result} from '../models/result.model';
 import {inject} from '@angular/core';
-import {ConfigService} from '../services/config.service';
+import {ApiService} from '../services/api.service';
 
 export const pairErrorInterceptor: HttpInterceptorFn = (req, next) => {
-  const configService = inject(ConfigService);
+  const apiService = inject(ApiService);
 
-  if (req.url !== configService.apiPairUrl) {
+  if (!apiService.requestIsPair(req)) {
     return next(req);
   }
 

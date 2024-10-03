@@ -1,10 +1,11 @@
-import {Component, inject, viewChildren} from '@angular/core';
+import {Component, inject, OnInit, viewChildren} from '@angular/core';
 import {ItemComponent} from './item.component';
 import {DataService} from '../services/data.service';
 import {Instance} from '../models/instance.model';
 import {ConstantService} from '../services/constant.service';
 import {UtilityService} from '../services/utility.service';
 import {Sort} from '../enums/sort';
+import {ComponentService} from '../services/component.service';
 
 @Component({
   selector: 'app-items',
@@ -13,12 +14,17 @@ import {Sort} from '../enums/sort';
   templateUrl: './items.component.html',
   styleUrl: './items.component.css',
 })
-export class ItemsComponent {
+export class ItemsComponent implements OnInit {
   itemComponents = viewChildren(ItemComponent);
 
   utilityService = inject(UtilityService);
   constantService = inject(ConstantService);
+  componentService = inject(ComponentService);
   dataService = inject(DataService);
+
+  ngOnInit() {
+    this.componentService.itemsComponent = this;
+  }
 
   onMouseDownItem(itemComponent: ItemComponent) {
     if (!this.constantService.isDeleteMode()) {
@@ -32,8 +38,9 @@ export class ItemsComponent {
 
   getFilteredElements() {
     let elements = this.dataService.getElements();
-    const search = this.constantService.search.value!.toLowerCase();
-    if (search!.length !== 0) {
+    let search = this.constantService.searchControl.value!;
+    if (search.length !== 0) {
+      search = search.toLowerCase();
       elements = elements.filter((element) => element.text.toLowerCase().includes(search));
     }
     if (this.constantService.isDiscoveriesActive()) {

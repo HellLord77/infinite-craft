@@ -1,14 +1,14 @@
 :host {
   width: 21px;
   cursor: pointer;
-  opacity: .8;
+  opacity: 0.8;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
 }
 
 :host {
-  transform: scale(.92);
+  transform: scale(0.92);
 }
 
 @media screen and (min-width: 1150px) {
@@ -22,5 +22,6 @@
 }
 
 :host {
-  filter: var(--dark-mode-filter);
+  /* TODO */
+  display: flex;
 }

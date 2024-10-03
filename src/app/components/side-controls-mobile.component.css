@@ -12,10 +12,11 @@
   }
 }
 
-app-dark-mode-icon {
-  width: 20px;
+:host {
+  filter: var(--dark-mode-filter);
 }
 
-app-sound {
-  width: 20px;
+:host {
+  /* TODO */
+  height: 20.45px;
 }

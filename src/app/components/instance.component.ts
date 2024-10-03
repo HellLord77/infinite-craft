@@ -1,4 +1,13 @@
-import {Component, ElementRef, HostBinding, inject, input, OnInit, viewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  inject,
+  input,
+  OnInit,
+  viewChild,
+} from '@angular/core';
 import {ItemComponent} from './item.component';
 import {UtilityService} from '../services/utility.service';
 import {Instance} from '../models/instance.model';
@@ -34,12 +43,12 @@ export class InstanceComponent implements OnInit {
     itemComponent.emojiComponent().instanceEmoji = true;
   }
 
-  onItemContextMenu(mouseEvent: MouseEvent) {
+  @HostListener('contextmenu', ['$event']) onItemContextMenu(mouseEvent: MouseEvent) {
     mouseEvent.preventDefault();
     this.utilityService.arrayRemoveItem(this.constantService.instances, this.instance());
   }
 
-  onItemDblClick() {
+  @HostListener('dblclick') onItemDblClick() {
     const boundingClientRect = this.utilityService.elementRefGetBoundingClientRect(this.elementRef);
     const center = this.utilityService.rectGetCenter(boundingClientRect);
     center.x += 10;

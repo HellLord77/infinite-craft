@@ -1,23 +1,21 @@
-import {Component, inject, input, viewChildren} from '@angular/core';
-import {NgStyle} from '@angular/common';
+import {Component, inject, viewChildren} from '@angular/core';
 import {ItemComponent} from './item.component';
 import {CdkDrag} from '@angular/cdk/drag-drop';
 import {InstanceComponent} from './instance.component';
 import {UtilityService} from '../services/utility.service';
 import {ConstantService} from '../services/constant.service';
-import {animate, query, style, transition, trigger} from '@angular/animations';
-import {SidebarComponent} from './sidebar.component';
+import {animate, style, transition, trigger} from '@angular/animations';
 import {ApiService} from '../services/api.service';
 import {toStorageElement} from '../models/result.model';
 import {DataService} from '../services/data.service';
 import {Instance} from '../models/instance.model';
 import {getCenter, toTranslate} from '../models/point.model';
-import {PinwheelComponent} from './pinwheel.component';
+import {ComponentService} from '../services/component.service';
 
 @Component({
   selector: 'app-instances',
   standalone: true,
-  imports: [NgStyle, CdkDrag, InstanceComponent, ItemComponent],
+  imports: [CdkDrag, InstanceComponent, ItemComponent],
   templateUrl: './instances.component.html',
   styleUrl: './instances.component.css',
   animations: [
@@ -27,15 +25,12 @@ import {PinwheelComponent} from './pinwheel.component';
         animate('0.13s ease-in', style({transform: 'scale(1)'})),
       ]),
       transition(':leave', [
-        query(
-          'app-item',
-          animate(
-            '0.16s linear',
-            style({
-              transform: 'scale(0)',
-              opacity: 0,
-            }),
-          ),
+        animate(
+          '0.16s linear',
+          style({
+            transform: 'scale(0)',
+            opacity: 0,
+          }),
         ),
       ]),
     ]),
@@ -44,11 +39,9 @@ import {PinwheelComponent} from './pinwheel.component';
 export class InstancesComponent {
   instanceComponents = viewChildren(InstanceComponent);
 
-  sidebarComponent = input.required<SidebarComponent>();
-  pinwheelComponent = input.required<PinwheelComponent>();
-
   utilityService = inject(UtilityService);
   constantService = inject(ConstantService);
+  componentService = inject(ComponentService);
   dataService = inject(DataService);
   apiService = inject(ApiService);
 
@@ -66,7 +59,7 @@ export class InstancesComponent {
     if (this.intersectsSidebarComponent) {
       this.drop(instanceComponent);
     } else if (this.intersectedInstanceComponent !== null) {
-      this.intersectedInstanceComponent.itemComponent().instanceHover = false;
+      this.dragLeave();
       this.drop(instanceComponent);
     }
     this.intersectedInstanceComponent = null;
@@ -81,7 +74,7 @@ export class InstancesComponent {
     instance.center = this.utilityService.elementRefGetCenter(itemComponent.elementRef);
 
     const sidebarBoundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
-      this.sidebarComponent().elementRef,
+      this.componentService.sidebarComponent.elementRef,
     );
     this.intersectsSidebarComponent = this.utilityService.rectIntersects(
       boundingClientRect,
@@ -100,18 +93,23 @@ export class InstancesComponent {
       }
     }
 
+    let maxZIndex = 0;
+    let intersectedInstanceComponent = null;
     for (const otherInstanceComponent of this.instanceComponents()) {
       const otherItemComponent = otherInstanceComponent.itemComponent();
-      if (otherItemComponent !== itemComponent) {
+      if (otherItemComponent !== itemComponent && otherInstanceComponent.zIndex > maxZIndex) {
         const otherBoundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
           otherItemComponent.elementRef,
         );
         if (this.utilityService.rectIntersects(boundingClientRect, otherBoundingClientRect)) {
-          this.intersectedInstanceComponent = otherInstanceComponent;
-          this.dragEnter();
-          break;
+          maxZIndex = otherInstanceComponent.zIndex;
+          intersectedInstanceComponent = otherInstanceComponent;
         }
       }
+    }
+    if (intersectedInstanceComponent !== null) {
+      this.intersectedInstanceComponent = intersectedInstanceComponent;
+      this.dragEnter();
     }
   }
 
@@ -154,9 +152,8 @@ export class InstancesComponent {
             this.constantService.instances.push(otherInstance);
 
             if (!this.dataService.hasElement(element)) {
-              const pinwheelComponent = this.pinwheelComponent();
-              pinwheelComponent.translate = toTranslate(center);
-              pinwheelComponent.setShow(true);
+              this.componentService.pinwheelComponent.translate = toTranslate(center);
+              this.componentService.pinwheelComponent.setShow(true);
 
               this.dataService.setElement(element);
             }

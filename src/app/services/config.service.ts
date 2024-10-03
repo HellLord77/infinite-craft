@@ -8,7 +8,6 @@ export class ConfigService {
 
   // readonly apiBaseUrl = 'https://neal.fun/api/infinite-craft';
   readonly apiBaseUrl = 'http://localhost:8000';
-  readonly apiPairUrl = `${this.apiBaseUrl}/pair`;
 
   readonly particleIsEnabled = true;
   readonly particleMinFrameInterval = 15;

@@ -33,8 +33,6 @@ export class DataService implements HasToJSON {
 
       this.darkMode = Boolean(infiniteCraftData.darkMode);
     }
-
-    this.store();
   }
 
   toJSON(): InfiniteCraftData {
