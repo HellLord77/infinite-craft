@@ -16,7 +16,7 @@
   transform: scale(1.05);
 }
 
-:host(.trash-active) {
+:host(.active) {
   animation: sway 0.3s linear infinite alternate-reverse;
 }
 

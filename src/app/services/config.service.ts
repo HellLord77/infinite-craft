@@ -4,6 +4,8 @@ import {Injectable} from '@angular/core';
   providedIn: 'root',
 })
 export class ConfigService {
+  readonly dataKey = 'infinite-craft-data';
+
   readonly cacheMaxSize = 1024;
 
   // readonly apiBaseUrl = 'https://neal.fun/api/infinite-craft';

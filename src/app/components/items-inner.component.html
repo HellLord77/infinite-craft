@@ -1,0 +1,3 @@
+@for (element of getSortedElements(); track element.text) {
+  <app-item [element]="element" #itemComponent (mousedown)="onMouseDownItem(itemComponent)" />
+}

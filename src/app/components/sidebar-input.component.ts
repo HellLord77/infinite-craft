@@ -1,8 +1,8 @@
-import {Component, ElementRef, HostListener, inject, viewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, inject, input, viewChild} from '@angular/core';
 import {DataService} from '../services/data.service';
 import {ConstantService} from '../services/constant.service';
 import {ReactiveFormsModule} from '@angular/forms';
-import {ComponentService} from '../services/component.service';
+import {ItemsInnerComponent} from './items-inner.component';
 
 @Component({
   selector: 'app-sidebar-input',
@@ -12,8 +12,9 @@ import {ComponentService} from '../services/component.service';
   styleUrl: './sidebar-input.component.css',
 })
 export class SidebarInputComponent {
+  itemsInnerComponent = input.required<ItemsInnerComponent>();
+
   constantService = inject(ConstantService);
-  componentService = inject(ComponentService);
   dataService = inject(DataService);
 
   private inputElementRef = viewChild.required<ElementRef<HTMLInputElement>>('inputElement');

@@ -1,0 +1,9 @@
+:host {
+  height: 100px;
+  width: auto
+}
+
+:host {
+  /* TODO */
+  display: contents;
+}

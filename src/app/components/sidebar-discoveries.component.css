@@ -3,7 +3,7 @@
   background: var(--background-color);
 }
 
-:host(.sidebar-discoveries-active) {
+:host(.discoveries-active) {
   background: var(--discoveries-bg-active);
 }
 

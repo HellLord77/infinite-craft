@@ -24,6 +24,19 @@
   transition: opacity .15s linear;
 }
 
+:host(.dark-mode:after) {
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .9));
+}
+
+:host(.fade-show:after) {
+  opacity: 1;
+}
+
+:host {
+  /* TODO */
+  display: block;
+}
+
 @media screen and (max-width: 800px) {
   :host {
     display: none;

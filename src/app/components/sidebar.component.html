@@ -1,2 +1,4 @@
-<app-sidebar-inner />
-<app-sidebar-controls />
+<app-sidebar-inner #sidebarInnerComponent />
+<app-sidebar-controls
+  [itemsInnerComponent]="sidebarInnerComponent.itemComponent().itemsInnerComponent()"
+/>

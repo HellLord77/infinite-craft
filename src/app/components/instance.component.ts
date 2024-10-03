@@ -30,7 +30,7 @@ export class InstanceComponent implements OnInit {
 
   instance = input.required<Instance>();
 
-  elementRef = inject(ElementRef);
+  elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   utilityService = inject(UtilityService);
   constantService = inject(ConstantService);
 

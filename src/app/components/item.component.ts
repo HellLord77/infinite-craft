@@ -21,14 +21,14 @@ export class ItemComponent {
 
   element = input.required<StorageElement>();
 
-  elementRef = inject(ElementRef);
+  elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   constantService = inject(ConstantService);
 
   @HostBinding('class.is-delete-mode') get isDeleteMode() {
     return !this.instance && this.constantService.isDeleteMode();
   }
 
-  @HostBinding('class.item-hidden') get itemHidden() {
+  @HostBinding('class.hidden') get hidden() {
     return this.element().hidden;
   }
 }

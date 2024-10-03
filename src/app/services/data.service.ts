@@ -1,20 +1,23 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {InfiniteCraftData} from '../models/infinite-craft-data.model';
 import {HasToJSON} from '../models/has-to-json.model';
 import {instanceOf, StorageElement} from '../models/storage-element.model';
 import {Element} from '../models/element.model';
+import {ConfigService} from './config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService implements HasToJSON {
+  configService = inject(ConfigService);
+
   private elements!: Map<string, StorageElement>;
   private darkMode!: boolean;
 
   constructor() {
     this.init();
 
-    const infiniteCraftDataJSON = localStorage.getItem('infinite-craft-data');
+    const infiniteCraftDataJSON = localStorage.getItem(this.configService.dataKey);
     if (infiniteCraftDataJSON !== null) {
       let infiniteCraftData: InfiniteCraftData;
       try {
@@ -66,12 +69,16 @@ export class DataService implements HasToJSON {
     this.darkMode = false;
   }
 
+  exists() {
+    return localStorage.getItem(this.configService.dataKey) !== null;
+  }
+
   store() {
-    localStorage.setItem('infinite-craft-data', JSON.stringify(this));
+    localStorage.setItem(this.configService.dataKey, JSON.stringify(this));
   }
 
   clear() {
-    localStorage.removeItem('infinite-craft-data');
+    localStorage.removeItem(this.configService.dataKey);
   }
 
   getElements(): StorageElement[] {

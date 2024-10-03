@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {SidebarInputComponent} from './sidebar-input.component';
 import {SidebarInputCloseComponent} from './sidebar-input-close.component';
+import {ItemsInnerComponent} from './items-inner.component';
 
 @Component({
   selector: 'app-sidebar-search',
@@ -9,4 +10,6 @@ import {SidebarInputCloseComponent} from './sidebar-input-close.component';
   templateUrl: './sidebar-search.component.html',
   styleUrl: './sidebar-search.component.css',
 })
-export class SidebarSearchComponent {}
+export class SidebarSearchComponent {
+  itemsInnerComponent = input.required<ItemsInnerComponent>();
+}

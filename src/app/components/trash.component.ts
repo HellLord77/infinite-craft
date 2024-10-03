@@ -11,7 +11,7 @@ import {ConstantService} from '../services/constant.service';
 export class TrashComponent {
   constantService = inject(ConstantService);
 
-  @HostBinding('class.trash-active') get trashActive() {
+  @HostBinding('class.active') get active() {
     return this.constantService.isDeleteMode();
   }
 

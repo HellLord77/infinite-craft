@@ -20,8 +20,3 @@
     height: 183px;
   }
 }
-
-:host {
-  /* TODO */
-  width: 100%;
-}

@@ -1,7 +1,6 @@
 import {animate, style, transition, trigger} from '@angular/animations';
-import {Component, HostBinding, inject, OnInit} from '@angular/core';
+import {Component, HostBinding} from '@angular/core';
 import {interval, Subscription} from 'rxjs';
-import {ComponentService} from '../services/component.service';
 
 @Component({
   selector: 'app-pinwheel',
@@ -23,30 +22,24 @@ import {ComponentService} from '../services/component.service';
     ]),
   ],
 })
-export class PinwheelComponent implements OnInit {
+export class PinwheelComponent {
   @HostBinding('style.translate') translate = 'none';
 
-  componentService = inject(ComponentService);
+  private shown = false;
+  private lastSubscription: Subscription | null = null;
 
-  private show = false;
-  private subscription: Subscription | null = null;
-
-  ngOnInit() {
-    this.componentService.pinwheelComponent = this;
+  getShown() {
+    return this.shown;
   }
 
-  getShow() {
-    return this.show;
-  }
-
-  setShow(show: boolean) {
-    if (this.subscription !== null) {
-      this.subscription.unsubscribe();
+  setShown(shown: boolean) {
+    if (this.lastSubscription !== null) {
+      this.lastSubscription.unsubscribe();
     }
-    this.show = show;
-    if (show) {
-      this.subscription = interval(1200).subscribe(() => {
-        this.show = false;
+    this.shown = shown;
+    if (shown) {
+      this.lastSubscription = interval(1200).subscribe(() => {
+        this.shown = false;
       });
     }
   }

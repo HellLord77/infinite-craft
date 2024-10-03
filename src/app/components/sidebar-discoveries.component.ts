@@ -9,11 +9,11 @@ import {ConstantService} from '../services/constant.service';
   styleUrl: './sidebar-discoveries.component.css',
 })
 export class SidebarDiscoveriesComponent {
-  @HostBinding('class.sidebar-discoveries-active') sidebarDiscoveriesActive = false;
+  @HostBinding('class.discoveries-active') discoveriesActive = false;
 
   constantService = inject(ConstantService);
 
   @HostListener('click') onClick() {
-    this.sidebarDiscoveriesActive = this.constantService.toggleDiscoveriesActive();
+    this.discoveriesActive = this.constantService.toggleDiscoveriesActive();
   }
 }

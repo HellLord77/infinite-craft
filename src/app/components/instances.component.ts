@@ -1,4 +1,4 @@
-import {Component, inject, viewChildren} from '@angular/core';
+import {Component, inject, input, viewChildren} from '@angular/core';
 import {ItemComponent} from './item.component';
 import {CdkDrag} from '@angular/cdk/drag-drop';
 import {InstanceComponent} from './instance.component';
@@ -10,7 +10,8 @@ import {toStorageElement} from '../models/result.model';
 import {DataService} from '../services/data.service';
 import {Instance} from '../models/instance.model';
 import {getCenter, toTranslate} from '../models/point.model';
-import {ComponentService} from '../services/component.service';
+import {SidebarComponent} from './sidebar.component';
+import {PinwheelComponent} from './pinwheel.component';
 
 @Component({
   selector: 'app-instances',
@@ -39,9 +40,11 @@ import {ComponentService} from '../services/component.service';
 export class InstancesComponent {
   instanceComponents = viewChildren(InstanceComponent);
 
+  sidebarComponent = input.required<SidebarComponent>();
+  pinwheelComponent = input.required<PinwheelComponent>();
+
   utilityService = inject(UtilityService);
   constantService = inject(ConstantService);
-  componentService = inject(ComponentService);
   dataService = inject(DataService);
   apiService = inject(ApiService);
 
@@ -74,7 +77,7 @@ export class InstancesComponent {
     instance.center = this.utilityService.elementRefGetCenter(itemComponent.elementRef);
 
     const sidebarBoundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
-      this.componentService.sidebarComponent.elementRef,
+      this.sidebarComponent().elementRef,
     );
     this.intersectsSidebarComponent = this.utilityService.rectIntersects(
       boundingClientRect,
@@ -152,8 +155,9 @@ export class InstancesComponent {
             this.constantService.instances.push(otherInstance);
 
             if (!this.dataService.hasElement(element)) {
-              this.componentService.pinwheelComponent.translate = toTranslate(center);
-              this.componentService.pinwheelComponent.setShow(true);
+              const pinwheelComponent = this.pinwheelComponent();
+              pinwheelComponent.translate = toTranslate(center);
+              pinwheelComponent.setShown(true);
 
               this.dataService.setElement(element);
             }

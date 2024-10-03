@@ -6,3 +6,9 @@
   opacity: .7;
   font-size: 15px;
 }
+
+@media screen and (max-width: 800px) {
+  :host {
+    bottom: 190px;
+  }
+}

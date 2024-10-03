@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, viewChild} from '@angular/core';
 import {ItemsComponent} from './items.component';
 import {EmptySidebarComponent} from './empty-sidebar.component';
 
@@ -9,4 +9,6 @@ import {EmptySidebarComponent} from './empty-sidebar.component';
   templateUrl: './sidebar-inner.component.html',
   styleUrl: './sidebar-inner.component.css',
 })
-export class SidebarInnerComponent {}
+export class SidebarInnerComponent {
+  itemComponent = viewChild.required(ItemsComponent);
+}

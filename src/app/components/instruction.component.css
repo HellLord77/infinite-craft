@@ -1,0 +1,33 @@
+:host {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 25px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  border-radius: 5px;
+  padding: 9px 0;
+  border: 1px solid var(--border-color);
+  width: calc(100% - 10px);
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.2em;
+}
+
+:host {
+  /* TODO */
+  display: block;
+}
+
+@media screen and (min-width: 1150px) {
+  :host {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  :host {
+    display: none;
+  }
+}
