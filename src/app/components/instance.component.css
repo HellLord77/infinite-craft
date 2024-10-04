@@ -1,3 +1,8 @@
+:host(.selected) {
+  background: var(--instance-bg-hover);
+  border: 1px solid var(--instance-border-hover);
+}
+
 :host(.disabled) {
   pointer-events: none;
   opacity: 0.7;

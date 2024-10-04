@@ -54,12 +54,12 @@ export class InstancesComponent {
 
   onInstanceDragStarted(instanceComponent: InstanceComponent) {
     instanceComponent.zIndex = this.stateService.nextZIndex();
-    instanceComponent.itemComponent().instanceSelected = true;
+    instanceComponent.selected = true;
     this.intersectedInstanceComponent = null;
   }
 
   onInstanceDragEnded(instanceComponent: InstanceComponent) {
-    instanceComponent.itemComponent().instanceSelected = false;
+    instanceComponent.selected = false;
     if (this.intersectsSidebarComponent) {
       this.drop(instanceComponent);
     } else if (this.intersectedInstanceComponent !== null) {

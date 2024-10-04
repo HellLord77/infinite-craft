@@ -13,7 +13,6 @@ import {StateService} from '../services/state.service';
 })
 export class ItemComponent {
   @HostBinding('class.instance') instance = false;
-  @HostBinding('class.instance-selected') instanceSelected = false;
   @HostBinding('class.instance-hover') instanceHover = false;
 
   emojiComponent = viewChild.required(ItemEmojiComponent);

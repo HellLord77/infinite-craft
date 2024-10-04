@@ -58,11 +58,6 @@
   }
 }
 
-:host(.instance-selected) {
-  background: var(--instance-bg-hover);
-  border: 1px solid var(--instance-border-hover);
-}
-
 :host(.instance-hover) {
   scale: 1.04;
   background: var(--instance-bg-hover);

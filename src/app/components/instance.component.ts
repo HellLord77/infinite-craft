@@ -24,6 +24,7 @@ import {SoundService} from '../services/sound.service';
   styleUrl: './instance.component.css',
 })
 export class InstanceComponent implements OnInit {
+  @HostBinding('class.selected') selected = false;
   @HostBinding('class.disabled') disabled = false;
   @HostBinding('style.translate') translate = 'none';
   @HostBinding('style.z-index') zIndex = 0;
