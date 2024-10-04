@@ -12,6 +12,7 @@ import {getCenter, toTranslate} from '../models/point.model';
 import {SidebarComponent} from './sidebar.component';
 import {PinwheelComponent} from './pinwheel.component';
 import {SoundService} from '../services/sound.service';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-instances',
@@ -139,12 +140,15 @@ export class InstancesComponent {
 
       this.apiService
         .pair(itemComponent.element(), intersectedItemComponent.element())
+        .pipe(
+          finalize(() => {
+            instanceComponent.disabled = false;
+            intersectedInstanceComponent.disabled = false;
+          }),
+        )
         .subscribe((result) => {
           if (result.result === 'Nothing') {
             this.soundService.playError();
-
-            instanceComponent.disabled = false;
-            intersectedInstanceComponent.disabled = false;
           } else {
             const intersectedInstance = intersectedInstanceComponent.instance();
             this.stateService.removeInstance(instance);
