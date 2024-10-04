@@ -131,11 +131,11 @@ export class InstancesComponent {
       this.stateService.removeInstance(instance);
       this.soundService.playDelete();
     } else {
+      instanceComponent.disabled = true;
       const itemComponent = instanceComponent.itemComponent();
-      itemComponent.instanceDisabled = true;
       const intersectedInstanceComponent = this.intersectedInstanceComponent!;
+      intersectedInstanceComponent.disabled = true;
       const intersectedItemComponent = intersectedInstanceComponent.itemComponent();
-      intersectedItemComponent.instanceDisabled = true;
 
       this.apiService
         .pair(itemComponent.element(), intersectedItemComponent.element())
@@ -143,8 +143,8 @@ export class InstancesComponent {
           if (result.result === 'Nothing') {
             this.soundService.playError();
 
-            itemComponent.instanceDisabled = false;
-            intersectedItemComponent.instanceDisabled = false;
+            instanceComponent.disabled = false;
+            intersectedInstanceComponent.disabled = false;
           } else {
             const intersectedInstance = intersectedInstanceComponent.instance();
             this.stateService.removeInstance(instance);
