@@ -24,7 +24,6 @@ export class ParticlesComponent implements OnInit {
 
   private lastTime: DOMHighResTimeStamp = 0;
   private particles: Particle[] = [];
-  private boundFrameRequestCallback = this.frameRequestCallback.bind(this);
   private canvasElementRef = viewChild.required<ElementRef<HTMLCanvasElement>>('canvasElement');
 
   ngOnInit() {
@@ -37,7 +36,7 @@ export class ParticlesComponent implements OnInit {
     this.onWindowResize();
     this.createParticles();
 
-    requestAnimationFrame(this.boundFrameRequestCallback);
+    requestAnimationFrame((time) => this.frameRequestCallback(time));
   }
 
   @HostListener('window:resize') onWindowResize() {
@@ -46,7 +45,7 @@ export class ParticlesComponent implements OnInit {
     canvasElementRef.nativeElement.height = innerHeight;
   }
 
-  createParticle(): Particle {
+  createParticle() {
     const centerX = innerWidth * Math.random();
     const centerY = innerHeight * Math.random();
     const speedX = 0.03 * Math.random() - 0.015;
@@ -54,12 +53,13 @@ export class ParticlesComponent implements OnInit {
     const random = Math.random();
     const radius = 1.1 + 1.2 * random;
     const opacity = 0.1 + 0.4 * (1 - random);
-    return {
+    const particle: Particle = {
       center: {x: centerX, y: centerY},
       speed: {x: speedX, y: speedY},
       radius: radius,
       opacity: opacity,
     };
+    return particle;
   }
 
   createParticles() {
@@ -124,25 +124,23 @@ export class ParticlesComponent implements OnInit {
       }
 
       for (const particle of this.particles) {
+        particle.lineCount = 0;
         this.drawParticle(particle, color);
       }
+      for (const instance of this.stateService.iterInstances()) {
+        instance.lineCount = 0;
+      }
 
-      const particleLineCounts = this.utilityService.arrayFrom(this.particles.length, 0);
-      const instanceLineCounts = this.utilityService.arrayFrom(
-        this.stateService.instances.length,
-        0,
-      );
-
-      this.particles.forEach((particle, particleIndex) => {
-        this.stateService.instances.forEach((instance, instanceIndex) => {
+      for (const particle of this.particles) {
+        for (const instance of this.stateService.iterInstances()) {
           if (
-            particleLineCounts[particleIndex] < this.configService.particleMaxParticleLineCount &&
-            instanceLineCounts[instanceIndex] < this.configService.particleMaxInstanceLineCount
+            particle.lineCount! < this.configService.particleMaxParticleLineCount &&
+            instance.lineCount! < this.configService.particleMaxInstanceLineCount
           ) {
             const lineLength = getDistance(particle.center, instance.center);
             if (lineLength < this.configService.particleMaxLineLength) {
-              ++particleLineCounts[particleIndex];
-              ++instanceLineCounts[instanceIndex];
+              ++particle.lineCount!;
+              ++instance.lineCount!;
 
               this.drawLine(
                 particle,
@@ -151,9 +149,10 @@ export class ParticlesComponent implements OnInit {
               );
             }
           }
-        });
-      });
+        }
+      }
     }
-    requestAnimationFrame(this.boundFrameRequestCallback);
+
+    requestAnimationFrame((time) => this.frameRequestCallback(time));
   }
 }

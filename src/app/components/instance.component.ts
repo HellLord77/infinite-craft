@@ -14,7 +14,6 @@ import {Instance} from '../models/instance.model';
 import {StateService} from '../services/state.service';
 import {toTranslate} from '../models/point.model';
 import {InstanceDiscoveredTextComponent} from './instance-discovered-text.component';
-import {InstancesComponent} from './instances.component';
 import {SoundService} from '../services/sound.service';
 
 @Component({
@@ -31,7 +30,6 @@ export class InstanceComponent implements OnInit {
   itemComponent = viewChild.required(ItemComponent);
 
   instance = input.required<Instance>();
-  instancesComponent = input.required<InstancesComponent>();
 
   elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   utilityService = inject(UtilityService);
@@ -39,7 +37,7 @@ export class InstanceComponent implements OnInit {
   soundService = inject(SoundService);
 
   ngOnInit() {
-    this.zIndex = ++this.instancesComponent().zIndex;
+    this.zIndex = this.stateService.nextZIndex();
     this.translate = toTranslate(this.instance().center);
 
     const itemComponent = this.itemComponent();
@@ -49,7 +47,7 @@ export class InstanceComponent implements OnInit {
 
   @HostListener('contextmenu', ['$event']) onItemContextMenu(mouseEvent: MouseEvent) {
     mouseEvent.preventDefault();
-    this.utilityService.arrayRemoveItem(this.stateService.instances, this.instance());
+    this.stateService.removeInstance(this.instance());
     this.soundService.playDelete();
   }
 
@@ -58,10 +56,6 @@ export class InstanceComponent implements OnInit {
     const center = this.utilityService.rectGetCenter(boundingClientRect);
     center.x += 10;
     center.y -= 10;
-    const otherInstance: Instance = {
-      element: this.instance().element,
-      center: center,
-    };
-    this.stateService.instances.push(otherInstance);
+    this.stateService.addInstance(this.instance().element, center);
   }
 }

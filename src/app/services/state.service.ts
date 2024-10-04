@@ -2,17 +2,43 @@ import {Injectable} from '@angular/core';
 import {Instance} from '../models/instance.model';
 import {Sort} from '../enums/sort';
 import {FormControl} from '@angular/forms';
+import {StorageElement} from '../models/storage-element.model';
+import {Point} from '../models/point.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StateService {
-  readonly instances: Instance[] = [];
   readonly searchControl = new FormControl('');
+
+  private readonly instances = new Map<number, Instance>();
 
   private deleteMode = false;
   private discoveriesActive = false;
   private sort = Sort.time;
+  private id = 0;
+  private zIndex = 10;
+
+  iterInstances() {
+    return this.instances.values();
+  }
+
+  clearInstances() {
+    this.instances.clear();
+  }
+
+  addInstance(element: StorageElement, center: Point) {
+    const instance: Instance = {
+      id: ++this.id,
+      element: element,
+      center: center,
+    };
+    this.instances.set(instance.id, instance);
+  }
+
+  removeInstance(instance: Instance) {
+    this.instances.delete(instance.id);
+  }
 
   isDeleteMode() {
     return this.deleteMode;
@@ -40,5 +66,9 @@ export class StateService {
 
   nextSort() {
     return (this.sort = ((this.sort + 1) % 3) as Sort);
+  }
+
+  nextZIndex() {
+    return ++this.zIndex;
   }
 }

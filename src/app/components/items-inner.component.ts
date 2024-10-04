@@ -3,7 +3,6 @@ import {ItemComponent} from './item.component';
 import {UtilityService} from '../services/utility.service';
 import {StateService} from '../services/state.service';
 import {DataService} from '../services/data.service';
-import {Instance} from '../models/instance.model';
 import {Sort} from '../enums/sort';
 
 @Component({
@@ -21,12 +20,9 @@ export class ItemsInnerComponent {
   dataService = inject(DataService);
 
   onMouseDownItem(itemComponent: ItemComponent) {
+    const center = this.utilityService.elementRefGetCenter(itemComponent.elementRef);
     if (!this.stateService.isDeleteMode()) {
-      const instance: Instance = {
-        element: itemComponent.element(),
-        center: this.utilityService.elementRefGetCenter(itemComponent.elementRef),
-      };
-      this.stateService.instances.push(instance);
+      this.stateService.addInstance(itemComponent.element(), center);
     }
   }
 

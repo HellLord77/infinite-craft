@@ -81,7 +81,7 @@ export class DataService implements HasToJSON {
     localStorage.removeItem(this.configService.dataKey);
   }
 
-  getElements(): StorageElement[] {
+  getElements() {
     return Array.from(this.elements.values());
   }
 

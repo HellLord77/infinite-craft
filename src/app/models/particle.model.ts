@@ -5,6 +5,7 @@ export interface Particle {
   speed: Point;
   radius: number;
   opacity: number;
+  lineCount?: number;
 }
 
 export function update(particle: Particle, deltaTime: DOMHighResTimeStamp) {

@@ -8,7 +8,6 @@ import {animate, style, transition, trigger} from '@angular/animations';
 import {ApiService} from '../services/api.service';
 import {toStorageElement} from '../models/result.model';
 import {DataService} from '../services/data.service';
-import {Instance} from '../models/instance.model';
 import {getCenter, toTranslate} from '../models/point.model';
 import {SidebarComponent} from './sidebar.component';
 import {PinwheelComponent} from './pinwheel.component';
@@ -39,8 +38,6 @@ import {SoundService} from '../services/sound.service';
   ],
 })
 export class InstancesComponent {
-  zIndex = 10;
-
   instanceComponents = viewChildren(InstanceComponent);
 
   sidebarComponent = input.required<SidebarComponent>();
@@ -56,7 +53,7 @@ export class InstancesComponent {
   private intersectedInstanceComponent: InstanceComponent | null = null;
 
   onInstanceDragStarted(instanceComponent: InstanceComponent) {
-    instanceComponent.zIndex = ++this.zIndex;
+    instanceComponent.zIndex = this.stateService.nextZIndex();
     instanceComponent.itemComponent().instanceSelected = true;
     this.intersectedInstanceComponent = null;
   }
@@ -131,7 +128,7 @@ export class InstancesComponent {
   drop(instanceComponent: InstanceComponent) {
     const instance = instanceComponent.instance();
     if (this.intersectsSidebarComponent) {
-      this.utilityService.arrayRemoveItem(this.stateService.instances, instance);
+      this.stateService.removeInstance(instance);
       this.soundService.playDelete();
     } else {
       const itemComponent = instanceComponent.itemComponent();
@@ -150,13 +147,12 @@ export class InstancesComponent {
             intersectedItemComponent.instanceDisabled = false;
           } else {
             const intersectedInstance = intersectedInstanceComponent.instance();
-            this.utilityService.arrayRemoveItem(this.stateService.instances, instance);
-            this.utilityService.arrayRemoveItem(this.stateService.instances, intersectedInstance);
+            this.stateService.removeInstance(instance);
+            this.stateService.removeInstance(intersectedInstance);
 
             const element = toStorageElement(result);
             const center = getCenter(instance.center, intersectedInstance.center);
-            const otherInstance: Instance = {element: element, center: center};
-            this.stateService.instances.push(otherInstance);
+            this.stateService.addInstance(element, center);
 
             if (!this.dataService.hasElement(element)) {
               this.soundService.playDiscovery();

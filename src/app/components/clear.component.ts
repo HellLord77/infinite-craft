@@ -18,7 +18,7 @@ export class ClearComponent {
   }
 
   @HostListener('click') onClick() {
-    this.stateService.instances.length = 0;
+    this.stateService.clearInstances();
     this.soundService.playDelete();
   }
 }
