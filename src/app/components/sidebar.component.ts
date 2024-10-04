@@ -1,8 +1,15 @@
-import {Component, ElementRef, HostListener, inject, OnInit, viewChild} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  OnInit,
+  viewChild,
+} from '@angular/core';
 import {SidebarControlsComponent} from './sidebar-controls.component';
 import {SidebarInnerComponent} from './sidebar-inner.component';
 import {StateService} from '../services/state.service';
-import {interval} from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,6 +22,7 @@ export class SidebarComponent implements OnInit {
   sidebarControlsComponent = viewChild.required(SidebarControlsComponent);
 
   elementRef: ElementRef<HTMLElement> = inject(ElementRef);
+  changeDetectorRef = inject(ChangeDetectorRef);
   stateService = inject(StateService);
 
   private lastScroll = 0;
@@ -23,7 +31,9 @@ export class SidebarComponent implements OnInit {
     this.onScroll();
 
     this.stateService.searchControl.valueChanges.subscribe(() => {
-      interval().subscribe(() => {
+      this.changeDetectorRef.detectChanges();
+
+      Promise.resolve().then(() => {
         this.elementRef.nativeElement.scrollTop =
           this.stateService.searchControl.value!.length === 0 ? this.lastScroll : 0;
       });

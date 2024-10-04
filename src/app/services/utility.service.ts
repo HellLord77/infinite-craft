@@ -48,8 +48,4 @@ export class UtilityService {
   elementRefGetCenter(elementRef: ElementRef): Point {
     return this.rectGetCenter(this.elementRefGetBoundingClientRect(elementRef));
   }
-
-  isMobile(): boolean {
-    return innerWidth < 800;
-  }
 }
