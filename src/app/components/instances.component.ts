@@ -14,7 +14,7 @@ import {animate, style, transition, trigger} from '@angular/animations';
 import {ApiService} from '../services/api.service';
 import {toStorageElement} from '../models/result.model';
 import {DataService} from '../services/data.service';
-import {get, getCenter, toTranslate} from '../models/point.model';
+import {get, getCenter, Point, toTranslate} from '../models/point.model';
 import {SidebarComponent} from './sidebar.component';
 import {PinwheelComponent} from './pinwheel.component';
 import {SoundService} from '../services/sound.service';
@@ -71,10 +71,11 @@ export class InstancesComponent {
   @HostListener('document:mousemove', ['$event']) onDocumentMouseMove(mouseEvent: MouseEvent) {
     const selectedInstanceComponent = this.selectedInstanceComponent !== null;
     if (selectedInstanceComponent) {
-      const instance = this.selectedInstanceComponent!.instance();
-      instance.center.x = mouseEvent.clientX + this.selectedOffset.x;
-      instance.center.y = mouseEvent.clientY + this.selectedOffset.y;
-      this.selectedInstanceComponent!.translate = toTranslate(instance.center);
+      const center: Point = {
+        x: this.selectedOffset.x + mouseEvent.clientX,
+        y: this.selectedOffset.y + mouseEvent.clientY,
+      };
+      this.selectedInstanceComponent!.setCenter(center);
 
       this.drag();
     }
@@ -192,7 +193,9 @@ export class InstancesComponent {
             const center = getCenter(instance.center, intersectedInstance.center);
             this.stateService.addInstance(element, center);
 
-            if (!this.dataService.hasElement(element)) {
+            if (this.dataService.hasElement(element)) {
+              this.soundService.playInstance();
+            } else {
               this.soundService.playDiscovery();
               this.soundService.playReward();
 

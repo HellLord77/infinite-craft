@@ -6,6 +6,7 @@ import {StateService} from '../services/state.service';
 import {UtilityService} from '../services/utility.service';
 import {InstancesComponent} from './instances.component';
 import {MouseButton} from '../enums/mouse-button';
+import {SoundService} from '../services/sound.service';
 
 @Component({
   selector: 'app-item',
@@ -23,6 +24,7 @@ export class ItemComponent {
   elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   utilityService = inject(UtilityService);
   stateService = inject(StateService);
+  soundService = inject(SoundService);
 
   @HostBinding('class.is-delete-mode') get isDeleteMode() {
     return !this.instance && this.stateService.isDeleteMode();
@@ -35,6 +37,8 @@ export class ItemComponent {
   @HostListener('mousedown', ['$event']) onMouseDown(mouseEvent: MouseEvent) {
     if (mouseEvent.button === MouseButton.Left) {
       if (!this.instance && !this.stateService.isDeleteMode()) {
+        this.soundService.playInstance();
+
         const center = this.utilityService.elementRefGetCenter(this.elementRef);
         this.stateService.addInstance(this.element(), center);
 
@@ -45,10 +49,7 @@ export class ItemComponent {
           const instanceComponent = this.utilityService.arrayLastItem(
             instancesComponent.instanceComponents(),
           )!;
-          instanceComponent.firstMouseDown = {x: mouseEvent.clientX, y: mouseEvent.clientY};
-          instanceComponent.elementRef.nativeElement.dispatchEvent(
-            new MouseEvent('mousedown', mouseEvent),
-          );
+          instanceComponent.onMouseDown(mouseEvent, true);
         });
       }
     }

@@ -27,8 +27,6 @@ import {SidebarComponent} from './sidebar.component';
   styleUrl: './instance.component.css',
 })
 export class InstanceComponent implements OnInit {
-  firstMouseDown: Point | null = null;
-
   @HostBinding('class.selected') selected = false;
   @HostBinding('class.disabled') disabled = false;
   @HostBinding('class.hover') hover = false;
@@ -46,14 +44,22 @@ export class InstanceComponent implements OnInit {
   stateService = inject(StateService);
   soundService = inject(SoundService);
 
+  private firstMouseDown: Point | null = null;
+
   ngOnInit() {
     this.setCenter(this.instance().center);
     this.zIndex = this.stateService.nextZIndex();
     this.itemComponent().instance = true;
   }
 
-  @HostListener('mousedown', ['$event']) onMouseDown(mouseEvent: MouseEvent) {
+  @HostListener('mousedown', ['$event']) onMouseDown(mouseEvent: MouseEvent, simulated = false) {
     if (mouseEvent.button === MouseButton.Left) {
+      if (simulated) {
+        this.firstMouseDown = {x: mouseEvent.clientX, y: mouseEvent.clientY};
+      } else {
+        this.soundService.playInstance(0.09);
+      }
+
       const instancesComponent = this.instancesComponent();
       const instance = this.instance();
       instancesComponent.selectedOffset.x = instance.center.x - mouseEvent.clientX;

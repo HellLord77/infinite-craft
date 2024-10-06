@@ -16,7 +16,7 @@ export class SoundService {
     this.audioElement.load();
 
     this.audioElement.volume = volume;
-    this.audioElement.playbackRate = playbackRate;
+    this.audioElement.playbackRate = playbackRate; // TODO: playbackRate dont work?
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     this.audioElement.play().catch(() => {});
   }
