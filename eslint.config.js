@@ -20,7 +20,7 @@ module.exports = tseslint.config(
     processor: angular.processInlineTemplates,
     rules: {
       "@angular-eslint/directive-selector": [
-        "error",
+        "warn",
         {
           type: "attribute",
           prefix: "app",
@@ -28,7 +28,7 @@ module.exports = tseslint.config(
         },
       ],
       "@angular-eslint/component-selector": [
-        "error",
+        "warn",
         {
           type: "element",
           prefix: "app",
@@ -43,7 +43,6 @@ module.exports = tseslint.config(
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
     ],
-    rules: {},
   },
   {
     files: ["**/*.ts"],
@@ -55,7 +54,7 @@ module.exports = tseslint.config(
         "warn",
         {
           "newlines-between": "always",
-          "alphabetize": {
+          alphabetize: {
             order: "asc",
           },
         },
@@ -70,19 +69,8 @@ module.exports = tseslint.config(
   {
     files: ["**/*.ts"],
     extends: [
-      eslintPluginPrettierRecommended
+      eslintPluginPrettierRecommended,
     ],
   },
   eslintConfigPrettier,
-  {
-    files: ["**/*.ts"],
-    rules: {
-      "prettier/prettier": [
-        "warn",
-        {
-          endOfLine: "auto"
-        }
-      ],
-    },
-  }
 );

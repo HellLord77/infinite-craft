@@ -3,15 +3,15 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
-  OnInit,
   inject,
   input,
+  OnInit,
   viewChild,
 } from '@angular/core';
 
 import {MouseButton} from '../enums/mouse-button';
 import {Instance} from '../models/instance.model';
-import {Point, get, toTranslate, update} from '../models/point.model';
+import {get, Point, toTranslate, update} from '../models/point.model';
 import {SoundService} from '../services/sound.service';
 import {StateService} from '../services/state.service';
 import {UtilityService} from '../services/utility.service';

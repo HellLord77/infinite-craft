@@ -3,9 +3,9 @@ import {
   Component,
   ElementRef,
   HostListener,
-  OnInit,
   inject,
   input,
+  OnInit,
   viewChild,
 } from '@angular/core';
 

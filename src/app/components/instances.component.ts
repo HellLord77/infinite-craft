@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import {finalize} from 'rxjs';
 
-import {Point, get, getCenter, toTranslate} from '../models/point.model';
+import {get, getCenter, Point, toTranslate} from '../models/point.model';
 import {toStorageElement} from '../models/result.model';
 import {ApiService} from '../services/api.service';
 import {DataService} from '../services/data.service';

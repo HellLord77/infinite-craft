@@ -1,8 +1,8 @@
-import {Component, ElementRef, HostListener, OnInit, inject, viewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, inject, OnInit, viewChild} from '@angular/core';
 
 import {Color, get} from '../models/color.model';
 import {Particle, update} from '../models/particle.model';
-import {Point, getDistance} from '../models/point.model';
+import {getDistance, Point} from '../models/point.model';
 import {ConfigService} from '../services/config.service';
 import {DataService} from '../services/data.service';
 import {StateService} from '../services/state.service';

@@ -1,6 +1,6 @@
 import {animate, style, transition, trigger} from '@angular/animations';
 import {Component, HostBinding} from '@angular/core';
-import {Subscription, interval} from 'rxjs';
+import {interval, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-pinwheel',
