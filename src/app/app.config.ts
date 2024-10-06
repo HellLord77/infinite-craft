@@ -6,6 +6,8 @@ import {provideRouter} from '@angular/router';
 import {routes} from './app.routes';
 import {pairCacheInterceptor} from './interceptors/pairCache.interceptor';
 import {pairErrorInterceptor} from './interceptors/pairError.interceptor';
+import {cacheServiceProvider} from './providers/cache.service.provider';
+import {soundServiceProvider} from './providers/sound.service.provider';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,5 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(withFetch(), withInterceptors([pairCacheInterceptor, pairErrorInterceptor])),
+    soundServiceProvider,
+    cacheServiceProvider,
   ],
 };

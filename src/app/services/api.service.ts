@@ -25,6 +25,6 @@ export class ApiService {
   }
 
   requestIsPair(request: HttpRequest<unknown>) {
-    return request.method === 'get' && request.url === this.pairUrl;
+    return request.method === 'GET' && request.url === this.pairUrl;
   }
 }

@@ -1,4 +1,4 @@
-import {HttpContextToken, HttpInterceptorFn, HttpResponse} from '@angular/common/http';
+import {HttpContextToken, HttpInterceptorFn, HttpParams, HttpResponse} from '@angular/common/http';
 import {inject} from '@angular/core';
 import {of, tap} from 'rxjs';
 
@@ -16,15 +16,26 @@ export const pairCacheInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
-  const cachedEvent = req.context.get(CACHE_GET) ? cacheService.get(req.urlWithParams) : undefined;
-  if (cachedEvent !== undefined) {
-    return of(cachedEvent);
+  let params = req.params;
+  const first = params.get('first')!;
+  const second = params.get('second')!;
+  if (first.localeCompare(second) > 0) {
+    params = new HttpParams().set('first', second).set('second', first);
+  }
+  const key = params.toString();
+
+  let cached = null;
+  if (req.context.get(CACHE_GET)) {
+    cached = cacheService.get(key);
+  }
+  if (cached !== null) {
+    return of(cached);
   }
 
   return next(req).pipe(
     tap((event) => {
       if (event instanceof HttpResponse && event.status === 200 && req.context.get(CACHE_SET)) {
-        cacheService.set(req.urlWithParams, event);
+        cacheService.set(key, event);
       }
     }),
   );

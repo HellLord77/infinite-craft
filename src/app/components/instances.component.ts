@@ -135,9 +135,7 @@ export class InstancesComponent {
       const otherBoundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
         this.intersectedInstanceComponent.elementRef,
       );
-      if (this.utilityService.rectIntersects(boundingClientRect, otherBoundingClientRect)) {
-        return;
-      } else {
+      if (!this.utilityService.rectIntersects(boundingClientRect, otherBoundingClientRect)) {
         this.dragLeave();
         this.intersectedInstanceComponent = null;
       }
@@ -162,8 +160,11 @@ export class InstancesComponent {
       }
     }
     if (intersectedInstanceComponent !== null) {
+      const enter = intersectedInstanceComponent !== this.intersectedInstanceComponent;
       this.intersectedInstanceComponent = intersectedInstanceComponent;
-      this.dragEnter();
+      if (enter) {
+        this.dragEnter();
+      }
     }
   }
 
