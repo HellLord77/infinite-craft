@@ -1,4 +1,12 @@
-import {Component, ElementRef, HostListener, inject, OnInit, viewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  NgZone,
+  OnInit,
+  viewChild,
+} from '@angular/core';
 
 import {Color, get} from '../models/color.model';
 import {Particle, update} from '../models/particle.model';
@@ -15,6 +23,7 @@ import {StateService} from '../services/state.service';
   styleUrl: './particles.component.css',
 })
 export class ParticlesComponent implements OnInit {
+  ngZone = inject(NgZone);
   configService = inject(ConfigService);
   stateService = inject(StateService);
   dataService = inject(DataService);
@@ -26,7 +35,7 @@ export class ParticlesComponent implements OnInit {
   private canvasElementRef = viewChild.required<ElementRef<HTMLCanvasElement>>('canvasElement');
 
   ngOnInit() {
-    if (!this.configService.particleIsEnabled) {
+    if (!this.configService.particlesIsEnabled) {
       return;
     }
 
@@ -35,7 +44,7 @@ export class ParticlesComponent implements OnInit {
     this.onWindowResize();
     this.createParticles();
 
-    requestAnimationFrame((time) => this.frameRequestCallback(time));
+    this.frameRequestCallback(0);
   }
 
   @HostListener('window:resize') onWindowResize() {
@@ -63,7 +72,7 @@ export class ParticlesComponent implements OnInit {
 
   createParticles() {
     const count = Math.min(
-      this.configService.particleMinParticleCount,
+      this.configService.particlesMinParticleCount,
       (innerWidth * innerHeight) / 12e3,
     );
     for (let index = 0; index < count; ++index) {
@@ -107,9 +116,9 @@ export class ParticlesComponent implements OnInit {
 
   frameRequestCallback(time: DOMHighResTimeStamp) {
     let deltaTime = time - this.lastTime;
-    if (deltaTime > this.configService.particleMinFrameInterval) {
+    if (deltaTime > this.configService.particlesMinFrameInterval) {
       this.lastTime = time;
-      deltaTime = Math.min(this.configService.particleMaxFrameInterval, deltaTime);
+      deltaTime = Math.min(this.configService.particlesMaxFrameInterval, deltaTime);
 
       for (const particle of this.particles) {
         this.updateParticle(particle, deltaTime);
@@ -133,18 +142,18 @@ export class ParticlesComponent implements OnInit {
       for (const particle of this.particles) {
         for (const instance of this.stateService.iterInstances()) {
           if (
-            particle.lineCount! < this.configService.particleMaxParticleLineCount &&
-            instance.lineCount! < this.configService.particleMaxInstanceLineCount
+            particle.lineCount! < this.configService.particlesMaxParticleLineCount &&
+            instance.lineCount! < this.configService.particlesMaxInstanceLineCount
           ) {
             const lineLength = getDistance(particle.center, instance.center);
-            if (lineLength < this.configService.particleMaxLineLength) {
+            if (lineLength < this.configService.particlesMaxLineLength) {
               ++particle.lineCount!;
               ++instance.lineCount!;
 
               this.drawLine(
                 particle,
                 instance.center,
-                Math.min(1, 1 - lineLength / this.configService.particleMaxLineLength),
+                Math.min(1, 1 - lineLength / this.configService.particlesMaxLineLength),
               );
             }
           }
@@ -152,6 +161,10 @@ export class ParticlesComponent implements OnInit {
       }
     }
 
-    requestAnimationFrame((time) => this.frameRequestCallback(time));
+    requestAnimationFrame((time) =>
+      this.ngZone.runOutsideAngular(() => {
+        this.frameRequestCallback(time);
+      }),
+    );
   }
 }

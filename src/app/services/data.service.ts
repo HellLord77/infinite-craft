@@ -52,10 +52,7 @@ export class DataService implements HasToJSON {
     const elements: Element[] = [
       {text: 'Water', emoji: '💧'},
       {text: 'Fire', emoji: '🔥'},
-      {
-        text: 'Wind',
-        emoji: '🌬️',
-      },
+      {text: 'Wind', emoji: '🌬️'},
       {text: 'Earth', emoji: '🌍'},
     ];
     this.elements = new Map(

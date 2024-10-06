@@ -11,11 +11,11 @@ export class ConfigService {
   // readonly apiBaseUrl = 'https://neal.fun/api/infinite-craft';
   readonly apiBaseUrl = 'http://localhost:8000';
 
-  readonly particleIsEnabled = true;
-  readonly particleMinFrameInterval = 15;
-  readonly particleMaxFrameInterval = 30;
-  readonly particleMinParticleCount = 150;
-  readonly particleMaxParticleLineCount = 3;
-  readonly particleMaxInstanceLineCount = 7;
-  readonly particleMaxLineLength = 250;
+  readonly particlesIsEnabled = true;
+  readonly particlesMinFrameInterval = 15;
+  readonly particlesMaxFrameInterval = 30;
+  readonly particlesMinParticleCount = 150;
+  readonly particlesMaxParticleLineCount = 3;
+  readonly particlesMaxInstanceLineCount = 7;
+  readonly particlesMaxLineLength = 250;
 }

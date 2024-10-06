@@ -45,7 +45,7 @@ export class InstanceComponent implements OnInit {
   stateService = inject(StateService);
   soundService = inject(SoundService);
 
-  private firstMouseDown: Point | null = null;
+  private firstMouseDownPosition: Point | null = null;
 
   ngOnInit() {
     this.setCenter(this.instance().center);
@@ -53,10 +53,13 @@ export class InstanceComponent implements OnInit {
     this.itemComponent().instance = true;
   }
 
-  @HostListener('mousedown', ['$event']) onMouseDown(mouseEvent: MouseEvent, simulated = false) {
+  @HostListener('mousedown', ['$event']) onMouseDown(
+    mouseEvent: MouseEvent,
+    fromItemMouseDown = false,
+  ) {
     if (mouseEvent.button === MouseButton.Left) {
-      if (simulated) {
-        this.firstMouseDown = {x: mouseEvent.clientX, y: mouseEvent.clientY};
+      if (fromItemMouseDown) {
+        this.firstMouseDownPosition = {x: mouseEvent.clientX, y: mouseEvent.clientY};
       } else {
         this.soundService.playInstance(0.09);
       }
@@ -72,10 +75,10 @@ export class InstanceComponent implements OnInit {
 
   @HostListener('mouseup', ['$event']) onMouseUp(mouseEvent: MouseEvent) {
     if (mouseEvent.button === MouseButton.Left) {
-      if (this.firstMouseDown !== null) {
+      if (this.firstMouseDownPosition !== null) {
         if (
-          this.firstMouseDown.x === mouseEvent.clientX &&
-          this.firstMouseDown.y === mouseEvent.clientY
+          this.firstMouseDownPosition.x === mouseEvent.clientX &&
+          this.firstMouseDownPosition.y === mouseEvent.clientY
         ) {
           const angle = 2 * Math.PI * Math.random();
           const offsetX = 50 * Math.sin(angle);
@@ -93,7 +96,7 @@ export class InstanceComponent implements OnInit {
           }
           this.setCenter(center);
         }
-        this.firstMouseDown = null;
+        this.firstMouseDownPosition = null;
       }
     }
   }

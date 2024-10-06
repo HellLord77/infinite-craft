@@ -1,3 +1,9 @@
-@for (element of getSortedElements(); track element.text) {
-  <app-item [element]="element" [instancesComponent]="instancesComponent()" />
+@if (utilityService.isMobile()) {
+  @for (elementRow of getElementRows(); track $index) {
+    <app-items-row [elements]="elementRow" [instancesComponent]="instancesComponent()" />
+  }
+} @else {
+  @for (element of getElements(); track element.text) {
+    <app-item [element]="element" [instancesComponent]="instancesComponent()" />
+  }
 }
