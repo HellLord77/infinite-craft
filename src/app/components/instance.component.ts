@@ -11,7 +11,8 @@ import {
 
 import {MouseButton} from '../enums/mouse-button';
 import {Instance} from '../models/instance.model';
-import {get, Point, toTranslate, update} from '../models/point.model';
+import {clone, get, Point, toTranslate, update} from '../models/point.model';
+import {ConfigService} from '../services/config.service';
 import {SoundService} from '../services/sound.service';
 import {StateService} from '../services/state.service';
 import {UtilityService} from '../services/utility.service';
@@ -42,6 +43,7 @@ export class InstanceComponent implements OnInit {
 
   elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   utilityService = inject(UtilityService);
+  configService = inject(ConfigService);
   stateService = inject(StateService);
   soundService = inject(SoundService);
 
@@ -51,6 +53,30 @@ export class InstanceComponent implements OnInit {
     this.setCenter(this.instance().center);
     this.zIndex = this.stateService.nextZIndex();
     this.itemComponent().instance = true;
+  }
+
+  @HostListener('window:resize') onWindowResize() {
+    let offsetX = 0;
+    let offsetY = 0;
+    if (this.utilityService.isMobile()) {
+      offsetY = -this.sidebarComponent().elementRef.nativeElement.clientHeight;
+    } else {
+      offsetX = -this.sidebarComponent().elementRef.nativeElement.clientWidth;
+    }
+
+    const boundingClientRect = this.utilityService.elementRefGetBoundingClientRect(this.elementRef);
+    const center = clone(this.instance().center);
+
+    const maxRight = offsetX - this.configService.instanceMargin + innerWidth;
+    if (boundingClientRect.right > maxRight) {
+      center.x = maxRight - boundingClientRect.width / 2;
+    }
+    const maxBottom = offsetY - this.configService.instanceMargin + innerHeight;
+    if (boundingClientRect.bottom > maxBottom) {
+      center.y = maxBottom - boundingClientRect.height / 2;
+    }
+
+    this.setCenter(center);
   }
 
   @HostListener('mousedown', ['$event']) onMouseDown(
@@ -108,8 +134,7 @@ export class InstanceComponent implements OnInit {
   }
 
   @HostListener('dblclick') onDblClick() {
-    const boundingClientRect = this.utilityService.elementRefGetBoundingClientRect(this.elementRef);
-    const center = this.utilityService.rectGetCenter(boundingClientRect);
+    const center = this.utilityService.elementRefGetCenter(this.elementRef);
     center.x += 10;
     center.y -= 10;
     this.stateService.addInstance(this.instance().element, center);

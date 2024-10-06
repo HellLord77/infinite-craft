@@ -7,6 +7,10 @@ export function get(): Point {
   return {x: 0, y: 0};
 }
 
+export function clone(point: Point): Point {
+  return {x: point.x, y: point.y};
+}
+
 export function update(point: Point, other: Point) {
   point.x = other.x;
   point.y = other.y;
