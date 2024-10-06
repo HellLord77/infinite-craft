@@ -4,7 +4,6 @@ import {catchError, of} from 'rxjs';
 
 import {Result} from '../models/result.model';
 import {ApiService} from '../services/api.service';
-
 import {CACHE_SET} from './pairCache.interceptor';
 
 export const pairErrorInterceptor: HttpInterceptorFn = (req, next) => {

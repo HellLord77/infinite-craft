@@ -3,7 +3,6 @@ import {Component, inject, input, viewChildren} from '@angular/core';
 import {Sort} from '../enums/sort';
 import {DataService} from '../services/data.service';
 import {StateService} from '../services/state.service';
-
 import {InstancesComponent} from './instances.component';
 import {ItemComponent} from './item.component';
 

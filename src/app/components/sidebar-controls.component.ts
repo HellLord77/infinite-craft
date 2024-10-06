@@ -1,7 +1,6 @@
 import {Component, HostBinding, inject, input} from '@angular/core';
 
 import {DataService} from '../services/data.service';
-
 import {ItemsInnerComponent} from './items-inner.component';
 import {SidebarSearchComponent} from './sidebar-search.component';
 import {SidebarSortingComponent} from './sidebar-sorting.component';

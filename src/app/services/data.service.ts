@@ -4,7 +4,6 @@ import {Element} from '../models/element.model';
 import {HasToJSON} from '../models/has-to-json.model';
 import {InfiniteCraftData} from '../models/infinite-craft-data.model';
 import {instanceOf, StorageElement} from '../models/storage-element.model';
-
 import {ConfigService} from './config.service';
 
 @Injectable({

@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 
 import {StateService} from '../services/state.service';
-
 import {InstancesComponent} from './instances.component';
 import {SidebarControlsComponent} from './sidebar-controls.component';
 import {SidebarInnerComponent} from './sidebar-inner.component';

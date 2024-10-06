@@ -15,7 +15,6 @@ import {get, Point, toTranslate, update} from '../models/point.model';
 import {SoundService} from '../services/sound.service';
 import {StateService} from '../services/state.service';
 import {UtilityService} from '../services/utility.service';
-
 import {InstanceDiscoveredTextComponent} from './instance-discovered-text.component';
 import {InstancesComponent} from './instances.component';
 import {ItemComponent} from './item.component';

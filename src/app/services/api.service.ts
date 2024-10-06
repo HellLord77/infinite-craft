@@ -4,7 +4,6 @@ import {Observable} from 'rxjs';
 
 import {Element} from '../models/element.model';
 import {Result} from '../models/result.model';
-
 import {ConfigService} from './config.service';
 
 @Injectable({

@@ -3,8 +3,7 @@ const eslint = require("@eslint/js");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
 
-const importPlugin = require('eslint-plugin-import');
-
+const simpleImportSort = require("eslint-plugin-simple-import-sort");
 const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
 const eslintConfigPrettier = require("eslint-config-prettier");
 
@@ -46,24 +45,12 @@ module.exports = tseslint.config(
   },
   {
     files: ["**/*.ts"],
-    extends: [
-      importPlugin.flatConfigs.recommended,
-    ],
-    rules: {
-      "import/order": [
-        "warn",
-        {
-          "newlines-between": "always",
-          alphabetize: {
-            order: "asc",
-          },
-        },
-      ],
+    plugins: {
+      "simple-import-sort": simpleImportSort,
     },
-    settings: {
-      "import/resolver": {
-        typescript: true,
-      },
+    rules: {
+      "simple-import-sort/imports": "warn",
+      "simple-import-sort/exports": "warn",
     },
   },
   {

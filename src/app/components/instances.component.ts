@@ -16,7 +16,6 @@ import {DataService} from '../services/data.service';
 import {SoundService} from '../services/sound.service';
 import {StateService} from '../services/state.service';
 import {UtilityService} from '../services/utility.service';
-
 import {InstanceComponent} from './instance.component';
 import {ItemComponent} from './item.component';
 import {PinwheelComponent} from './pinwheel.component';

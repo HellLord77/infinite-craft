@@ -1,7 +1,6 @@
 import {Component, inject, input, viewChild} from '@angular/core';
 
 import {DataService} from '../services/data.service';
-
 import {InstancesComponent} from './instances.component';
 import {InstructionComponent} from './instruction.component';
 import {ItemsInnerComponent} from './items-inner.component';

@@ -3,7 +3,6 @@ import {ReactiveFormsModule} from '@angular/forms';
 
 import {DataService} from '../services/data.service';
 import {StateService} from '../services/state.service';
-
 import {ItemsInnerComponent} from './items-inner.component';
 
 @Component({
