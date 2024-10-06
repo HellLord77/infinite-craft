@@ -18,4 +18,6 @@ export class ConfigService {
   readonly particlesMaxParticleLineCount = 3;
   readonly particlesMaxInstanceLineCount = 7;
   readonly particlesMaxLineLength = 250;
+
+  readonly itemsInnerMaxElementCount = 200;
 }

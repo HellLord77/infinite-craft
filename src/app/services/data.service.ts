@@ -10,6 +10,8 @@ import {ConfigService} from './config.service';
   providedIn: 'root',
 })
 export class DataService implements HasToJSON {
+  elementsChanged = false;
+
   configService = inject(ConfigService);
 
   private elements!: Map<string, StorageElement>;
@@ -80,7 +82,7 @@ export class DataService implements HasToJSON {
   }
 
   getElements() {
-    return Array.from(this.elements.values());
+    return [...this.elements.values()];
   }
 
   hasElement(element: Element) {
@@ -89,16 +91,18 @@ export class DataService implements HasToJSON {
 
   setElement(element: StorageElement) {
     this.elements.set(element.text, element);
+    this.elementsChanged = true;
+    this.store();
+  }
+
+  toggleElementHidden(element: StorageElement) {
+    element.hidden = !element.hidden;
+    this.elementsChanged = true;
     this.store();
   }
 
   isDarkMode() {
     return this.darkMode;
-  }
-
-  toggleElementHidden(element: StorageElement) {
-    element.hidden = !element.hidden;
-    this.store();
   }
 
   toggleDarkMode() {

@@ -2,6 +2,7 @@ import {Component, inject, input} from '@angular/core';
 
 import {Sort} from '../enums/sort';
 import {StorageElement} from '../models/storage-element.model';
+import {ConfigService} from '../services/config.service';
 import {DataService} from '../services/data.service';
 import {StateService} from '../services/state.service';
 import {UtilityService} from '../services/utility.service';
@@ -20,33 +21,54 @@ export class ItemsInnerComponent {
   instancesComponent = input.required<InstancesComponent>();
 
   utilityService = inject(UtilityService);
+  configService = inject(ConfigService);
   stateService = inject(StateService);
   dataService = inject(DataService);
 
+  private cachedKey = '';
+  private cachedValue: StorageElement[] | null = null;
+
   getElements() {
-    // TODO: cache
+    const search = this.stateService.searchControl.value!.toLowerCase();
+    const discoveriesActive = this.stateService.isDiscoveriesActive();
+    const deleteMode = this.stateService.isDeleteMode();
+    const sort = this.stateService.getSort();
+
+    const key = JSON.stringify([search, discoveriesActive, deleteMode, sort]);
+    if (!this.dataService.elementsChanged && this.cachedValue !== null && key === this.cachedKey) {
+      return this.cachedValue;
+    }
 
     let elements = this.dataService.getElements();
-    if (this.stateService.searchControl.value!.length !== 0) {
-      const searchValue = this.stateService.searchControl.value!.toLowerCase();
-      elements = elements.filter((element) => element.text.toLowerCase().includes(searchValue));
+    if (search.length !== 0) {
+      elements = elements.filter((element) => element.text.toLowerCase().includes(search));
     }
-    if (this.stateService.isDiscoveriesActive()) {
+    if (discoveriesActive) {
       elements = elements.filter((element) => element.discovered);
     }
-    if (!this.stateService.isDeleteMode()) {
+    if (!deleteMode) {
       elements = elements.filter((element) => !element.hidden);
     }
+    elements = elements.slice(0, this.configService.itemsInnerMaxElementCount);
 
-    if (this.stateService.getSort() === Sort.name) {
-      return elements.sort((element1, element2) => element1.text.localeCompare(element2.text));
-    } else if (this.stateService.getSort() === Sort.emoji) {
-      return elements.sort((element1, element2) => element1.emoji.localeCompare(element2.emoji));
+    if (sort === Sort.name) {
+      elements = elements.sort((element1, element2) => element1.text.localeCompare(element2.text));
+    } else if (sort === Sort.emoji) {
+      elements = elements.sort((element1, element2) =>
+        element1.emoji.localeCompare(element2.emoji),
+      );
     }
+
+    this.dataService.elementsChanged = false;
+    this.cachedKey = key;
+    this.cachedValue = elements;
+
     return elements;
   }
 
   getElementRows() {
+    // TODO: cache
+
     const elements = this.getElements();
     const rows: StorageElement[][] = [[], [], [], []];
     for (let index = 0; index < elements.length; ++index) {
