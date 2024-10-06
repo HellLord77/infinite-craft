@@ -112,8 +112,6 @@ export class InstancesComponent {
     const boundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
       itemComponent.elementRef,
     );
-    const instance = this.selectedInstanceComponent!.instance();
-    instance.center = this.utilityService.elementRefGetCenter(itemComponent.elementRef);
 
     const sidebarBoundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
       this.sidebarComponent().elementRef,

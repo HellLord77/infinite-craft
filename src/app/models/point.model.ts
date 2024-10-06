@@ -7,6 +7,11 @@ export function get(): Point {
   return {x: 0, y: 0};
 }
 
+export function update(point: Point, other: Point) {
+  point.x = other.x;
+  point.y = other.y;
+}
+
 export function toTranslate(point: Point): string {
   return `${point.x}px ${point.y}px`;
 }

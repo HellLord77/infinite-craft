@@ -12,7 +12,7 @@ import {ItemComponent} from './item.component';
 import {UtilityService} from '../services/utility.service';
 import {Instance} from '../models/instance.model';
 import {StateService} from '../services/state.service';
-import {Point, toTranslate} from '../models/point.model';
+import {get, Point, toTranslate, update} from '../models/point.model';
 import {InstanceDiscoveredTextComponent} from './instance-discovered-text.component';
 import {SoundService} from '../services/sound.service';
 import {InstancesComponent} from './instances.component';
@@ -47,7 +47,7 @@ export class InstanceComponent implements OnInit {
   soundService = inject(SoundService);
 
   ngOnInit() {
-    this.translate = toTranslate(this.instance().center);
+    this.setCenter(this.instance().center);
     this.zIndex = this.stateService.nextZIndex();
     this.itemComponent().instance = true;
   }
@@ -74,17 +74,17 @@ export class InstanceComponent implements OnInit {
           const offsetX = 50 * Math.sin(angle);
           const offsetY = 50 * Math.cos(angle);
 
-          const instance = this.instance();
+          const center = get();
           if (this.utilityService.isMobile()) {
-            instance.center.x = offsetX - 40 + innerWidth / 2;
-            instance.center.y = offsetY - 100 + innerHeight / 2;
+            center.x = offsetX - 40 + innerWidth / 2;
+            center.y = offsetY - 100 + innerHeight / 2;
           } else {
-            instance.center.x =
+            center.x =
               offsetX +
               (innerWidth - this.sidebarComponent().elementRef.nativeElement.clientWidth) / 2;
-            instance.center.y = offsetY - 40 + innerHeight / 2;
+            center.y = offsetY - 40 + innerHeight / 2;
           }
-          this.translate = toTranslate(instance.center);
+          this.setCenter(center);
         }
         this.firstMouseDown = null;
       }
@@ -103,5 +103,10 @@ export class InstanceComponent implements OnInit {
     center.x += 10;
     center.y -= 10;
     this.stateService.addInstance(this.instance().element, center);
+  }
+
+  setCenter(center: Point) {
+    update(this.instance().center, center);
+    this.translate = toTranslate(center);
   }
 }
