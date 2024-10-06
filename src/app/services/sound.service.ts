@@ -11,12 +11,16 @@ export class SoundService {
 
   private instanceRate = 1;
 
+  constructor() {
+    this.audioElement.preservesPitch = false;
+  }
+
   play(src: string, volume: number, playbackRate = 1) {
     this.audioElement.src = src;
     this.audioElement.load();
 
     this.audioElement.volume = volume;
-    this.audioElement.playbackRate = playbackRate; // TODO: playbackRate dont work?
+    this.audioElement.playbackRate = playbackRate;
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     this.audioElement.play().catch(() => {});
   }
