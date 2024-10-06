@@ -59,9 +59,13 @@ export class InstanceComponent implements OnInit {
     let offsetX = 0;
     let offsetY = 0;
     if (this.utilityService.isMobile()) {
-      offsetY = -this.sidebarComponent().elementRef.nativeElement.clientHeight;
+      offsetY = -this.utilityService.elementRefGetBoundingClientRect(
+        this.sidebarComponent().elementRef,
+      ).height;
     } else {
-      offsetX = -this.sidebarComponent().elementRef.nativeElement.clientWidth;
+      offsetX = -this.utilityService.elementRefGetBoundingClientRect(
+        this.sidebarComponent().elementRef,
+      ).width;
     }
 
     const boundingClientRect = this.utilityService.elementRefGetBoundingClientRect(this.elementRef);
@@ -117,7 +121,11 @@ export class InstanceComponent implements OnInit {
           } else {
             center.x =
               offsetX +
-              (innerWidth - this.sidebarComponent().elementRef.nativeElement.clientWidth) / 2;
+              (innerWidth -
+                this.utilityService.elementRefGetBoundingClientRect(
+                  this.sidebarComponent().elementRef,
+                ).width) /
+                2;
             center.y = offsetY - 40 + innerHeight / 2;
           }
           this.setCenter(center);

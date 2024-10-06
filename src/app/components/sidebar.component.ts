@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 
 import {StateService} from '../services/state.service';
+import {UtilityService} from '../services/utility.service';
 import {InstancesComponent} from './instances.component';
 import {SidebarControlsComponent} from './sidebar-controls.component';
 import {SidebarInnerComponent} from './sidebar-inner.component';
@@ -28,6 +29,7 @@ export class SidebarComponent implements OnInit {
 
   elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   changeDetectorRef = inject(ChangeDetectorRef);
+  utilityService = inject(UtilityService);
   stateService = inject(StateService);
 
   private lastScroll = 0;
@@ -48,7 +50,8 @@ export class SidebarComponent implements OnInit {
   @HostListener('window:resize') onWindowResize() {
     this.sidebarControlsComponent().fadeShow =
       this.elementRef.nativeElement.scrollHeight >
-      this.elementRef.nativeElement.scrollTop + this.elementRef.nativeElement.clientHeight;
+      this.elementRef.nativeElement.scrollTop +
+        this.utilityService.elementRefGetBoundingClientRect(this.elementRef).height;
   }
 
   @HostListener('scroll') onScroll() {
