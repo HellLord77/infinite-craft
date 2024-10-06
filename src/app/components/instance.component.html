@@ -1,4 +1,4 @@
-<app-item [element]="instance().element" />
+<app-item [element]="instance().element" [instancesComponent]="instancesComponent()" />
 @if (instance().element.discovered) {
   <app-instance-discovered-text />
 }

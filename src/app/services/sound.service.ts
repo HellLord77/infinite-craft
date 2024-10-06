@@ -39,7 +39,7 @@ export class SoundService {
   }
 
   playReward() {
-    this.play('assets/sounds/reward.mp3', 0.4, this.utilityService.arrayRandomItem([0.9, 1]));
+    this.play('assets/sounds/reward.mp3', 0.4, this.utilityService.arrayRandomItem([0.9, 1])!);
   }
 
   playDelete() {

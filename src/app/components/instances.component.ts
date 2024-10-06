@@ -1,6 +1,12 @@
-import {Component, inject, input, viewChildren} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  inject,
+  input,
+  viewChildren,
+} from '@angular/core';
 import {ItemComponent} from './item.component';
-import {CdkDrag} from '@angular/cdk/drag-drop';
 import {InstanceComponent} from './instance.component';
 import {UtilityService} from '../services/utility.service';
 import {StateService} from '../services/state.service';
@@ -8,7 +14,7 @@ import {animate, style, transition, trigger} from '@angular/animations';
 import {ApiService} from '../services/api.service';
 import {toStorageElement} from '../models/result.model';
 import {DataService} from '../services/data.service';
-import {getCenter, toTranslate} from '../models/point.model';
+import {get, getCenter, toTranslate} from '../models/point.model';
 import {SidebarComponent} from './sidebar.component';
 import {PinwheelComponent} from './pinwheel.component';
 import {SoundService} from '../services/sound.service';
@@ -17,20 +23,17 @@ import {finalize} from 'rxjs';
 @Component({
   selector: 'app-instances',
   standalone: true,
-  imports: [CdkDrag, InstanceComponent, ItemComponent],
+  imports: [InstanceComponent, ItemComponent],
   templateUrl: './instances.component.html',
   styleUrl: './instances.component.css',
   animations: [
     trigger('instance-anim', [
-      transition(':enter', [
-        style({transform: 'scale(0.5)'}),
-        animate('0.13s ease-in', style({transform: 'scale(1)'})),
-      ]),
+      transition(':enter', [style({scale: 0.5}), animate('0.13s ease-in', style({scale: 1}))]),
       transition(':leave', [
         animate(
           '0.16s linear',
           style({
-            transform: 'scale(0)',
+            scale: 0,
             opacity: 0,
           }),
         ),
@@ -39,11 +42,15 @@ import {finalize} from 'rxjs';
   ],
 })
 export class InstancesComponent {
+  selectedOffset = get();
+  selectedInstanceComponent: InstanceComponent | null = null;
+
   instanceComponents = viewChildren(InstanceComponent);
 
   sidebarComponent = input.required<SidebarComponent>();
   pinwheelComponent = input.required<PinwheelComponent>();
 
+  changeDetectorRef = inject(ChangeDetectorRef);
   utilityService = inject(UtilityService);
   stateService = inject(StateService);
   soundService = inject(SoundService);
@@ -53,29 +60,59 @@ export class InstancesComponent {
   private intersectsSidebarComponent = false;
   private intersectedInstanceComponent: InstanceComponent | null = null;
 
-  onInstanceDragStarted(instanceComponent: InstanceComponent) {
-    instanceComponent.zIndex = this.stateService.nextZIndex();
-    instanceComponent.selected = true;
+  @HostListener('document:mouseup') onDocumentMouseUp() {
+    const selectedInstanceComponent = this.selectedInstanceComponent !== null;
+    if (selectedInstanceComponent) {
+      this.dragEnd();
+    }
+    return selectedInstanceComponent;
+  }
+
+  @HostListener('document:mousemove', ['$event']) onDocumentMouseMove(mouseEvent: MouseEvent) {
+    const selectedInstanceComponent = this.selectedInstanceComponent !== null;
+    if (selectedInstanceComponent) {
+      const instance = this.selectedInstanceComponent!.instance();
+      instance.center.x = mouseEvent.clientX + this.selectedOffset.x;
+      instance.center.y = mouseEvent.clientY + this.selectedOffset.y;
+      this.selectedInstanceComponent!.translate = toTranslate(instance.center);
+
+      this.drag();
+    }
+    return selectedInstanceComponent;
+  }
+
+  dragStart() {
+    this.selectedInstanceComponent!.zIndex = this.stateService.nextZIndex();
+    this.selectedInstanceComponent!.selected = true;
     this.intersectedInstanceComponent = null;
   }
 
-  onInstanceDragEnded(instanceComponent: InstanceComponent) {
-    instanceComponent.selected = false;
+  dragEnd() {
+    this.selectedInstanceComponent!.selected = false;
     if (this.intersectsSidebarComponent) {
-      this.drop(instanceComponent);
+      this.drop();
     } else if (this.intersectedInstanceComponent !== null) {
       this.dragLeave();
-      this.drop(instanceComponent);
+      this.drop();
     }
+    this.selectedInstanceComponent = null;
     this.intersectedInstanceComponent = null;
   }
 
-  onInstanceDragMoved(instanceComponent: InstanceComponent) {
-    const itemComponent = instanceComponent.itemComponent();
+  dragEnter() {
+    this.intersectedInstanceComponent!.hover = true;
+  }
+
+  dragLeave() {
+    this.intersectedInstanceComponent!.hover = false;
+  }
+
+  drag() {
+    const itemComponent = this.selectedInstanceComponent!.itemComponent();
     const boundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
       itemComponent.elementRef,
     );
-    const instance = instanceComponent.instance();
+    const instance = this.selectedInstanceComponent!.instance();
     instance.center = this.utilityService.elementRefGetCenter(itemComponent.elementRef);
 
     const sidebarBoundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
@@ -102,7 +139,11 @@ export class InstancesComponent {
     let intersectedInstanceComponent = null;
     for (const otherInstanceComponent of this.instanceComponents()) {
       const otherItemComponent = otherInstanceComponent.itemComponent();
-      if (otherItemComponent !== itemComponent && otherInstanceComponent.zIndex > maxZIndex) {
+      if (
+        otherItemComponent !== itemComponent &&
+        !otherInstanceComponent.disabled &&
+        otherInstanceComponent.zIndex > maxZIndex
+      ) {
         const otherBoundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
           otherItemComponent.elementRef,
         );
@@ -118,31 +159,26 @@ export class InstancesComponent {
     }
   }
 
-  dragEnter() {
-    this.intersectedInstanceComponent!.itemComponent().instanceHover = true;
-  }
-
-  dragLeave() {
-    this.intersectedInstanceComponent!.itemComponent().instanceHover = false;
-  }
-
-  drop(instanceComponent: InstanceComponent) {
-    const instance = instanceComponent.instance();
+  drop() {
+    const instance = this.selectedInstanceComponent!.instance();
     if (this.intersectsSidebarComponent) {
       this.stateService.removeInstance(instance);
       this.soundService.playDelete();
     } else {
-      instanceComponent.disabled = true;
-      const itemComponent = instanceComponent.itemComponent();
+      const selectedInstanceComponent = this.selectedInstanceComponent!;
+      selectedInstanceComponent.disabled = true;
+
       const intersectedInstanceComponent = this.intersectedInstanceComponent!;
       intersectedInstanceComponent.disabled = true;
-      const intersectedItemComponent = intersectedInstanceComponent.itemComponent();
 
       this.apiService
-        .pair(itemComponent.element(), intersectedItemComponent.element())
+        .pair(
+          selectedInstanceComponent.itemComponent().element(),
+          intersectedInstanceComponent.itemComponent().element(),
+        )
         .pipe(
           finalize(() => {
-            instanceComponent.disabled = false;
+            selectedInstanceComponent.disabled = false;
             intersectedInstanceComponent.disabled = false;
           }),
         )

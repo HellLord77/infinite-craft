@@ -1,6 +1,7 @@
-import {Component, viewChild} from '@angular/core';
+import {Component, input, viewChild} from '@angular/core';
 import {ItemsComponent} from './items.component';
 import {EmptySidebarComponent} from './empty-sidebar.component';
+import {InstancesComponent} from './instances.component';
 
 @Component({
   selector: 'app-sidebar-inner',
@@ -10,5 +11,7 @@ import {EmptySidebarComponent} from './empty-sidebar.component';
   styleUrl: './sidebar-inner.component.css',
 })
 export class SidebarInnerComponent {
-  itemComponent = viewChild.required(ItemsComponent);
+  itemsComponent = viewChild.required(ItemsComponent);
+
+  instancesComponent = input.required<InstancesComponent>();
 }

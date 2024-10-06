@@ -3,6 +3,10 @@ export interface Point {
   y: number;
 }
 
+export function get(): Point {
+  return {x: 0, y: 0};
+}
+
 export function toTranslate(point: Point): string {
   return `${point.x}px ${point.y}px`;
 }

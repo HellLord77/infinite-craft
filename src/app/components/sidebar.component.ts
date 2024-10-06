@@ -4,12 +4,14 @@ import {
   ElementRef,
   HostListener,
   inject,
+  input,
   OnInit,
   viewChild,
 } from '@angular/core';
 import {SidebarControlsComponent} from './sidebar-controls.component';
 import {SidebarInnerComponent} from './sidebar-inner.component';
 import {StateService} from '../services/state.service';
+import {InstancesComponent} from './instances.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,6 +22,8 @@ import {StateService} from '../services/state.service';
 })
 export class SidebarComponent implements OnInit {
   sidebarControlsComponent = viewChild.required(SidebarControlsComponent);
+
+  instancesComponent = input.required<InstancesComponent>();
 
   elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   changeDetectorRef = inject(ChangeDetectorRef);

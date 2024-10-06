@@ -1,9 +1,9 @@
-import {Component, inject, viewChildren} from '@angular/core';
+import {Component, inject, input, viewChildren} from '@angular/core';
 import {ItemComponent} from './item.component';
-import {UtilityService} from '../services/utility.service';
 import {StateService} from '../services/state.service';
 import {DataService} from '../services/data.service';
 import {Sort} from '../enums/sort';
+import {InstancesComponent} from './instances.component';
 
 @Component({
   selector: 'app-items-inner',
@@ -15,22 +15,15 @@ import {Sort} from '../enums/sort';
 export class ItemsInnerComponent {
   itemComponents = viewChildren(ItemComponent);
 
-  utilityService = inject(UtilityService);
+  instancesComponent = input.required<InstancesComponent>();
+
   stateService = inject(StateService);
   dataService = inject(DataService);
 
-  onMouseDownItem(itemComponent: ItemComponent) {
-    const center = this.utilityService.elementRefGetCenter(itemComponent.elementRef);
-    if (!this.stateService.isDeleteMode()) {
-      this.stateService.addInstance(itemComponent.element(), center);
-    }
-  }
-
   getFilteredElements() {
     let elements = this.dataService.getElements();
-    let searchValue = this.stateService.searchControl.value!;
-    if (searchValue.length !== 0) {
-      searchValue = searchValue.toLowerCase();
+    if (this.stateService.searchControl.value!.length !== 0) {
+      const searchValue = this.stateService.searchControl.value!.toLowerCase();
       elements = elements.filter((element) => element.text.toLowerCase().includes(searchValue));
     }
     if (this.stateService.isDiscoveriesActive()) {

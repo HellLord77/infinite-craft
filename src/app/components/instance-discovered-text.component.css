@@ -1,5 +1,9 @@
 :host {
   position: absolute;
+  bottom: 3px;
+  transform: translate(-50%, 100%);
+  left: 50%;
+  width: 100%;
   text-align: center;
   font-size: 12px;
   width: 110px;
@@ -25,12 +29,5 @@
 
 :host {
   /* TODO */
-  transform: translateY(200%);
-}
-
-@media screen and (max-width: 800px) {
-  /* TODO */
-  :host {
-    transform: translateY(275%);
-  }
+  transform: translate(-50%, 137.5%);
 }

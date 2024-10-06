@@ -15,11 +15,19 @@ export class UtilityService {
     return array;
   }
 
-  arrayRandomItem<T>(array: T[]): T {
-    return array[Math.floor(Math.random() * array.length)];
+  arrayGetItem<T>(array: readonly T[], index: number): T | null {
+    return index < 0 || index >= array.length ? null : array[index];
   }
 
-  arrayRemoveItem<T>(array: T[] | null | undefined, item: T): void {
+  arrayLastItem<T>(array: readonly T[]): T | null {
+    return this.arrayGetItem(array, array.length - 1);
+  }
+
+  arrayRandomItem<T>(array: readonly T[]): T | null {
+    return this.arrayGetItem(array, Math.floor(Math.random() * array.length));
+  }
+
+  arrayRemoveItem<T>(array: T[] | null | undefined, item: T) {
     if (this.isValid(array)) {
       const index = array.indexOf(item);
       if (index !== -1) {
@@ -45,7 +53,11 @@ export class UtilityService {
     return elementRef.nativeElement.getBoundingClientRect();
   }
 
-  elementRefGetCenter(elementRef: ElementRef): Point {
+  elementRefGetCenter(elementRef: ElementRef) {
     return this.rectGetCenter(this.elementRefGetBoundingClientRect(elementRef));
+  }
+
+  isMobile(): boolean {
+    return innerWidth < 800;
   }
 }

@@ -1,4 +1,4 @@
 @if (itemsComponent.itemsInnerComponent().itemComponents().length === 0) {
   <app-empty-sidebar />
 }
-<app-items #itemsComponent />
+<app-items #itemsComponent [instancesComponent]="instancesComponent()" />

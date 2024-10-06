@@ -10,11 +10,13 @@ import {Sort} from '../enums/sort';
   styleUrl: './sidebar-sort.component.css',
 })
 export class SidebarSortComponent {
-  sort = Sort[Sort.time];
-
   stateService = inject(StateService);
 
   @HostListener('click') onClick() {
-    this.sort = Sort[this.stateService.nextSort()];
+    this.stateService.nextSort();
+  }
+
+  getSort() {
+    return Sort[this.stateService.getSort()];
   }
 }

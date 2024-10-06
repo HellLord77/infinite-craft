@@ -1,10 +1,9 @@
 import {Component, ElementRef, HostListener, inject, OnInit, viewChild} from '@angular/core';
 import {Particle, update} from '../models/particle.model';
 import {StateService} from '../services/state.service';
-import {Color} from '../models/color.model';
+import {Color, get} from '../models/color.model';
 import {getDistance, Point} from '../models/point.model';
 import {DataService} from '../services/data.service';
-import {UtilityService} from '../services/utility.service';
 import {ConfigService} from '../services/config.service';
 
 @Component({
@@ -15,7 +14,6 @@ import {ConfigService} from '../services/config.service';
   styleUrl: './particles.component.css',
 })
 export class ParticlesComponent implements OnInit {
-  utilityService = inject(UtilityService);
   configService = inject(ConfigService);
   stateService = inject(StateService);
   dataService = inject(DataService);
@@ -118,7 +116,7 @@ export class ParticlesComponent implements OnInit {
 
       this.context.clearRect(0, 0, innerWidth, innerHeight);
 
-      const color: Color = {r: 0, g: 0, b: 0};
+      const color = get();
       if (this.dataService.isDarkMode()) {
         color.r = color.g = color.b = 255;
       }

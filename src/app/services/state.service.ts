@@ -65,7 +65,7 @@ export class StateService {
   }
 
   nextSort() {
-    return (this.sort = ((this.sort + 1) % 3) as Sort);
+    this.sort = (this.sort + 1) % 3;
   }
 
   nextZIndex() {

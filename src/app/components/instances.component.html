@@ -1,11 +1,8 @@
 @for (instance of stateService.iterInstances(); track instance.id) {
   <app-instance
     [instance]="instance"
-    #instanceComponent
+    [sidebarComponent]="sidebarComponent()"
+    [instancesComponent]="this"
     @instance-anim
-    (cdkDragStarted)="onInstanceDragStarted(instanceComponent)"
-    (cdkDragEnded)="onInstanceDragEnded(instanceComponent)"
-    (cdkDragMoved)="onInstanceDragMoved(instanceComponent)"
-    cdkDrag
   />
 }
