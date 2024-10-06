@@ -1,8 +1,10 @@
 import {Component, inject, input, viewChild} from '@angular/core';
-import {ItemsInnerComponent} from './items-inner.component';
+
 import {DataService} from '../services/data.service';
-import {InstructionComponent} from './instruction.component';
+
 import {InstancesComponent} from './instances.component';
+import {InstructionComponent} from './instruction.component';
+import {ItemsInnerComponent} from './items-inner.component';
 
 @Component({
   selector: 'app-items',

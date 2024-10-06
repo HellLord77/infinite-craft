@@ -1,8 +1,10 @@
-import {inject, Injectable} from '@angular/core';
-import {Element} from '../models/element.model';
-import {Observable} from 'rxjs';
-import {Result} from '../models/result.model';
 import {HttpClient, HttpParams, HttpRequest} from '@angular/common/http';
+import {Injectable, inject} from '@angular/core';
+import {Observable} from 'rxjs';
+
+import {Element} from '../models/element.model';
+import {Result} from '../models/result.model';
+
 import {ConfigService} from './config.service';
 
 @Injectable({

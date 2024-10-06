@@ -1,8 +1,9 @@
 import {HttpContextToken, HttpInterceptorFn, HttpResponse} from '@angular/common/http';
 import {inject} from '@angular/core';
-import {CacheService} from '../services/cache.service';
 import {of, tap} from 'rxjs';
+
 import {ApiService} from '../services/api.service';
+import {CacheService} from '../services/cache.service';
 
 export const CACHE_GET = new HttpContextToken(() => true);
 export const CACHE_SET = new HttpContextToken(() => true);

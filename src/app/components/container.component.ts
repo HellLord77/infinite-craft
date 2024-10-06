@@ -1,13 +1,15 @@
 import {Component, HostBinding, inject} from '@angular/core';
-import {SidebarComponent} from './sidebar.component';
-import {SideControlsComponent} from './side-controls.component';
-import {ResetComponent} from './reset.component';
-import {LogoComponent} from './logo.component';
-import {InstancesComponent} from './instances.component';
-import {PinwheelComponent} from './pinwheel.component';
-import {ParticlesComponent} from './particles.component';
-import {SideControlsMobileComponent} from './side-controls-mobile.component';
+
 import {DataService} from '../services/data.service';
+
+import {InstancesComponent} from './instances.component';
+import {LogoComponent} from './logo.component';
+import {ParticlesComponent} from './particles.component';
+import {PinwheelComponent} from './pinwheel.component';
+import {ResetComponent} from './reset.component';
+import {SideControlsMobileComponent} from './side-controls-mobile.component';
+import {SideControlsComponent} from './side-controls.component';
+import {SidebarComponent} from './sidebar.component';
 
 @Component({
   selector: 'app-container',

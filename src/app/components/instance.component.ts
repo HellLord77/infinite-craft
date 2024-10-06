@@ -3,20 +3,22 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
+  OnInit,
   inject,
   input,
-  OnInit,
   viewChild,
 } from '@angular/core';
-import {ItemComponent} from './item.component';
-import {UtilityService} from '../services/utility.service';
-import {Instance} from '../models/instance.model';
-import {StateService} from '../services/state.service';
-import {get, Point, toTranslate, update} from '../models/point.model';
-import {InstanceDiscoveredTextComponent} from './instance-discovered-text.component';
-import {SoundService} from '../services/sound.service';
-import {InstancesComponent} from './instances.component';
+
 import {MouseButton} from '../enums/mouse-button';
+import {Instance} from '../models/instance.model';
+import {Point, get, toTranslate, update} from '../models/point.model';
+import {SoundService} from '../services/sound.service';
+import {StateService} from '../services/state.service';
+import {UtilityService} from '../services/utility.service';
+
+import {InstanceDiscoveredTextComponent} from './instance-discovered-text.component';
+import {InstancesComponent} from './instances.component';
+import {ItemComponent} from './item.component';
 import {SidebarComponent} from './sidebar.component';
 
 @Component({

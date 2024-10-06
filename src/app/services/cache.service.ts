@@ -1,5 +1,6 @@
-import {inject, Injectable} from '@angular/core';
 import {HttpEvent} from '@angular/common/http';
+import {Injectable, inject} from '@angular/core';
+
 import {ConfigService} from './config.service';
 
 @Injectable({

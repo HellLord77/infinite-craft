@@ -1,4 +1,5 @@
 import {ElementRef, Injectable} from '@angular/core';
+
 import {Point} from '../models/point.model';
 
 @Injectable({

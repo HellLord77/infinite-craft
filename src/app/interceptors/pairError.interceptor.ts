@@ -1,9 +1,11 @@
 import {HttpInterceptorFn, HttpResponse} from '@angular/common/http';
-import {catchError, of} from 'rxjs';
-import {CACHE_SET} from './pairCache.interceptor';
-import {Result} from '../models/result.model';
 import {inject} from '@angular/core';
+import {catchError, of} from 'rxjs';
+
+import {Result} from '../models/result.model';
 import {ApiService} from '../services/api.service';
+
+import {CACHE_SET} from './pairCache.interceptor';
 
 export const pairErrorInterceptor: HttpInterceptorFn = (req, next) => {
   const apiService = inject(ApiService);

@@ -1,4 +1,5 @@
 import {Component, HostListener, inject} from '@angular/core';
+
 import {SoundService} from '../services/sound.service';
 
 @Component({

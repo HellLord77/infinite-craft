@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+
 import {SidebarDiscoveriesComponent} from './sidebar-discoveries.component';
 import {SidebarSortComponent} from './sidebar-sort.component';
 

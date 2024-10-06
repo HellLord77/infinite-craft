@@ -1,4 +1,5 @@
 import {Component, HostListener, inject} from '@angular/core';
+
 import {DataService} from '../services/data.service';
 
 @Component({

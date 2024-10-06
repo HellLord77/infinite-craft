@@ -1,3 +1,4 @@
+import {animate, style, transition, trigger} from '@angular/animations';
 import {
   ChangeDetectorRef,
   Component,
@@ -6,19 +7,20 @@ import {
   input,
   viewChildren,
 } from '@angular/core';
-import {ItemComponent} from './item.component';
-import {InstanceComponent} from './instance.component';
-import {UtilityService} from '../services/utility.service';
-import {StateService} from '../services/state.service';
-import {animate, style, transition, trigger} from '@angular/animations';
-import {ApiService} from '../services/api.service';
-import {toStorageElement} from '../models/result.model';
-import {DataService} from '../services/data.service';
-import {get, getCenter, Point, toTranslate} from '../models/point.model';
-import {SidebarComponent} from './sidebar.component';
-import {PinwheelComponent} from './pinwheel.component';
-import {SoundService} from '../services/sound.service';
 import {finalize} from 'rxjs';
+
+import {Point, get, getCenter, toTranslate} from '../models/point.model';
+import {toStorageElement} from '../models/result.model';
+import {ApiService} from '../services/api.service';
+import {DataService} from '../services/data.service';
+import {SoundService} from '../services/sound.service';
+import {StateService} from '../services/state.service';
+import {UtilityService} from '../services/utility.service';
+
+import {InstanceComponent} from './instance.component';
+import {ItemComponent} from './item.component';
+import {PinwheelComponent} from './pinwheel.component';
+import {SidebarComponent} from './sidebar.component';
 
 @Component({
   selector: 'app-instances',

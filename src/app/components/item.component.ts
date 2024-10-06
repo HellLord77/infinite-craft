@@ -1,12 +1,14 @@
 import {Component, ElementRef, HostBinding, HostListener, inject, input} from '@angular/core';
-import {ItemEmojiComponent} from './item-emoji.component';
-import {ItemRemoveComponent} from './item-remove.component';
+
+import {MouseButton} from '../enums/mouse-button';
 import {StorageElement} from '../models/storage-element.model';
+import {SoundService} from '../services/sound.service';
 import {StateService} from '../services/state.service';
 import {UtilityService} from '../services/utility.service';
+
 import {InstancesComponent} from './instances.component';
-import {MouseButton} from '../enums/mouse-button';
-import {SoundService} from '../services/sound.service';
+import {ItemEmojiComponent} from './item-emoji.component';
+import {ItemRemoveComponent} from './item-remove.component';
 
 @Component({
   selector: 'app-item',

@@ -1,6 +1,7 @@
 import {Component, HostListener, inject} from '@angular/core';
-import {StateService} from '../services/state.service';
+
 import {SoundService} from '../services/sound.service';
+import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-clear',

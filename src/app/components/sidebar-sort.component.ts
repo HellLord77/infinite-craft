@@ -1,6 +1,7 @@
 import {Component, HostListener, inject} from '@angular/core';
-import {StateService} from '../services/state.service';
+
 import {Sort} from '../enums/sort';
+import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-sidebar-sort',

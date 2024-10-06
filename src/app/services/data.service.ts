@@ -1,8 +1,10 @@
-import {inject, Injectable} from '@angular/core';
-import {InfiniteCraftData} from '../models/infinite-craft-data.model';
-import {HasToJSON} from '../models/has-to-json.model';
-import {instanceOf, StorageElement} from '../models/storage-element.model';
+import {Injectable, inject} from '@angular/core';
+
 import {Element} from '../models/element.model';
+import {HasToJSON} from '../models/has-to-json.model';
+import {InfiniteCraftData} from '../models/infinite-craft-data.model';
+import {StorageElement, instanceOf} from '../models/storage-element.model';
+
 import {ConfigService} from './config.service';
 
 @Injectable({

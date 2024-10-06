@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+
 import {EmptySidebarIconComponent} from './empty-sidebar-icon.component';
 
 @Component({

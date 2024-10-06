@@ -1,7 +1,8 @@
 import {Component, input} from '@angular/core';
-import {SidebarInputComponent} from './sidebar-input.component';
-import {SidebarInputCloseComponent} from './sidebar-input-close.component';
+
 import {ItemsInnerComponent} from './items-inner.component';
+import {SidebarInputCloseComponent} from './sidebar-input-close.component';
+import {SidebarInputComponent} from './sidebar-input.component';
 
 @Component({
   selector: 'app-sidebar-search',

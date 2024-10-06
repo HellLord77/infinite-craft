@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Instance} from '../models/instance.model';
-import {Sort} from '../enums/sort';
 import {FormControl} from '@angular/forms';
-import {StorageElement} from '../models/storage-element.model';
+
+import {Sort} from '../enums/sort';
+import {Instance} from '../models/instance.model';
 import {Point} from '../models/point.model';
+import {StorageElement} from '../models/storage-element.model';
 
 @Injectable({
   providedIn: 'root',

@@ -1,8 +1,10 @@
 import {Component, HostBinding, inject, input} from '@angular/core';
-import {SidebarSortingComponent} from './sidebar-sorting.component';
-import {SidebarSearchComponent} from './sidebar-search.component';
+
 import {DataService} from '../services/data.service';
+
 import {ItemsInnerComponent} from './items-inner.component';
+import {SidebarSearchComponent} from './sidebar-search.component';
+import {SidebarSortingComponent} from './sidebar-sorting.component';
 
 @Component({
   selector: 'app-sidebar-controls',

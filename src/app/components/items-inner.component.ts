@@ -1,9 +1,11 @@
 import {Component, inject, input, viewChildren} from '@angular/core';
-import {ItemComponent} from './item.component';
-import {StateService} from '../services/state.service';
-import {DataService} from '../services/data.service';
+
 import {Sort} from '../enums/sort';
+import {DataService} from '../services/data.service';
+import {StateService} from '../services/state.service';
+
 import {InstancesComponent} from './instances.component';
+import {ItemComponent} from './item.component';
 
 @Component({
   selector: 'app-items-inner',

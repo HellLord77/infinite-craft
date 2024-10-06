@@ -1,7 +1,9 @@
 import {Component, ElementRef, HostListener, inject, input, viewChild} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+
 import {DataService} from '../services/data.service';
 import {StateService} from '../services/state.service';
-import {ReactiveFormsModule} from '@angular/forms';
+
 import {ItemsInnerComponent} from './items-inner.component';
 
 @Component({
