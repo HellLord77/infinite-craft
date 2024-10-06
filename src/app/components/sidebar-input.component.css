@@ -25,11 +25,11 @@ input.dark-mode::placeholder {
 }
 
 input:after {
-  content: "";
+  content: '';
   left: 10px;
   top: 50%;
   font-size: 20px;
-  pointer-events: none
+  pointer-events: none;
 }
 
 input::after {

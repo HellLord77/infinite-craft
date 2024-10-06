@@ -12,20 +12,20 @@
 }
 
 :host(:after) {
-  content: "";
+  content: '';
   position: absolute;
   top: -30px;
   left: 0;
   width: 100%;
   height: 30px;
-  background: linear-gradient(180deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, .9));
+  background: linear-gradient(180deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, 0.9));
   pointer-events: none;
   opacity: 0;
-  transition: opacity .15s linear;
+  transition: opacity 0.15s linear;
 }
 
 :host(.dark-mode:after) {
-  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .9));
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.9));
 }
 
 :host(.fade-show:after) {

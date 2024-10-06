@@ -4,7 +4,7 @@
   margin-right: auto;
   padding: 9px;
   min-height: calc(100svh - 71px);
-  line-height: .5em;
+  line-height: 0.5em;
 }
 
 @media screen and (min-width: 1150px) {

@@ -11,13 +11,13 @@ app-item {
   align-items: center;
   contain: layout;
   border: 1px solid var(--instance-border);
-  background: var(--instance-bg)
+  background: var(--instance-bg);
 }
 
 app-item {
   -webkit-user-select: none;
   -moz-user-select: none;
-  user-select: none
+  user-select: none;
 }
 
 :host(::ng-deep) app-item-emoji {

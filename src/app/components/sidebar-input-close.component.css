@@ -10,14 +10,14 @@ img {
   right: 10px;
   top: calc(50% + 1px);
   cursor: pointer;
-  opacity: .45;
-  width: 15px
+  opacity: 0.45;
+  width: 15px;
 }
 
 @media screen and (min-width: 1150px) {
   :host {
     width: 18px;
-    right: 12px
+    right: 12px;
   }
 }
 
