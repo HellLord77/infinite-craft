@@ -55,4 +55,8 @@ export class ItemComponent {
       }
     }
   }
+
+  @HostListener('touchstart', ['$event']) onTouchStart(touchEvent: TouchEvent) {
+    this.onMouseDown(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
+  }
 }

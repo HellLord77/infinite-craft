@@ -83,6 +83,14 @@ export class InstancesComponent {
     return selectedInstanceComponent;
   }
 
+  @HostListener('document:touchend') onDocumentTouchEnd() {
+    this.onDocumentMouseUp();
+  }
+
+  @HostListener('document:touchmove', ['$event']) onDocumentTouchMove(touchEvent: TouchEvent) {
+    this.onDocumentMouseMove(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
+  }
+
   dragStart() {
     this.selectedInstanceComponent!.zIndex = this.stateService.nextZIndex();
     this.selectedInstanceComponent!.selected = true;

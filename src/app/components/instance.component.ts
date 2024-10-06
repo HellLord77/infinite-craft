@@ -135,6 +135,14 @@ export class InstanceComponent implements OnInit {
     }
   }
 
+  @HostListener('touchstart', ['$event']) onTouchStart(touchEvent: TouchEvent) {
+    this.onMouseDown(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
+  }
+
+  @HostListener('touchend', ['$event']) onTouchEnd(touchEvent: TouchEvent) {
+    this.onMouseUp(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
+  }
+
   @HostListener('contextmenu') onContextMenu() {
     this.stateService.removeInstance(this.instance());
     this.soundService.playDelete();

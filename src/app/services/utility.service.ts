@@ -1,5 +1,6 @@
 import {ElementRef, Injectable} from '@angular/core';
 
+import {MouseButton} from '../enums/mouse-button';
 import {Point} from '../models/point.model';
 
 @Injectable({
@@ -56,6 +57,34 @@ export class UtilityService {
 
   elementRefGetCenter(elementRef: ElementRef) {
     return this.rectGetCenter(this.elementRefGetBoundingClientRect(elementRef));
+  }
+
+  touchEventGetMouseEvent(touchEvent: TouchEvent): MouseEvent | null {
+    let type: string;
+    switch (touchEvent.type) {
+      case 'touchstart':
+        type = 'mousedown';
+        break;
+      case 'touchmove':
+        type = 'mousemove';
+        break;
+      case 'touchend':
+        type = 'mouseup';
+        break;
+      default:
+        return null;
+    }
+
+    const touch = touchEvent.touches[0];
+    return new MouseEvent(type, {
+      button: MouseButton.Left,
+      buttons: 1,
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+      relatedTarget: touch.target,
+      screenX: touch.screenX,
+      screenY: touch.screenY,
+    });
   }
 
   isMobile(): boolean {
