@@ -48,16 +48,20 @@ export class SidebarComponent implements OnInit {
   }
 
   @HostListener('window:resize') onWindowResize() {
-    this.sidebarControlsComponent().fadeShow =
-      this.elementRef.nativeElement.scrollHeight >
-      this.elementRef.nativeElement.scrollTop +
-        this.utilityService.elementRefGetBoundingClientRect(this.elementRef).height;
+    this.updateFadeShow();
   }
 
   @HostListener('scroll') onScroll() {
     if (this.stateService.searchControl.value!.length === 0) {
       this.lastScroll = this.elementRef.nativeElement.scrollTop;
     }
-    this.onWindowResize();
+    this.updateFadeShow();
+  }
+
+  updateFadeShow() {
+    this.sidebarControlsComponent().fadeShow =
+      this.elementRef.nativeElement.scrollHeight >
+      this.elementRef.nativeElement.scrollTop +
+        this.utilityService.elementRefGetBoundingClientRect(this.elementRef).height;
   }
 }

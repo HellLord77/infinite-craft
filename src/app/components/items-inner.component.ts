@@ -71,7 +71,7 @@ export class ItemsInnerComponent {
     this.cachedValue = elements;
 
     Promise.resolve().then(() => {
-      this.sidebarComponent().onWindowResize();
+      this.sidebarComponent().updateFadeShow();
     });
 
     return elements;
