@@ -39,7 +39,6 @@ export class SidebarComponent implements OnInit {
 
     this.stateService.searchControl.valueChanges.subscribe(() => {
       this.changeDetectorRef.detectChanges();
-
       Promise.resolve().then(() => {
         this.elementRef.nativeElement.scrollTop =
           this.stateService.searchControl.value!.length === 0 ? this.lastScroll : 0;

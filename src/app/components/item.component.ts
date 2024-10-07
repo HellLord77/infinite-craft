@@ -53,6 +53,8 @@ export class ItemComponent {
   }
 
   @HostListener('touchstart', ['$event']) onTouchStart(touchEvent: TouchEvent) {
-    return this.onMouseDown(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
+    const instancesComponent = this.instancesComponent();
+    instancesComponent.touchedTouchEvent = touchEvent;
+    instancesComponent.touchedItemComponent = this;
   }
 }

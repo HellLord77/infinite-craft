@@ -79,7 +79,12 @@ export class UtilityService {
         return null;
     }
 
-    const touch = touchEvent.touches[0];
+    const touch =
+      touchEvent.touches[0] ?? touchEvent.targetTouches[0] ?? touchEvent.changedTouches[0];
+    if (touch === undefined) {
+      return null;
+    }
+
     return new MouseEvent(type, {
       button: MouseButton.Left,
       buttons: 1,

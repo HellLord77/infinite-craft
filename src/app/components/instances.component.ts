@@ -44,9 +44,11 @@ import {SidebarComponent} from './sidebar.component';
   ],
 })
 export class InstancesComponent {
+  touchedTouchEvent?: TouchEvent;
+  touchedItemComponent?: ItemComponent;
   selectedInstanceComponent?: InstanceComponent;
 
-  selectedOffset = get();
+  readonly selectedOffset = get();
 
   instanceComponents = viewChildren(InstanceComponent);
 
@@ -63,12 +65,9 @@ export class InstancesComponent {
   private intersectedInstanceComponent?: InstanceComponent;
 
   @HostListener('document:mouseup', ['$event']) onDocumentMouseUp(mouseEvent: MouseEvent) {
-    if (this.selectedInstanceComponent === undefined) {
-      return true;
+    if (this.selectedInstanceComponent !== undefined) {
+      this.dragEnd(mouseEvent);
     }
-
-    this.dragEnd(mouseEvent);
-    return false;
   }
 
   @HostListener('document:mousemove', ['$event']) onDocumentMouseMove(mouseEvent: MouseEvent) {
@@ -86,12 +85,32 @@ export class InstancesComponent {
     return false;
   }
 
-  @HostListener('document:touchend', ['$touchEvent']) onDocumentTouchEnd(touchEvent: TouchEvent) {
-    return this.onDocumentMouseUp(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
+  @HostListener('document:touchend', ['$event']) onDocumentTouchEnd(touchEvent: TouchEvent) {
+    this.onDocumentMouseUp(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
   }
 
   @HostListener('document:touchmove', ['$event']) onDocumentTouchMove(touchEvent: TouchEvent) {
-    return this.onDocumentMouseMove(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
+    if (this.touchedTouchEvent !== undefined) {
+      const mouseEvent = this.utilityService.touchEventGetMouseEvent(touchEvent)!;
+      const touchedMouseEvent = this.utilityService.touchEventGetMouseEvent(
+        this.touchedTouchEvent,
+      )!;
+
+      const deltaX = Math.abs(mouseEvent.clientX - touchedMouseEvent.clientX);
+      const deltaY = Math.abs(mouseEvent.clientY - touchedMouseEvent.clientY);
+
+      if (
+        (this.utilityService.isMobile() ? Math.atan2(deltaY, deltaX) : Math.atan2(deltaX, deltaY)) >
+        0.7
+      ) {
+        this.touchedItemComponent!.onMouseDown(touchedMouseEvent);
+      }
+
+      this.touchedTouchEvent = undefined;
+      this.touchedItemComponent = undefined;
+    }
+
+    this.onDocumentMouseMove(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
   }
 
   dragStart() {
@@ -105,7 +124,7 @@ export class InstancesComponent {
     selectedInstanceComponent.selected = false;
     this.dragLeave();
 
-    if (selectedInstanceComponent.onMouseUp(mouseEvent)) {
+    if (!selectedInstanceComponent.onMouseUp(mouseEvent)) {
       this.drop();
     }
 

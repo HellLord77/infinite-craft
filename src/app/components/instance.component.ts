@@ -8,6 +8,7 @@ import {
   OnInit,
   viewChild,
 } from '@angular/core';
+import {Subscription, timer} from 'rxjs';
 
 import {MouseButton} from '../enums/mouse-button';
 import {Instance} from '../models/instance.model';
@@ -48,6 +49,9 @@ export class InstanceComponent implements OnInit {
   soundService = inject(SoundService);
 
   private firstMouseDownPosition?: Point;
+  private subscriptionTouchLong?: Subscription;
+
+  private lastTouchStart = 0;
 
   ngOnInit() {
     this.setCenter(this.instance().center);
@@ -63,24 +67,52 @@ export class InstanceComponent implements OnInit {
     mouseEvent: MouseEvent,
     fromItemMouseDown = false,
   ) {
-    if (mouseEvent.button === MouseButton.Left) {
-      if (fromItemMouseDown) {
-        this.firstMouseDownPosition = {x: mouseEvent.clientX, y: mouseEvent.clientY};
-      } else {
-        this.soundService.playInstance(0.09);
-      }
-
-      const instancesComponent = this.instancesComponent();
-      const instance = this.instance();
-      instancesComponent.selectedOffset.x = instance.center.x - mouseEvent.clientX;
-      instancesComponent.selectedOffset.y = instance.center.y - mouseEvent.clientY;
-      instancesComponent.selectedInstanceComponent = this;
-      this.instancesComponent().dragStart();
+    if (mouseEvent.button !== MouseButton.Left) {
+      return true;
     }
+
+    if (fromItemMouseDown) {
+      this.firstMouseDownPosition = {x: mouseEvent.clientX, y: mouseEvent.clientY};
+    } else {
+      this.soundService.playInstance(0.09);
+    }
+
+    const instancesComponent = this.instancesComponent();
+    const instance = this.instance();
+    instancesComponent.selectedOffset.x = instance.center.x - mouseEvent.clientX;
+    instancesComponent.selectedOffset.y = instance.center.y - mouseEvent.clientY;
+    instancesComponent.selectedInstanceComponent = this;
+
+    this.instancesComponent().dragStart();
+    return false;
   }
 
   @HostListener('touchstart', ['$event']) onTouchStart(touchEvent: TouchEvent) {
+    const touchStart = Date.now();
+    if (touchStart - this.lastTouchStart <= 500) {
+      this.onDblClick();
+      return false;
+    }
+    this.lastTouchStart = touchStart;
+
+    this.onTouchMove();
+
     return this.onMouseDown(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
+  }
+
+  @HostListener('touchend') onTouchEnd() {
+    if (this.subscriptionTouchLong !== undefined) {
+      this.subscriptionTouchLong.unsubscribe();
+      this.subscriptionTouchLong = undefined;
+    }
+  }
+
+  @HostListener('touchmove') onTouchMove() {
+    this.onTouchEnd();
+
+    this.subscriptionTouchLong = timer(500).subscribe(() => {
+      this.onContextMenu();
+    });
   }
 
   @HostListener('contextmenu') onContextMenu() {
@@ -103,40 +135,40 @@ export class InstanceComponent implements OnInit {
   }
 
   onMouseUp(mouseEvent: MouseEvent) {
-    if (this.firstMouseDownPosition !== undefined) {
-      // TODO: handle dragEvent.start === dragEvent.end
-      const notDragged =
-        this.firstMouseDownPosition.x === mouseEvent.clientX &&
-        this.firstMouseDownPosition.y === mouseEvent.clientY;
+    if (this.firstMouseDownPosition === undefined) {
+      return false;
+    }
 
-      if (notDragged) {
-        const angle = 2 * Math.PI * Math.random();
-        const offsetX = 50 * Math.sin(angle);
-        const offsetY = 50 * Math.cos(angle);
+    // TODO: handle dragEvent.start === dragEvent.end
+    const notDragged =
+      this.firstMouseDownPosition.x === mouseEvent.clientX &&
+      this.firstMouseDownPosition.y === mouseEvent.clientY;
 
-        const center = get();
-        if (this.utilityService.isMobile()) {
-          center.x = offsetX - 40 + innerWidth / 2;
-          center.y = offsetY - 100 + innerHeight / 2;
-        } else {
-          center.x =
-            offsetX +
-            (innerWidth -
-              this.utilityService.elementRefGetBoundingClientRect(
-                this.sidebarComponent().elementRef,
-              ).width) /
-              2;
-          center.y = offsetY - 40 + innerHeight / 2;
-        }
+    if (notDragged) {
+      const angle = 2 * Math.PI * Math.random();
+      const offsetX = 50 * Math.sin(angle);
+      const offsetY = 50 * Math.cos(angle);
 
-        this.setCenter(center);
-        this.updateCenter();
+      const center = get();
+      if (this.utilityService.isMobile()) {
+        center.x = offsetX - 40 + innerWidth / 2;
+        center.y = offsetY - 100 + innerHeight / 2;
+      } else {
+        center.x =
+          offsetX +
+          (innerWidth -
+            this.utilityService.elementRefGetBoundingClientRect(this.sidebarComponent().elementRef)
+              .width) /
+            2;
+        center.y = offsetY - 40 + innerHeight / 2;
       }
 
-      this.firstMouseDownPosition = undefined;
-      return !notDragged;
+      this.setCenter(center);
+      this.updateCenter();
     }
-    return true;
+
+    this.firstMouseDownPosition = undefined;
+    return notDragged;
   }
 
   setCenter(center: Point) {
@@ -158,19 +190,18 @@ export class InstanceComponent implements OnInit {
     }
 
     const center = clone(this.instance().center);
-    const halfWidth = this.elementRef.nativeElement.offsetWidth / 2;
-    const halfHeight = this.elementRef.nativeElement.offsetHeight / 2;
+    const width = this.elementRef.nativeElement.offsetWidth;
+    const height = this.elementRef.nativeElement.offsetHeight;
 
-    center.x = this.utilityService.numberClamp(
-      center.x,
-      this.configService.instanceMarginX + halfWidth,
-      offsetX - this.configService.instanceMarginX + innerWidth - halfWidth,
-    );
-    center.y = this.utilityService.numberClamp(
-      center.y,
-      this.configService.instanceMarginY + halfHeight,
-      offsetY - this.configService.instanceMarginY + innerHeight - halfHeight,
-    );
+    const minX = this.configService.instanceMarginX + width / 2;
+    const maxX = offsetX - this.configService.instanceMarginX + innerWidth - width / 2;
+    center.x =
+      minX > maxX ? (minX + maxX) / 2 : this.utilityService.numberClamp(center.x, minX, maxX);
+
+    const minY = this.configService.instanceMarginY + height / 2;
+    const maxY = offsetY - this.configService.instanceMarginY + innerHeight - height / 2;
+    center.y =
+      minY > maxY ? (minY + maxY) / 2 : this.utilityService.numberClamp(center.y, minY, maxY);
 
     this.setCenter(center);
   }
