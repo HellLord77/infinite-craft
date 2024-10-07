@@ -16,7 +16,25 @@ export function update(point: Point, other: Point) {
   point.y = other.y;
 }
 
-export function toTranslate(point: Point): string {
+export function equals(point: Point, other: Point) {
+  return point.x === other.x && point.y === other.y;
+}
+
+export function getAdded(point: Point, other: Point): Point {
+  return {
+    x: point.x + other.x,
+    y: point.y + other.y,
+  };
+}
+
+export function getSubtracted(point: Point, other: Point): Point {
+  return {
+    x: point.x - other.x,
+    y: point.y - other.y,
+  };
+}
+
+export function toTranslate(point: Point) {
   return `${point.x}px ${point.y}px`;
 }
 
@@ -27,6 +45,6 @@ export function getCenter(point: Point, other: Point): Point {
   };
 }
 
-export function getDistance(point: Point, other: Point): number {
+export function getDistance(point: Point, other: Point) {
   return Math.sqrt(Math.pow(point.x - other.x, 2) + Math.pow(point.y - other.y, 2));
 }

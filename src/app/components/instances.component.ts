@@ -10,7 +10,7 @@ import {
 import {finalize} from 'rxjs';
 
 import {Instance} from '../models/instance.model';
-import {get, getCenter, Point, toTranslate} from '../models/point.model';
+import {getAdded, getCenter, Point, toTranslate} from '../models/point.model';
 import {toStorageElement} from '../models/result.model';
 import {ApiService} from '../services/api.service';
 import {DataService} from '../services/data.service';
@@ -46,9 +46,9 @@ import {SidebarComponent} from './sidebar.component';
 export class InstancesComponent {
   touchedTouchEvent?: TouchEvent;
   touchedItemComponent?: ItemComponent;
-  selectedInstanceComponent?: InstanceComponent;
 
-  readonly selectedOffset = get();
+  selectedOffset?: Point;
+  selectedInstanceComponent?: InstanceComponent;
 
   instanceComponents = viewChildren(InstanceComponent);
 
@@ -75,10 +75,7 @@ export class InstancesComponent {
       return true;
     }
 
-    const center: Point = {
-      x: this.selectedOffset.x + mouseEvent.clientX,
-      y: this.selectedOffset.y + mouseEvent.clientY,
-    };
+    const center = getAdded(this.selectedOffset!, mouseEvent);
     this.selectedInstanceComponent.setCenter(center);
 
     this.drag();
@@ -96,8 +93,8 @@ export class InstancesComponent {
         this.touchedTouchEvent,
       )!;
 
-      const deltaX = Math.abs(mouseEvent.clientX - touchedMouseEvent.clientX);
-      const deltaY = Math.abs(mouseEvent.clientY - touchedMouseEvent.clientY);
+      const deltaX = Math.abs(mouseEvent.x - touchedMouseEvent.x);
+      const deltaY = Math.abs(mouseEvent.y - touchedMouseEvent.y);
 
       if (
         (this.utilityService.isMobile() ? Math.atan2(deltaY, deltaX) : Math.atan2(deltaX, deltaY)) >

@@ -12,7 +12,16 @@ import {Subscription, timer} from 'rxjs';
 
 import {MouseButton} from '../enums/mouse-button';
 import {Instance} from '../models/instance.model';
-import {clone, get, Point, toTranslate, update} from '../models/point.model';
+import {
+  clone,
+  equals,
+  get,
+  getDistance,
+  getSubtracted,
+  Point,
+  toTranslate,
+  update,
+} from '../models/point.model';
 import {ConfigService} from '../services/config.service';
 import {SoundService} from '../services/sound.service';
 import {StateService} from '../services/state.service';
@@ -52,6 +61,7 @@ export class InstanceComponent implements OnInit {
   private subscriptionTouchLong?: Subscription;
 
   private lastTouchStart = 0;
+  private touchStartPosition = get();
 
   ngOnInit() {
     this.setCenter(this.instance().center);
@@ -72,15 +82,14 @@ export class InstanceComponent implements OnInit {
     }
 
     if (fromItemMouseDown) {
-      this.firstMouseDownPosition = {x: mouseEvent.clientX, y: mouseEvent.clientY};
+      this.firstMouseDownPosition = clone(mouseEvent);
     } else {
       this.soundService.playInstance(0.09);
     }
 
     const instancesComponent = this.instancesComponent();
     const instance = this.instance();
-    instancesComponent.selectedOffset.x = instance.center.x - mouseEvent.clientX;
-    instancesComponent.selectedOffset.y = instance.center.y - mouseEvent.clientY;
+    instancesComponent.selectedOffset = getSubtracted(instance.center, mouseEvent);
     instancesComponent.selectedInstanceComponent = this;
 
     this.instancesComponent().dragStart();
@@ -88,31 +97,25 @@ export class InstanceComponent implements OnInit {
   }
 
   @HostListener('touchstart', ['$event']) onTouchStart(touchEvent: TouchEvent) {
-    const touchStart = Date.now();
-    if (touchStart - this.lastTouchStart <= 500) {
-      this.onDblClick();
+    if (this.doubleTouch()) {
       return false;
     }
-    this.lastTouchStart = touchStart;
-
-    this.onTouchMove();
+    this.longTouchReset(touchEvent);
 
     return this.onMouseDown(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
   }
 
   @HostListener('touchend') onTouchEnd() {
-    if (this.subscriptionTouchLong !== undefined) {
-      this.subscriptionTouchLong.unsubscribe();
-      this.subscriptionTouchLong = undefined;
-    }
+    this.longTouchEnd();
   }
 
-  @HostListener('touchmove') onTouchMove() {
-    this.onTouchEnd();
+  @HostListener('touchmove', ['$event']) onTouchMove(touchEvent: TouchEvent) {
+    const mouseEvent = this.utilityService.touchEventGetMouseEvent(touchEvent)!;
+    const distance = getDistance(this.touchStartPosition, mouseEvent);
 
-    this.subscriptionTouchLong = timer(500).subscribe(() => {
-      this.onContextMenu();
-    });
+    if (distance > 10) {
+      this.longTouchReset(touchEvent);
+    }
   }
 
   @HostListener('contextmenu') onContextMenu() {
@@ -140,9 +143,7 @@ export class InstanceComponent implements OnInit {
     }
 
     // TODO: handle dragEvent.start === dragEvent.end
-    const notDragged =
-      this.firstMouseDownPosition.x === mouseEvent.clientX &&
-      this.firstMouseDownPosition.y === mouseEvent.clientY;
+    const notDragged = equals(this.firstMouseDownPosition, mouseEvent);
 
     if (notDragged) {
       const angle = 2 * Math.PI * Math.random();
@@ -204,5 +205,37 @@ export class InstanceComponent implements OnInit {
       minY > maxY ? (minY + maxY) / 2 : this.utilityService.numberClamp(center.y, minY, maxY);
 
     this.setCenter(center);
+  }
+
+  private doubleTouch() {
+    const touchStart = Date.now();
+    if (touchStart - this.lastTouchStart <= 500) {
+      this.onDblClick();
+      return true;
+    }
+
+    this.lastTouchStart = touchStart;
+    return false;
+  }
+
+  private longTouchStart(touchEvent: TouchEvent) {
+    const mouseEvent = this.utilityService.touchEventGetMouseEvent(touchEvent)!;
+    update(this.touchStartPosition, mouseEvent);
+
+    this.subscriptionTouchLong = timer(500).subscribe(() => {
+      this.onContextMenu();
+    });
+  }
+
+  private longTouchEnd() {
+    if (this.subscriptionTouchLong !== undefined) {
+      this.subscriptionTouchLong.unsubscribe();
+      this.subscriptionTouchLong = undefined;
+    }
+  }
+
+  private longTouchReset(touchEvent: TouchEvent) {
+    this.longTouchEnd();
+    this.longTouchStart(touchEvent);
   }
 }
