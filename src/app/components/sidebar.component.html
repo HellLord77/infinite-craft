@@ -1,4 +1,4 @@
-<app-sidebar-inner #sidebarInnerComponent [instancesComponent]="instancesComponent()" />
+<app-sidebar-inner #sidebarInnerComponent [sidebarComponent]="this" [instancesComponent]="instancesComponent()" />
 <app-sidebar-controls
   [itemsInnerComponent]="sidebarInnerComponent.itemsComponent().itemsInnerComponent()"
 />

@@ -24,10 +24,7 @@ export const pairCacheInterceptor: HttpInterceptorFn = (req, next) => {
   }
   const key = params.toString();
 
-  let cached = null;
-  if (req.context.get(CACHE_GET)) {
-    cached = cacheService.get(key);
-  }
+  const cached = req.context.get(CACHE_GET) ? cacheService.get(key) : null;
   if (cached !== null) {
     return of(cached);
   }

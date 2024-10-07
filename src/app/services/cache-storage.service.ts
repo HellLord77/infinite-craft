@@ -12,6 +12,7 @@ export class CacheStorageService extends CacheService {
     if (value === null) {
       return null;
     }
+
     return new HttpResponse({body: JSON.parse(value)});
   }
 

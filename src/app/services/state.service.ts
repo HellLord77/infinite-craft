@@ -29,12 +29,9 @@ export class StateService {
   }
 
   addInstance(element: StorageElement, center: Point) {
-    const instance: Instance = {
-      id: ++this.id,
-      element: element,
-      center: center,
-    };
+    const instance: Instance = {id: ++this.id, element: element, center: center};
     this.instances.set(instance.id, instance);
+    return instance;
   }
 
   removeInstance(instance: Instance) {
@@ -50,7 +47,7 @@ export class StateService {
   }
 
   toggleDeleteMode() {
-    this.deleteMode = !this.deleteMode;
+    return (this.deleteMode = !this.deleteMode);
   }
 
   isDiscoveriesActive() {
@@ -66,7 +63,7 @@ export class StateService {
   }
 
   nextSort() {
-    this.sort = (this.sort + 1) % 3;
+    return (this.sort = (this.sort + 1) % 3) as Sort;
   }
 
   nextZIndex() {

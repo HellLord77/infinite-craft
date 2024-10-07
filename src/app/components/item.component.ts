@@ -38,25 +38,21 @@ export class ItemComponent {
   @HostListener('mousedown', ['$event']) onMouseDown(mouseEvent: MouseEvent) {
     if (mouseEvent.button === MouseButton.Left) {
       if (!this.instance && !this.stateService.isDeleteMode()) {
-        this.soundService.playInstance();
-
         const center = this.utilityService.elementRefGetCenter(this.elementRef);
-        this.stateService.addInstance(this.element(), center);
+        const instance = this.stateService.addInstance(this.element(), center);
 
         const instancesComponent = this.instancesComponent();
         instancesComponent.changeDetectorRef.detectChanges();
-
         Promise.resolve().then(() => {
-          const instanceComponent = this.utilityService.arrayLastItem(
-            instancesComponent.instanceComponents(),
-          )!;
-          instanceComponent.onMouseDown(mouseEvent, true);
+          instancesComponent.getLastInstanceComponent(instance)!.onMouseDown(mouseEvent, true);
         });
+
+        this.soundService.playInstance();
       }
     }
   }
 
   @HostListener('touchstart', ['$event']) onTouchStart(touchEvent: TouchEvent) {
-    this.onMouseDown(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
+    return this.onMouseDown(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
   }
 }

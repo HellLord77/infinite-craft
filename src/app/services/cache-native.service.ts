@@ -17,6 +17,7 @@ export class CacheNativeService extends CacheService {
     if (value === undefined) {
       return null;
     }
+
     this.cache.delete(params);
     this.cache.set(params, value);
     return value;

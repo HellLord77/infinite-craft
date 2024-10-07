@@ -11,6 +11,10 @@ export class UtilityService {
     return object !== null && object !== undefined;
   }
 
+  numberClamp(value: number, lower: number, upper: number): number {
+    return Math.min(Math.max(value, lower), upper);
+  }
+
   arrayFrom<T>(length: number, item: T): T[] {
     const array: T[] = Array(length);
     array.fill(item);

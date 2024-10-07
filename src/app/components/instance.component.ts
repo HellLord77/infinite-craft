@@ -47,7 +47,7 @@ export class InstanceComponent implements OnInit {
   stateService = inject(StateService);
   soundService = inject(SoundService);
 
-  private firstMouseDownPosition: Point | null = null;
+  private firstMouseDownPosition?: Point;
 
   ngOnInit() {
     this.setCenter(this.instance().center);
@@ -68,17 +68,20 @@ export class InstanceComponent implements OnInit {
       ).width;
     }
 
-    const boundingClientRect = this.utilityService.elementRefGetBoundingClientRect(this.elementRef);
     const center = clone(this.instance().center);
+    const halfWidth = this.elementRef.nativeElement.offsetWidth / 2;
+    const halfHeight = this.elementRef.nativeElement.offsetHeight / 2;
 
-    const maxRight = offsetX - this.configService.instanceMargin + innerWidth;
-    if (boundingClientRect.right > maxRight) {
-      center.x = maxRight - boundingClientRect.width / 2;
-    }
-    const maxBottom = offsetY - this.configService.instanceMargin + innerHeight;
-    if (boundingClientRect.bottom > maxBottom) {
-      center.y = maxBottom - boundingClientRect.height / 2;
-    }
+    center.x = this.utilityService.numberClamp(
+      center.x,
+      this.configService.instanceMarginX + halfWidth,
+      offsetX - this.configService.instanceMarginX + innerWidth - halfWidth,
+    );
+    center.y = this.utilityService.numberClamp(
+      center.y,
+      this.configService.instanceMarginY + halfHeight,
+      offsetY - this.configService.instanceMarginY + innerHeight - halfHeight,
+    );
 
     this.setCenter(center);
   }
@@ -105,7 +108,7 @@ export class InstanceComponent implements OnInit {
 
   @HostListener('mouseup', ['$event']) onMouseUp(mouseEvent: MouseEvent) {
     if (mouseEvent.button === MouseButton.Left) {
-      if (this.firstMouseDownPosition !== null) {
+      if (this.firstMouseDownPosition !== undefined) {
         if (
           this.firstMouseDownPosition.x === mouseEvent.clientX &&
           this.firstMouseDownPosition.y === mouseEvent.clientY
@@ -130,17 +133,17 @@ export class InstanceComponent implements OnInit {
           }
           this.setCenter(center);
         }
-        this.firstMouseDownPosition = null;
+        this.firstMouseDownPosition = undefined;
       }
     }
   }
 
   @HostListener('touchstart', ['$event']) onTouchStart(touchEvent: TouchEvent) {
-    this.onMouseDown(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
+    return this.onMouseDown(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
   }
 
   @HostListener('touchend', ['$event']) onTouchEnd(touchEvent: TouchEvent) {
-    this.onMouseUp(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
+    return this.onMouseUp(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
   }
 
   @HostListener('contextmenu') onContextMenu() {
@@ -153,7 +156,13 @@ export class InstanceComponent implements OnInit {
     const center = this.utilityService.elementRefGetCenter(this.elementRef);
     center.x += 10;
     center.y -= 10;
-    this.stateService.addInstance(this.instance().element, center);
+    const instance = this.stateService.addInstance(this.instance().element, center);
+
+    const instancesComponent = this.instancesComponent();
+    instancesComponent.changeDetectorRef.detectChanges();
+    Promise.resolve().then(() => {
+      instancesComponent.getLastInstanceComponent(instance)!.onWindowResize();
+    });
   }
 
   setCenter(center: Point) {

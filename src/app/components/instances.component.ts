@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import {finalize} from 'rxjs';
 
+import {Instance} from '../models/instance.model';
 import {get, getCenter, Point, toTranslate} from '../models/point.model';
 import {toStorageElement} from '../models/result.model';
 import {ApiService} from '../services/api.service';
@@ -43,8 +44,9 @@ import {SidebarComponent} from './sidebar.component';
   ],
 })
 export class InstancesComponent {
+  selectedInstanceComponent?: InstanceComponent;
+
   selectedOffset = get();
-  selectedInstanceComponent: InstanceComponent | null = null;
 
   instanceComponents = viewChildren(InstanceComponent);
 
@@ -58,55 +60,53 @@ export class InstancesComponent {
   dataService = inject(DataService);
   apiService = inject(ApiService);
 
+  private dragged = false;
   private intersectsSidebarComponent = false;
-  private intersectedInstanceComponent: InstanceComponent | null = null;
+  private intersectedInstanceComponent?: InstanceComponent;
 
   @HostListener('document:mouseup') onDocumentMouseUp() {
-    const selectedInstanceComponent = this.selectedInstanceComponent !== null;
-    if (selectedInstanceComponent) {
+    if (this.selectedInstanceComponent !== undefined) {
       this.dragEnd();
+      return false;
     }
-    return selectedInstanceComponent;
+    return true;
   }
 
   @HostListener('document:mousemove', ['$event']) onDocumentMouseMove(mouseEvent: MouseEvent) {
-    const selectedInstanceComponent = this.selectedInstanceComponent !== null;
-    if (selectedInstanceComponent) {
+    if (this.selectedInstanceComponent !== undefined) {
       const center: Point = {
         x: this.selectedOffset.x + mouseEvent.clientX,
         y: this.selectedOffset.y + mouseEvent.clientY,
       };
-      this.selectedInstanceComponent!.setCenter(center);
+      this.selectedInstanceComponent.setCenter(center);
 
       this.drag();
+      return false;
     }
-    return selectedInstanceComponent;
+    return true;
   }
 
   @HostListener('document:touchend') onDocumentTouchEnd() {
-    this.onDocumentMouseUp();
+    return this.onDocumentMouseUp();
   }
 
   @HostListener('document:touchmove', ['$event']) onDocumentTouchMove(touchEvent: TouchEvent) {
-    this.onDocumentMouseMove(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
+    return this.onDocumentMouseMove(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
   }
 
   dragStart() {
-    this.selectedInstanceComponent!.zIndex = this.stateService.nextZIndex();
-    this.selectedInstanceComponent!.selected = true;
-    this.intersectedInstanceComponent = null;
+    this.dragged = false;
+    const selectedInstanceComponent = this.selectedInstanceComponent!;
+    selectedInstanceComponent.selected = true;
+    selectedInstanceComponent.zIndex = this.stateService.nextZIndex();
   }
 
   dragEnd() {
     this.selectedInstanceComponent!.selected = false;
-    if (this.intersectsSidebarComponent) {
-      this.drop();
-    } else if (this.intersectedInstanceComponent !== null) {
-      this.dragLeave();
-      this.drop();
-    }
-    this.selectedInstanceComponent = null;
-    this.intersectedInstanceComponent = null;
+    this.dragLeave();
+    this.drop();
+    this.selectedInstanceComponent = undefined;
+    this.intersectedInstanceComponent = undefined;
   }
 
   dragEnter() {
@@ -114,10 +114,14 @@ export class InstancesComponent {
   }
 
   dragLeave() {
-    this.intersectedInstanceComponent!.hover = false;
+    if (this.intersectedInstanceComponent !== undefined) {
+      this.intersectedInstanceComponent.hover = false;
+    }
   }
 
   drag() {
+    this.dragged = true;
+
     const itemComponent = this.selectedInstanceComponent!.itemComponent();
     const boundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
       itemComponent.elementRef,
@@ -131,27 +135,26 @@ export class InstancesComponent {
       sidebarBoundingClientRect,
     );
 
-    if (this.intersectedInstanceComponent !== null) {
+    if (this.intersectedInstanceComponent !== undefined) {
       const otherBoundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
         this.intersectedInstanceComponent.elementRef,
       );
       if (!this.utilityService.rectIntersects(boundingClientRect, otherBoundingClientRect)) {
         this.dragLeave();
-        this.intersectedInstanceComponent = null;
+        this.intersectedInstanceComponent = undefined;
       }
     }
 
     let maxZIndex = 0;
-    let intersectedInstanceComponent = null;
+    let intersectedInstanceComponent = undefined;
     for (const otherInstanceComponent of this.instanceComponents()) {
-      const otherItemComponent = otherInstanceComponent.itemComponent();
       if (
-        otherItemComponent !== itemComponent &&
+        this.selectedInstanceComponent !== otherInstanceComponent &&
         !otherInstanceComponent.disabled &&
         otherInstanceComponent.zIndex > maxZIndex
       ) {
         const otherBoundingClientRect = this.utilityService.elementRefGetBoundingClientRect(
-          otherItemComponent.elementRef,
+          otherInstanceComponent.itemComponent().elementRef,
         );
         if (this.utilityService.rectIntersects(boundingClientRect, otherBoundingClientRect)) {
           maxZIndex = otherInstanceComponent.zIndex;
@@ -159,32 +162,31 @@ export class InstancesComponent {
         }
       }
     }
-    if (intersectedInstanceComponent !== null) {
-      const enter = intersectedInstanceComponent !== this.intersectedInstanceComponent;
+
+    if (
+      intersectedInstanceComponent !== undefined &&
+      intersectedInstanceComponent !== this.intersectedInstanceComponent
+    ) {
+      this.dragLeave();
       this.intersectedInstanceComponent = intersectedInstanceComponent;
-      if (enter) {
-        this.dragEnter();
-      }
+      this.dragEnter();
     }
   }
 
   drop() {
-    const instance = this.selectedInstanceComponent!.instance();
-    if (this.intersectsSidebarComponent) {
-      this.stateService.removeInstance(instance);
-      this.soundService.playDelete();
-    } else {
-      const selectedInstanceComponent = this.selectedInstanceComponent!;
+    const selectedInstanceComponent = this.selectedInstanceComponent!;
+    const selectedInstance = selectedInstanceComponent.instance();
+
+    if (this.intersectedInstanceComponent !== undefined) {
       selectedInstanceComponent.disabled = true;
+      selectedInstanceComponent.onWindowResize();
 
       const intersectedInstanceComponent = this.intersectedInstanceComponent!;
       intersectedInstanceComponent.disabled = true;
+      const intersectedInstance = intersectedInstanceComponent.instance();
 
       this.apiService
-        .pair(
-          selectedInstanceComponent.itemComponent().element(),
-          intersectedInstanceComponent.itemComponent().element(),
-        )
+        .pair(selectedInstance.element, intersectedInstance.element)
         .pipe(
           finalize(() => {
             selectedInstanceComponent.disabled = false;
@@ -195,13 +197,17 @@ export class InstancesComponent {
           if (result.result === 'Nothing') {
             this.soundService.playError();
           } else {
-            const intersectedInstance = intersectedInstanceComponent.instance();
-            this.stateService.removeInstance(instance);
+            this.stateService.removeInstance(selectedInstance);
             this.stateService.removeInstance(intersectedInstance);
 
             const element = toStorageElement(result);
-            const center = getCenter(instance.center, intersectedInstance.center);
-            this.stateService.addInstance(element, center);
+            const center = getCenter(selectedInstance.center, intersectedInstance.center);
+            const instance = this.stateService.addInstance(element, center);
+
+            this.changeDetectorRef.detectChanges();
+            Promise.resolve().then(() => {
+              this.getLastInstanceComponent(instance)!.onWindowResize();
+            });
 
             if (this.dataService.hasElement(element)) {
               this.soundService.playInstance();
@@ -217,6 +223,23 @@ export class InstancesComponent {
             }
           }
         });
+    } else if (this.intersectsSidebarComponent) {
+      this.intersectsSidebarComponent = false;
+      this.stateService.removeInstance(selectedInstance);
+      this.soundService.playDelete();
+    } else {
+      selectedInstanceComponent.onWindowResize();
     }
+  }
+
+  getLastInstanceComponent(instance: Instance) {
+    const instanceComponents = this.instanceComponents();
+    for (let index = instanceComponents.length - 1; index >= 0; --index) {
+      const instanceComponent = instanceComponents[index];
+      if (instance.id === instanceComponent.instance().id) {
+        return instanceComponent;
+      }
+    }
+    return null;
   }
 }

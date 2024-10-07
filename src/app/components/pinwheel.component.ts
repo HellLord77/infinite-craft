@@ -25,17 +25,16 @@ import {interval, Subscription} from 'rxjs';
 export class PinwheelComponent {
   @HostBinding('style.translate') translate = 'none';
 
+  private lastSubscription?: Subscription;
+
   private shown = false;
-  private lastSubscription: Subscription | null = null;
 
   getShown() {
     return this.shown;
   }
 
   setShown(shown: boolean) {
-    if (this.lastSubscription !== null) {
-      this.lastSubscription.unsubscribe();
-    }
+    this.lastSubscription?.unsubscribe();
     this.shown = shown;
     if (shown) {
       this.lastSubscription = interval(1200).subscribe(() => {

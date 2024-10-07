@@ -24,5 +24,6 @@ export class ConfigService {
 
   readonly itemsInnerMaxElementCount = 200;
 
-  readonly instanceMargin = 6;
+  readonly instanceMarginX = 6;
+  readonly instanceMarginY = 20;
 }

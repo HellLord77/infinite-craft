@@ -9,6 +9,7 @@ import {UtilityService} from '../services/utility.service';
 import {InstancesComponent} from './instances.component';
 import {ItemComponent} from './item.component';
 import {ItemsRowComponent} from './items-row.component';
+import {SidebarComponent} from './sidebar.component';
 
 @Component({
   selector: 'app-items-inner',
@@ -18,6 +19,7 @@ import {ItemsRowComponent} from './items-row.component';
   styleUrl: './items-inner.component.css',
 })
 export class ItemsInnerComponent {
+  sidebarComponent = input.required<SidebarComponent>();
   instancesComponent = input.required<InstancesComponent>();
 
   utilityService = inject(UtilityService);
@@ -25,8 +27,9 @@ export class ItemsInnerComponent {
   stateService = inject(StateService);
   dataService = inject(DataService);
 
+  private cachedValue?: StorageElement[];
+
   private cachedKey = '';
-  private cachedValue: StorageElement[] | null = null;
 
   getElements() {
     const search = this.stateService.searchControl.value!.toLowerCase();
@@ -35,7 +38,11 @@ export class ItemsInnerComponent {
     const sort = this.stateService.getSort();
 
     const key = JSON.stringify([search, discoveriesActive, deleteMode, sort]);
-    if (!this.dataService.elementsChanged && this.cachedValue !== null && key === this.cachedKey) {
+    if (
+      !this.dataService.elementsChanged &&
+      this.cachedValue !== undefined &&
+      key === this.cachedKey
+    ) {
       return this.cachedValue;
     }
 
@@ -62,6 +69,10 @@ export class ItemsInnerComponent {
     this.dataService.elementsChanged = false;
     this.cachedKey = key;
     this.cachedValue = elements;
+
+    Promise.resolve().then(() => {
+      this.sidebarComponent().onWindowResize();
+    });
 
     return elements;
   }

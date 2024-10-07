@@ -4,6 +4,7 @@ import {DataService} from '../services/data.service';
 import {InstancesComponent} from './instances.component';
 import {InstructionComponent} from './instruction.component';
 import {ItemsInnerComponent} from './items-inner.component';
+import {SidebarComponent} from './sidebar.component';
 
 @Component({
   selector: 'app-items',
@@ -15,6 +16,7 @@ import {ItemsInnerComponent} from './items-inner.component';
 export class ItemsComponent {
   itemsInnerComponent = viewChild.required(ItemsInnerComponent);
 
+  sidebarComponent = input.required<SidebarComponent>();
   instancesComponent = input.required<InstancesComponent>();
 
   dataService = inject(DataService);

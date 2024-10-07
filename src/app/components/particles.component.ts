@@ -118,7 +118,7 @@ export class ParticlesComponent implements OnInit {
     let deltaTime = time - this.lastTime;
     if (deltaTime > this.configService.particlesMinFrameInterval) {
       this.lastTime = time;
-      deltaTime = Math.min(this.configService.particlesMaxFrameInterval, deltaTime);
+      deltaTime = Math.min(deltaTime, this.configService.particlesMaxFrameInterval);
 
       for (const particle of this.particles) {
         this.updateParticle(particle, deltaTime);
