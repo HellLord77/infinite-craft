@@ -105,7 +105,7 @@ export class InstanceComponent implements OnInit {
   }
 
   @HostListener('dblclick') onDblClick() {
-    const center = this.utilityService.elementRefGetCenter(this.elementRef);
+    const center = this.utilityService.elementRefGetCenter(this.itemComponent().elementRef);
     center.x += 10;
     center.y -= 10;
     const instance = this.stateService.addInstance(this.instance().element, center);
