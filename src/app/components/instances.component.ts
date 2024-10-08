@@ -97,7 +97,7 @@ export class InstancesComponent {
 
       let deltaX = Math.abs(mouseEvent.x - touchedMouseEvent.x);
       let deltaY = Math.abs(mouseEvent.y - touchedMouseEvent.y);
-      if (!this.utilityService.isMobile()) {
+      if (!this.stateService.isMobile()) {
         [deltaX, deltaY] = [deltaY, deltaX];
       }
       const angle = Math.atan2(deltaY, deltaX);

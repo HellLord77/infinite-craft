@@ -99,8 +99,4 @@ export class UtilityService {
       screenY: touch.screenY,
     });
   }
-
-  isMobile(): boolean {
-    return innerWidth < 800;
-  }
 }

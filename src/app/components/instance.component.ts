@@ -140,7 +140,7 @@ export class InstanceComponent implements OnInit {
       const offsetY = 50 * Math.cos(angle);
 
       const center = get();
-      if (this.utilityService.isMobile()) {
+      if (this.stateService.isMobile()) {
         center.x = offsetX - 40 + innerWidth / 2;
         center.y = offsetY - 100 + innerHeight / 2;
       } else {
@@ -169,7 +169,7 @@ export class InstanceComponent implements OnInit {
   updateCenter() {
     let offsetX = 0;
     let offsetY = 0;
-    if (this.utilityService.isMobile()) {
+    if (this.stateService.isMobile()) {
       offsetY = -this.utilityService.elementRefGetBoundingClientRect(
         this.sidebarComponent().elementRef,
       ).height;

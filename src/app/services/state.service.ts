@@ -20,6 +20,10 @@ export class StateService {
   private sort = Sort.time;
   private zIndex = 10;
 
+  isMobile() {
+    return innerWidth < 800;
+  }
+
   iterInstances() {
     return this.instances.values();
   }

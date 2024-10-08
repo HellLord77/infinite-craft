@@ -23,9 +23,6 @@ import {StateService} from '../services/state.service';
   styleUrl: './particles.component.css',
 })
 export class ParticlesComponent implements OnInit {
-  width = 0;
-  height = 0;
-
   ngZone = inject(NgZone);
   configService = inject(ConfigService);
   stateService = inject(StateService);
@@ -48,13 +45,14 @@ export class ParticlesComponent implements OnInit {
   }
 
   @HostListener('window:resize') onWindowResize() {
-    this.width = innerWidth;
-    this.height = innerHeight;
+    const canvasElementRef = this.canvasElementRef();
+    canvasElementRef.nativeElement.width = innerWidth;
+    canvasElementRef.nativeElement.height = innerHeight;
   }
 
   createParticle() {
-    const centerX = this.width * Math.random();
-    const centerY = this.height * Math.random();
+    const centerX = innerWidth * Math.random();
+    const centerY = innerHeight * Math.random();
 
     const speedX = 0.03 * Math.random() - 0.015;
     const speedY = 0.03 * Math.random() - 0.015;
@@ -75,7 +73,7 @@ export class ParticlesComponent implements OnInit {
   createParticles() {
     const count = Math.min(
       this.configService.particlesMinParticleCount,
-      (this.width * this.height) / 12e3,
+      (innerWidth * innerHeight) / 12e3,
     );
     for (let index = 0; index < count; ++index) {
       const particle = this.createParticle();
@@ -87,14 +85,14 @@ export class ParticlesComponent implements OnInit {
     update(particle, deltaTime);
 
     if (particle.center.x < 0) {
-      particle.center.x = this.width;
-    } else if (particle.center.x > this.width) {
+      particle.center.x = innerWidth;
+    } else if (particle.center.x > innerWidth) {
       particle.center.x = 0;
     }
 
     if (particle.center.y < 0) {
-      particle.center.y = this.height;
-    } else if (particle.center.y > this.height) {
+      particle.center.y = innerHeight;
+    } else if (particle.center.y > innerHeight) {
       particle.center.y = 0;
     }
   }
@@ -126,7 +124,7 @@ export class ParticlesComponent implements OnInit {
         this.updateParticle(particle, deltaTime);
       }
 
-      this.context.clearRect(0, 0, this.width, this.height);
+      this.context.clearRect(0, 0, innerWidth, innerHeight);
 
       const color = get();
       if (this.dataService.isDarkMode()) {
@@ -164,7 +162,7 @@ export class ParticlesComponent implements OnInit {
     }
 
     if (this.inactive) {
-      this.context.clearRect(0, 0, this.width, this.height);
+      this.context.clearRect(0, 0, innerWidth, innerHeight);
     } else {
       requestAnimationFrame((time) =>
         this.ngZone.runOutsideAngular(() => {

@@ -5,7 +5,6 @@ import {StorageElement} from '../models/storage-element.model';
 import {ConfigService} from '../services/config.service';
 import {DataService} from '../services/data.service';
 import {StateService} from '../services/state.service';
-import {UtilityService} from '../services/utility.service';
 import {InstancesComponent} from './instances.component';
 import {ItemComponent} from './item.component';
 import {ItemsRowComponent} from './items-row.component';
@@ -22,7 +21,6 @@ export class ItemsInnerComponent {
   sidebarComponent = input.required<SidebarComponent>();
   instancesComponent = input.required<InstancesComponent>();
 
-  utilityService = inject(UtilityService);
   configService = inject(ConfigService);
   stateService = inject(StateService);
   dataService = inject(DataService);
