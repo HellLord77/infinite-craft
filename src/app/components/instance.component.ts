@@ -5,24 +5,15 @@ import {
   HostListener,
   inject,
   input,
-  OnDestroy,
   OnInit,
   viewChild,
 } from '@angular/core';
-import {Subscription, timer} from 'rxjs';
 
+import {TouchContextDirective} from '../directives/touch-context.directive';
+import {TouchDoubleDirective} from '../directives/touch-double.directive';
 import {MouseButton} from '../enums/mouse-button';
 import {Instance} from '../models/instance.model';
-import {
-  clone,
-  equals,
-  get,
-  getDistance,
-  getSubtracted,
-  Point,
-  toTranslate,
-  update,
-} from '../models/point.model';
+import {clone, equals, get, getSubtracted, Point, toTranslate, update} from '../models/point.model';
 import {ConfigService} from '../services/config.service';
 import {SoundService} from '../services/sound.service';
 import {StateService} from '../services/state.service';
@@ -38,8 +29,12 @@ import {SidebarComponent} from './sidebar.component';
   imports: [ItemComponent, InstanceDiscoveredTextComponent],
   templateUrl: './instance.component.html',
   styleUrl: './instance.component.css',
+  hostDirectives: [
+    {directive: TouchContextDirective, outputs: ['touchcontext']},
+    {directive: TouchDoubleDirective, outputs: ['touchdouble']},
+  ],
 })
-export class InstanceComponent implements OnInit, OnDestroy {
+export class InstanceComponent implements OnInit {
   @HostBinding('class.selected') selected = false;
   @HostBinding('class.disabled') disabled = false;
   @HostBinding('class.hover') hover = false;
@@ -59,19 +54,13 @@ export class InstanceComponent implements OnInit, OnDestroy {
   soundService = inject(SoundService);
 
   private firstMouseDownPosition?: Point;
-  private subscriptionTouchLong?: Subscription;
 
-  private lastTouchStart = 0;
-  private touchStartPosition = get();
+  private lastTouchDoubleEvent?: TouchEvent;
 
   ngOnInit() {
     this.setCenter(this.instance().center);
     this.zIndex = this.stateService.nextZIndex();
     this.itemComponent().instance = true;
-  }
-
-  ngOnDestroy() {
-    this.touchHoldEnd();
   }
 
   @HostListener('window:resize') onWindowResize() {
@@ -102,25 +91,11 @@ export class InstanceComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('touchstart', ['$event']) onTouchStart(touchEvent: TouchEvent) {
-    if (this.doubleTouch()) {
+    if (touchEvent === this.lastTouchDoubleEvent) {
       return false;
     }
-    this.touchHoldReset(touchEvent);
 
     return this.onMouseDown(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
-  }
-
-  @HostListener('touchend') onTouchEnd() {
-    this.touchHoldEnd();
-  }
-
-  @HostListener('touchmove', ['$event']) onTouchMove(touchEvent: TouchEvent) {
-    const mouseEvent = this.utilityService.touchEventGetMouseEvent(touchEvent)!;
-    const distance = getDistance(this.touchStartPosition, mouseEvent);
-
-    if (distance > this.configService.instanceMaxTouchHoldDistance) {
-      this.touchHoldReset(touchEvent);
-    }
   }
 
   @HostListener('contextmenu') onContextMenu() {
@@ -140,6 +115,15 @@ export class InstanceComponent implements OnInit, OnDestroy {
     Promise.resolve().then(() => {
       instancesComponent.getLastInstanceComponent(instance)!.updateCenter();
     });
+  }
+
+  @HostListener('touchcontext') onTouchContext() {
+    this.onContextMenu();
+  }
+
+  @HostListener('touchdouble', ['$event']) onTouchDouble(touchEvent: TouchEvent) {
+    this.lastTouchDoubleEvent = touchEvent;
+    this.onDblClick();
   }
 
   onMouseUp(mouseEvent: MouseEvent) {
@@ -210,35 +194,5 @@ export class InstanceComponent implements OnInit, OnDestroy {
       minY > maxY ? (minY + maxY) / 2 : this.utilityService.numberClamp(center.y, minY, maxY);
 
     this.setCenter(center);
-  }
-
-  private doubleTouch() {
-    const touchStart = Date.now();
-    if (touchStart - this.lastTouchStart < 500) {
-      this.onDblClick();
-      return true;
-    }
-
-    this.lastTouchStart = touchStart;
-    return false;
-  }
-
-  private touchHoldStart(touchEvent: TouchEvent) {
-    const mouseEvent = this.utilityService.touchEventGetMouseEvent(touchEvent)!;
-    update(this.touchStartPosition, mouseEvent);
-
-    this.subscriptionTouchLong = timer(500).subscribe(() => {
-      this.onContextMenu();
-    });
-  }
-
-  private touchHoldEnd() {
-    this.subscriptionTouchLong?.unsubscribe();
-    this.subscriptionTouchLong = undefined;
-  }
-
-  private touchHoldReset(touchEvent: TouchEvent) {
-    this.touchHoldEnd();
-    this.touchHoldStart(touchEvent);
   }
 }

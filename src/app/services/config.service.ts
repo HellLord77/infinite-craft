@@ -27,5 +27,4 @@ export class ConfigService {
 
   readonly instanceMarginX = 6;
   readonly instanceMarginY = 18;
-  readonly instanceMaxTouchHoldDistance = 10;
 }
