@@ -1,5 +1,5 @@
 import {animate, style, transition, trigger} from '@angular/animations';
-import {Component, HostBinding} from '@angular/core';
+import {Component, HostBinding, OnDestroy} from '@angular/core';
 import {interval, Subscription} from 'rxjs';
 
 @Component({
@@ -22,24 +22,32 @@ import {interval, Subscription} from 'rxjs';
     ]),
   ],
 })
-export class PinwheelComponent {
+export class PinwheelComponent implements OnDestroy {
   @HostBinding('style.translate') translate = 'none';
 
   private lastSubscription?: Subscription;
 
   private shown = false;
 
-  getShown() {
+  ngOnDestroy() {
+    this.showsEnd();
+  }
+
+  isShown() {
     return this.shown;
   }
 
-  setShown(shown: boolean) {
+  show() {
+    this.showsEnd();
+
+    this.shown = true;
+    this.lastSubscription = interval(1200).subscribe(() => {
+      this.shown = false;
+    });
+  }
+
+  private showsEnd() {
     this.lastSubscription?.unsubscribe();
-    this.shown = shown;
-    if (shown) {
-      this.lastSubscription = interval(1200).subscribe(() => {
-        this.shown = false;
-      });
-    }
+    this.lastSubscription = undefined;
   }
 }

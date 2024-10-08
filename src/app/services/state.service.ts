@@ -42,7 +42,7 @@ export class StateService {
     return this.deleteMode;
   }
 
-  resetDeleteMode() {
+  normalMode() {
     this.deleteMode = false;
   }
 

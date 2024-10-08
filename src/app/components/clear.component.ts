@@ -15,7 +15,7 @@ export class ClearComponent {
   soundService = inject(SoundService);
 
   @HostListener('window:keydown.Escape') onWindowKeyDown() {
-    this.stateService.resetDeleteMode();
+    this.stateService.normalMode();
   }
 
   @HostListener('click') onClick() {

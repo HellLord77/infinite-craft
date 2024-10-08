@@ -11,7 +11,7 @@ export class UtilityService {
     return object !== null && object !== undefined;
   }
 
-  numberClamp(value: number, lower: number, upper: number): number {
+  numberClamp(value: number, lower: number, upper: number) {
     return Math.min(Math.max(value, lower), upper);
   }
 
@@ -21,16 +21,20 @@ export class UtilityService {
     return array;
   }
 
-  arrayGetItem<T>(array: readonly T[], index: number): T | null {
-    return index < 0 || index >= array.length ? null : array[index];
+  arrayRandomIndex<T>(array: readonly T[]) {
+    return Math.floor(Math.random() * array.length);
   }
 
-  arrayLastItem<T>(array: readonly T[]): T | null {
+  arrayGetItem<T>(array: readonly T[], index: number): T | undefined {
+    return index < 0 || index >= array.length ? undefined : array[index];
+  }
+
+  arrayLastItem<T>(array: readonly T[]): T | undefined {
     return this.arrayGetItem(array, array.length - 1);
   }
 
-  arrayRandomItem<T>(array: readonly T[]): T | null {
-    return this.arrayGetItem(array, Math.floor(Math.random() * array.length));
+  arrayRandomItem<T>(array: readonly T[]): T | undefined {
+    return this.arrayGetItem(array, this.arrayRandomIndex(array));
   }
 
   arrayRemoveItem<T>(array: T[] | null | undefined, item: T) {
@@ -46,7 +50,7 @@ export class UtilityService {
     return {x: rect.x + rect.width / 2, y: rect.y + rect.height / 2};
   }
 
-  rectIntersects(rect: DOMRect, other: DOMRect): boolean {
+  rectIntersects(rect: DOMRect, other: DOMRect) {
     return (
       rect.left < other.right &&
       rect.right > other.left &&

@@ -5,6 +5,7 @@ import {
   HostListener,
   inject,
   input,
+  OnDestroy,
   OnInit,
   viewChild,
 } from '@angular/core';
@@ -38,7 +39,7 @@ import {SidebarComponent} from './sidebar.component';
   templateUrl: './instance.component.html',
   styleUrl: './instance.component.css',
 })
-export class InstanceComponent implements OnInit {
+export class InstanceComponent implements OnInit, OnDestroy {
   @HostBinding('class.selected') selected = false;
   @HostBinding('class.disabled') disabled = false;
   @HostBinding('class.hover') hover = false;
@@ -67,6 +68,10 @@ export class InstanceComponent implements OnInit {
     this.setCenter(this.instance().center);
     this.zIndex = this.stateService.nextZIndex();
     this.itemComponent().instance = true;
+  }
+
+  ngOnDestroy() {
+    this.touchHoldEnd();
   }
 
   @HostListener('window:resize') onWindowResize() {
@@ -228,10 +233,8 @@ export class InstanceComponent implements OnInit {
   }
 
   private touchHoldEnd() {
-    if (this.subscriptionTouchLong !== undefined) {
-      this.subscriptionTouchLong.unsubscribe();
-      this.subscriptionTouchLong = undefined;
-    }
+    this.subscriptionTouchLong?.unsubscribe();
+    this.subscriptionTouchLong = undefined;
   }
 
   private touchHoldReset(touchEvent: TouchEvent) {

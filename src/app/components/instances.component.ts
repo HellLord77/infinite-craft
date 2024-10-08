@@ -230,7 +230,7 @@ export class InstancesComponent {
 
               const pinwheelComponent = this.pinwheelComponent();
               pinwheelComponent.translate = toTranslate(center);
-              pinwheelComponent.setShown(true);
+              pinwheelComponent.show();
 
               this.dataService.setElement(element);
             }
