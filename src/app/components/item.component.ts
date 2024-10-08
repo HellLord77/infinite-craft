@@ -1,4 +1,12 @@
-import {Component, ElementRef, HostBinding, HostListener, inject, input} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  inject,
+  input,
+  OnInit,
+} from '@angular/core';
 
 import {MouseButton} from '../enums/mouse-button';
 import {StorageElement} from '../models/storage-element.model';
@@ -16,8 +24,10 @@ import {ItemRemoveComponent} from './item-remove.component';
   templateUrl: './item.component.html',
   styleUrl: './item.component.css',
 })
-export class ItemComponent {
+export class ItemComponent implements OnInit {
   instance = false;
+
+  @HostBinding('class.hidden') hidden = false;
 
   element = input.required<StorageElement>();
   instancesComponent = input.required<InstancesComponent>();
@@ -27,12 +37,12 @@ export class ItemComponent {
   stateService = inject(StateService);
   soundService = inject(SoundService);
 
-  @HostBinding('class.is-delete-mode') get isDeleteMode() {
-    return !this.instance && this.stateService.isDeleteMode();
+  ngOnInit() {
+    this.hidden = this.element().hidden!;
   }
 
-  @HostBinding('class.hidden') get hidden() {
-    return this.element().hidden;
+  @HostBinding('class.is-delete-mode') get isDeleteMode() {
+    return !this.instance && this.stateService.isDeleteMode();
   }
 
   @HostListener('mousedown', ['$event']) onMouseDown(mouseEvent: MouseEvent) {

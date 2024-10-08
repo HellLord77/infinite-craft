@@ -14,10 +14,10 @@ export class StateService {
 
   private readonly instances = new Map<number, Instance>();
 
+  private id = 0;
   private deleteMode = false;
   private discoveriesActive = false;
   private sort = Sort.time;
-  private id = 0;
   private zIndex = 10;
 
   iterInstances() {

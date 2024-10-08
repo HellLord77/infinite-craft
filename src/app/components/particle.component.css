@@ -1,0 +1,37 @@
+:host {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media screen and (min-width: 1150px) {
+  :host {
+    width: 23px;
+    height: 23px;
+  }
+}
+
+:host(:hover) {
+  transform: scale(1.05);
+}
+
+:host(:not(.inactive)) {
+  animation: sway 0.3s linear infinite alternate-reverse;
+}
+
+@keyframes sway {
+  0% {
+    rotate: -6deg;
+  }
+  to {
+    rotate: 6deg;
+  }
+}
+
+:host {
+  /* TODO */
+  display: flex;
+}

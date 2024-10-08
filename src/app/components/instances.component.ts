@@ -13,6 +13,7 @@ import {Instance} from '../models/instance.model';
 import {getAdded, getCenter, Point, toTranslate} from '../models/point.model';
 import {toStorageElement} from '../models/result.model';
 import {ApiService} from '../services/api.service';
+import {ConfigService} from '../services/config.service';
 import {DataService} from '../services/data.service';
 import {SoundService} from '../services/sound.service';
 import {StateService} from '../services/state.service';
@@ -57,6 +58,7 @@ export class InstancesComponent {
 
   changeDetectorRef = inject(ChangeDetectorRef);
   utilityService = inject(UtilityService);
+  configService = inject(ConfigService);
   stateService = inject(StateService);
   soundService = inject(SoundService);
   dataService = inject(DataService);
@@ -93,13 +95,14 @@ export class InstancesComponent {
         this.touchedTouchEvent,
       )!;
 
-      const deltaX = Math.abs(mouseEvent.x - touchedMouseEvent.x);
-      const deltaY = Math.abs(mouseEvent.y - touchedMouseEvent.y);
+      let deltaX = Math.abs(mouseEvent.x - touchedMouseEvent.x);
+      let deltaY = Math.abs(mouseEvent.y - touchedMouseEvent.y);
+      if (!this.utilityService.isMobile()) {
+        [deltaX, deltaY] = [deltaY, deltaX];
+      }
+      const angle = Math.atan2(deltaY, deltaX);
 
-      if (
-        (this.utilityService.isMobile() ? Math.atan2(deltaY, deltaX) : Math.atan2(deltaX, deltaY)) >
-        0.7
-      ) {
+      if (angle > this.configService.instancesMaxTouchScrollAngle) {
         this.touchedItemComponent!.onMouseDown(touchedMouseEvent);
       }
 

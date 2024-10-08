@@ -10,13 +10,11 @@ import {StateService} from '../services/state.service';
   styleUrl: './trash.component.css',
 })
 export class TrashComponent {
+  @HostBinding('class.active') active = false;
+
   stateService = inject(StateService);
 
-  @HostBinding('class.active') get active() {
-    return this.stateService.isDeleteMode();
-  }
-
   @HostListener('click') onClick() {
-    this.stateService.toggleDeleteMode();
+    this.active = this.stateService.toggleDeleteMode();
   }
 }

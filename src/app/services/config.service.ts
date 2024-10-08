@@ -14,7 +14,6 @@ export class ConfigService {
   // readonly apiBaseUrl = 'https://neal.fun/api/infinite-craft';
   readonly apiBaseUrl = 'http://localhost:8000';
 
-  readonly particlesIsEnabled = true;
   readonly particlesMinFrameInterval = 15;
   readonly particlesMaxFrameInterval = 30;
   readonly particlesMinParticleCount = 150;
@@ -24,6 +23,9 @@ export class ConfigService {
 
   readonly itemsInnerMaxElementCount = 200;
 
+  readonly instancesMaxTouchScrollAngle = 0.7;
+
   readonly instanceMarginX = 6;
-  readonly instanceMarginY = 20;
+  readonly instanceMarginY = 18;
+  readonly instanceMaxTouchHoldDistance = 10;
 }

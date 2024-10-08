@@ -100,21 +100,21 @@ export class InstanceComponent implements OnInit {
     if (this.doubleTouch()) {
       return false;
     }
-    this.longTouchReset(touchEvent);
+    this.touchHoldReset(touchEvent);
 
     return this.onMouseDown(this.utilityService.touchEventGetMouseEvent(touchEvent)!);
   }
 
   @HostListener('touchend') onTouchEnd() {
-    this.longTouchEnd();
+    this.touchHoldEnd();
   }
 
   @HostListener('touchmove', ['$event']) onTouchMove(touchEvent: TouchEvent) {
     const mouseEvent = this.utilityService.touchEventGetMouseEvent(touchEvent)!;
     const distance = getDistance(this.touchStartPosition, mouseEvent);
 
-    if (distance > 10) {
-      this.longTouchReset(touchEvent);
+    if (distance > this.configService.instanceMaxTouchHoldDistance) {
+      this.touchHoldReset(touchEvent);
     }
   }
 
@@ -209,7 +209,7 @@ export class InstanceComponent implements OnInit {
 
   private doubleTouch() {
     const touchStart = Date.now();
-    if (touchStart - this.lastTouchStart <= 500) {
+    if (touchStart - this.lastTouchStart < 500) {
       this.onDblClick();
       return true;
     }
@@ -218,7 +218,7 @@ export class InstanceComponent implements OnInit {
     return false;
   }
 
-  private longTouchStart(touchEvent: TouchEvent) {
+  private touchHoldStart(touchEvent: TouchEvent) {
     const mouseEvent = this.utilityService.touchEventGetMouseEvent(touchEvent)!;
     update(this.touchStartPosition, mouseEvent);
 
@@ -227,15 +227,15 @@ export class InstanceComponent implements OnInit {
     });
   }
 
-  private longTouchEnd() {
+  private touchHoldEnd() {
     if (this.subscriptionTouchLong !== undefined) {
       this.subscriptionTouchLong.unsubscribe();
       this.subscriptionTouchLong = undefined;
     }
   }
 
-  private longTouchReset(touchEvent: TouchEvent) {
-    this.longTouchEnd();
-    this.longTouchStart(touchEvent);
+  private touchHoldReset(touchEvent: TouchEvent) {
+    this.touchHoldEnd();
+    this.touchHoldStart(touchEvent);
   }
 }

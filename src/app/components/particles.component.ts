@@ -23,6 +23,9 @@ import {StateService} from '../services/state.service';
   styleUrl: './particles.component.css',
 })
 export class ParticlesComponent implements OnInit {
+  width = 0;
+  height = 0;
+
   ngZone = inject(NgZone);
   configService = inject(ConfigService);
   stateService = inject(StateService);
@@ -30,15 +33,12 @@ export class ParticlesComponent implements OnInit {
 
   private context!: CanvasRenderingContext2D;
 
+  private inactive = false;
   private lastTime: DOMHighResTimeStamp = 0;
   private particles: Particle[] = [];
   private canvasElementRef = viewChild.required<ElementRef<HTMLCanvasElement>>('canvasElement');
 
   ngOnInit() {
-    if (!this.configService.particlesIsEnabled) {
-      return;
-    }
-
     this.context = this.canvasElementRef().nativeElement.getContext('2d')!;
 
     this.onWindowResize();
@@ -48,19 +48,21 @@ export class ParticlesComponent implements OnInit {
   }
 
   @HostListener('window:resize') onWindowResize() {
-    const canvasElementRef = this.canvasElementRef();
-    canvasElementRef.nativeElement.width = innerWidth;
-    canvasElementRef.nativeElement.height = innerHeight;
+    this.width = innerWidth;
+    this.height = innerHeight;
   }
 
   createParticle() {
-    const centerX = innerWidth * Math.random();
-    const centerY = innerHeight * Math.random();
+    const centerX = this.width * Math.random();
+    const centerY = this.height * Math.random();
+
     const speedX = 0.03 * Math.random() - 0.015;
     const speedY = 0.03 * Math.random() - 0.015;
+
     const random = Math.random();
     const radius = 1.1 + 1.2 * random;
     const opacity = 0.1 + 0.4 * (1 - random);
+
     const particle: Particle = {
       center: {x: centerX, y: centerY},
       speed: {x: speedX, y: speedY},
@@ -73,7 +75,7 @@ export class ParticlesComponent implements OnInit {
   createParticles() {
     const count = Math.min(
       this.configService.particlesMinParticleCount,
-      (innerWidth * innerHeight) / 12e3,
+      (this.width * this.height) / 12e3,
     );
     for (let index = 0; index < count; ++index) {
       const particle = this.createParticle();
@@ -85,14 +87,14 @@ export class ParticlesComponent implements OnInit {
     update(particle, deltaTime);
 
     if (particle.center.x < 0) {
-      particle.center.x = innerWidth;
-    } else if (particle.center.x > innerWidth) {
+      particle.center.x = this.width;
+    } else if (particle.center.x > this.width) {
       particle.center.x = 0;
     }
 
     if (particle.center.y < 0) {
-      particle.center.y = innerHeight;
-    } else if (particle.center.y > innerHeight) {
+      particle.center.y = this.height;
+    } else if (particle.center.y > this.height) {
       particle.center.y = 0;
     }
   }
@@ -124,7 +126,7 @@ export class ParticlesComponent implements OnInit {
         this.updateParticle(particle, deltaTime);
       }
 
-      this.context.clearRect(0, 0, innerWidth, innerHeight);
+      this.context.clearRect(0, 0, this.width, this.height);
 
       const color = get();
       if (this.dataService.isDarkMode()) {
@@ -161,10 +163,22 @@ export class ParticlesComponent implements OnInit {
       }
     }
 
-    requestAnimationFrame((time) =>
-      this.ngZone.runOutsideAngular(() => {
-        this.frameRequestCallback(time);
-      }),
-    );
+    if (this.inactive) {
+      this.context.clearRect(0, 0, this.width, this.height);
+    } else {
+      requestAnimationFrame((time) =>
+        this.ngZone.runOutsideAngular(() => {
+          this.frameRequestCallback(time);
+        }),
+      );
+    }
+  }
+
+  toggleInactive() {
+    this.inactive = !this.inactive;
+    if (!this.inactive) {
+      this.frameRequestCallback(0);
+    }
+    return this.inactive;
   }
 }

@@ -1,8 +1,8 @@
 import {Component, HostBinding, HostListener, inject, input} from '@angular/core';
 
-import {StorageElement} from '../models/storage-element.model';
 import {DataService} from '../services/data.service';
 import {SoundService} from '../services/sound.service';
+import {ItemComponent} from './item.component';
 
 @Component({
   selector: 'app-item-remove',
@@ -12,7 +12,7 @@ import {SoundService} from '../services/sound.service';
   styleUrl: './item-remove.component.css',
 })
 export class ItemRemoveComponent {
-  element = input.required<StorageElement>();
+  itemComponent = input.required<ItemComponent>();
 
   soundService = inject(SoundService);
 
@@ -23,7 +23,8 @@ export class ItemRemoveComponent {
   }
 
   @HostListener('click') onClick() {
-    this.dataService.toggleElementHidden(this.element());
+    const itemComponent = this.itemComponent();
+    itemComponent.hidden = this.dataService.toggleElementHidden(itemComponent.element());
     this.soundService.playDelete();
   }
 }

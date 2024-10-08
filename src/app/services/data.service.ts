@@ -99,6 +99,7 @@ export class DataService implements HasToJSON {
     element.hidden = !element.hidden;
     this.elementsChanged = true;
     this.store();
+    return element.hidden;
   }
 
   isDarkMode() {

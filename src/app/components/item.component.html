@@ -1,5 +1,5 @@
 <app-item-emoji [emoji]="element().emoji" />
 {{ element().text }}
 @if (isDeleteMode) {
-  <app-item-remove [element]="element()" />
+  <app-item-remove [itemComponent]="this" />
 }
