@@ -1,4 +1,7 @@
-<app-items-inner [sidebarComponent]="sidebarComponent()" [instancesComponent]="instancesComponent()" />
+<app-items-inner
+  [sidebarComponent]="sidebarComponent()"
+  [instancesComponent]="instancesComponent()"
+/>
 @if (!dataService.exists()) {
   <app-instruction />
 }

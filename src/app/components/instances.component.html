@@ -1,8 +1,8 @@
 @for (instance of stateService.iterInstances(); track instance.id) {
   <app-instance
+    @instance-anim
     [instance]="instance"
     [sidebarComponent]="sidebarComponent()"
     [instancesComponent]="this"
-    @instance-anim
   />
 }

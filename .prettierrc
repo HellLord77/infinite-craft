@@ -8,5 +8,5 @@
   "quoteProps": "preserve",
   "bracketSpacing": false,
 
-  "endOfLine": "crlf"
+  "plugins": ["prettier-plugin-organize-attributes"]
 }
