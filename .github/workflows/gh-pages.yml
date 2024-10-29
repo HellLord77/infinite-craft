@@ -22,7 +22,7 @@ jobs:
 
       - name: Build static files
         id: build
-        run: ng build --prod --base-href=/${{ github.event.repository.name }}/
+        run: ng build --base-href=./
 
       - name: Upload static files as artifact
         id: deployment
