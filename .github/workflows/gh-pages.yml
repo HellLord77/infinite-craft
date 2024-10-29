@@ -31,12 +31,20 @@ jobs:
           path: dist/infinite-craft-client/browser
 
   deploy:
+    needs: build
+
+    permissions:
+      id-token: write
+      pages: write
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+
