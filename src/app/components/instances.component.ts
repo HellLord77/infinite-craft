@@ -225,7 +225,9 @@ export class InstancesComponent {
             if (this.dataService.hasElement(element)) {
               this.soundService.playInstance();
             } else {
-              this.soundService.playDiscovery();
+              if (result.isNew) {
+                this.soundService.playDiscovery();
+              }
               this.soundService.playReward();
 
               const pinwheelComponent = this.pinwheelComponent();
