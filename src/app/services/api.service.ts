@@ -16,11 +16,11 @@ export class ApiService {
   configService = inject(ConfigService);
 
   constructor() {
-    let apiBaseUrl = this.configService.apiBaseUrl;
+    let apiBaseUrl: string | null = null;
     if (!isDevMode()) {
-      apiBaseUrl = prompt('apiBaseUrl', apiBaseUrl)!;
+      apiBaseUrl = prompt('apiBaseUrl', this.configService.apiBaseUrl);
     }
-    this.pairUrl = `${apiBaseUrl}/pair`;
+    this.pairUrl = `${apiBaseUrl ?? this.configService.apiBaseUrl}/pair`;
   }
 
   pair(element1: Element, element2: Element): Observable<Result> {
