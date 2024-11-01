@@ -11,7 +11,6 @@ export class ConfigService {
   readonly cacheStorage = true;
   readonly cacheMaxSize = 1024;
 
-  // readonly apiBaseUrl = 'https://neal.fun/api/infinite-craft';
   readonly apiBaseUrl = 'http://localhost:8000';
 
   readonly particlesMinFrameInterval = 15;

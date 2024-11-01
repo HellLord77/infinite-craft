@@ -1,5 +1,5 @@
 import {HttpClient, HttpParams, HttpRequest} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {inject, Injectable, isDevMode} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {Element} from '../models/element.model';
@@ -16,7 +16,11 @@ export class ApiService {
   configService = inject(ConfigService);
 
   constructor() {
-    this.pairUrl = `${this.configService.apiBaseUrl}/pair`;
+    let apiBaseUrl = this.configService.apiBaseUrl;
+    if (!isDevMode()) {
+      apiBaseUrl = prompt('apiBaseUrl', apiBaseUrl)!;
+    }
+    this.pairUrl = `${apiBaseUrl}/pair`;
   }
 
   pair(element1: Element, element2: Element): Observable<Result> {
