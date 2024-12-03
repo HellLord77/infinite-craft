@@ -1,5 +1,5 @@
 import {HttpClient, HttpParams, HttpRequest} from '@angular/common/http';
-import {inject, Injectable, isDevMode} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {Element} from '../models/element.model';
@@ -16,11 +16,18 @@ export class ApiService {
   configService = inject(ConfigService);
 
   constructor() {
-    let apiBaseUrl: string | null = null;
-    if (!isDevMode()) {
-      apiBaseUrl = prompt('apiBaseUrl', this.configService.apiBaseUrl);
+    let baseUrl: string | null = null;
+    try {
+      const request = new XMLHttpRequest();
+      request.open('GET', '/base-url.txt', false);
+      request.send();
+      if (request.status === 200) {
+        baseUrl = request.responseText;
+      }
+    } catch {
+      baseUrl = prompt('apiBaseUrl', this.configService.apiBaseUrl);
     }
-    this.pairUrl = `${apiBaseUrl ?? this.configService.apiBaseUrl}/pair`;
+    this.pairUrl = `${baseUrl || this.configService.apiBaseUrl}/pair`;
   }
 
   pair(element1: Element, element2: Element): Observable<Result> {
