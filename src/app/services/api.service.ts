@@ -16,20 +16,8 @@ export class ApiService {
   configService = inject(ConfigService);
 
   constructor() {
-    let baseUrl: string | null = null;
-    try {
-      const request = new XMLHttpRequest();
-      request.open('GET', '/base-url.txt', false);
-      request.send();
-      if (request.status === 200) {
-        baseUrl = request.responseText;
-      }
-    } catch (e) {
-      console.error(e);
-    }
-    baseUrl ||=
-      prompt('apiBaseUrl', this.configService.apiBaseUrl) || this.configService.apiBaseUrl;
-    this.pairUrl = `${baseUrl}/pair`;
+    const baseUrl: string | null = prompt('apiBaseUrl', this.configService.apiBaseUrl);
+    this.pairUrl = `${baseUrl || this.configService.apiBaseUrl}/pair`;
   }
 
   pair(element1: Element, element2: Element): Observable<Result> {
