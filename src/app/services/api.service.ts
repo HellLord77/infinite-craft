@@ -24,10 +24,12 @@ export class ApiService {
       if (request.status === 200) {
         baseUrl = request.responseText;
       }
-    } catch {
-      baseUrl = prompt('apiBaseUrl', this.configService.apiBaseUrl);
+    } catch (e) {
+      console.error(e);
     }
-    this.pairUrl = `${baseUrl || this.configService.apiBaseUrl}/pair`;
+    baseUrl ||=
+      prompt('apiBaseUrl', this.configService.apiBaseUrl) || this.configService.apiBaseUrl;
+    this.pairUrl = `${baseUrl}/pair`;
   }
 
   pair(element1: Element, element2: Element): Observable<Result> {
