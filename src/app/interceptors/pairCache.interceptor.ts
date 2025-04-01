@@ -2,19 +2,13 @@ import {HttpContextToken, HttpInterceptorFn, HttpParams, HttpResponse} from '@an
 import {inject} from '@angular/core';
 import {of, tap} from 'rxjs';
 
-import {ApiService} from '../services/api.service';
 import {CacheService} from '../services/cache.service';
 
 export const CACHE_GET = new HttpContextToken(() => true);
 export const CACHE_SET = new HttpContextToken(() => true);
 
 export const pairCacheInterceptor: HttpInterceptorFn = (req, next) => {
-  const apiService = inject(ApiService);
   const cacheService = inject(CacheService);
-
-  if (!apiService.requestIsPair(req)) {
-    return next(req);
-  }
 
   let params = req.params;
   const first = params.get('first')!;

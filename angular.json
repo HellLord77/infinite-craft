@@ -25,7 +25,15 @@
                 "glob": "**/*",
                 "input": "public"
               },
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "sqlite.worker.js",
+                "input": "node_modules/sql.js-httpvfs/dist"
+              },
+              {
+                "glob": "sql-wasm.wasm",
+                "input": "node_modules/sql.js-httpvfs/dist"
+              }
             ],
             "styles": [
               "src/styles.css"

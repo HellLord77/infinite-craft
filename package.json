@@ -23,6 +23,7 @@
     "@angular/router": "^18.2.9",
     "howler": "^2.2.4",
     "rxjs": "~7.8.0",
+    "sql.js-httpvfs": "^0.8.12",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
   },
