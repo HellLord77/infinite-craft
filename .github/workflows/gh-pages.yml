@@ -36,10 +36,8 @@ jobs:
             FOREIGN KEY (result_id) REFERENCES element (id) \
           ); \
           "
-          head -1 data/element/0.csv > data/element.csv
           tail -n +2 -q data/element/*.csv >> data/element.csv
           sqlite3 data.sqlite ".mode csv" ".import data/element.csv element"
-          head -1 data/pair/0.csv > data/pair.csv
           tail -n +2 -q data/pair/*.csv >> data/pair.csv
           sqlite3 data.sqlite ".mode csv" ".import data/pair.csv pair"
           sqlite3 data.sqlite " \
@@ -50,11 +48,6 @@ jobs:
           "
           mv data.sqlite public/data.sqlite
           rm -rf data
-
-      - name: Configure application
-        run: |
-          sed -i 's/apiRemote = false/apiRemote = true/' src/app/services/config.service.ts
-          sed -i 's/soundHowler = false/soundHowler = true/' src/app/services/config.service.ts
 
       - name: Install dependencies
         run: npm install
