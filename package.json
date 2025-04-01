@@ -1,5 +1,5 @@
 {
-  "name": "infinite-craft-client",
+  "name": "infinite-craft",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
-    "http-server": "http-server dist/infinite-craft-client/browser"
+    "http-server": "http-server dist/browser"
   },
   "private": true,
   "dependencies": {

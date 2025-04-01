@@ -10,5 +10,5 @@ import {ContainerComponent} from './components/container.component';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'infinite-craft-client';
+  title = 'infinite-craft';
 }

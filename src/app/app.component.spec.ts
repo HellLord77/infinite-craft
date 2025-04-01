@@ -15,16 +15,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'infinite-craft-client' title`, () => {
+  it(`should have the 'infinite-craft' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('infinite-craft-client');
+    expect(app.title).toEqual('infinite-craft');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, infinite-craft-client');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, infinite-craft');
   });
 });

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "infinite-craft-client": {
+    "infinite-craft": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/infinite-craft-client",
+            "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "infinite-craft-client:build:production"
+              "buildTarget": "infinite-craft:build:production"
             },
             "development": {
-              "buildTarget": "infinite-craft-client:build:development"
+              "buildTarget": "infinite-craft:build:development"
             }
           },
           "defaultConfiguration": "development"
