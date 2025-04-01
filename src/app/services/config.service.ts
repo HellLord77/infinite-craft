@@ -6,8 +6,8 @@ import {Injectable} from '@angular/core';
 export class ConfigService {
   readonly dataKey = 'infinite-craft-data';
 
-  readonly apiRemote = false;
-  readonly soundHowler = false;
+  readonly apiRemote = true;
+  readonly soundHowler = true;
 
   readonly cacheStorage = true;
   readonly cacheMaxSize = 1024;
