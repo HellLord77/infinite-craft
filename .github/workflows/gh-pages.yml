@@ -22,7 +22,7 @@ jobs:
 
       - name: Build static files
         id: build
-        run: npm run build
+        run: ng build --configuration development --base-href ./
 
       - name: Upload static files as artifact
         id: deployment
