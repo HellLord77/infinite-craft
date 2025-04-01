@@ -1,5 +1,5 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {inject, Injectable, isDevMode} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../environments/environment';
@@ -18,7 +18,7 @@ export class ApiRemoteService extends ApiService {
   constructor() {
     super();
 
-    const baseUrl: string | null = isDevMode()
+    const baseUrl: string | null = document.URL.includes('localhost')
       ? null
       : prompt('apiBaseUrl', environment.apiRemoteBaseUrl);
     this.pairUrl = `${baseUrl || environment.apiRemoteBaseUrl}/pair`;
