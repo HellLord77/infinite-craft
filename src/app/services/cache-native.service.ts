@@ -1,15 +1,13 @@
 import {HttpResponse} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 
+import {environment} from '../../environments/environment';
 import {CacheService} from './cache.service';
-import {ConfigService} from './config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CacheNativeService extends CacheService {
-  configService = inject(ConfigService);
-
   private readonly cache = new Map<string, HttpResponse<unknown>>();
 
   get(params: string): HttpResponse<unknown> | null {
@@ -24,7 +22,7 @@ export class CacheNativeService extends CacheService {
   }
 
   set(params: string, httpResponse: HttpResponse<unknown>) {
-    if (this.cache.size === this.configService.cacheMaxSize) {
+    if (this.cache.size === environment.cacheNativeMaxSize) {
       const keyIterator = this.cache.keys().next();
       this.cache.delete(keyIterator.value);
     }

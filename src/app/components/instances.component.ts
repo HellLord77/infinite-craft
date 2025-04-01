@@ -9,11 +9,11 @@ import {
 } from '@angular/core';
 import {finalize} from 'rxjs';
 
+import {environment} from '../../environments/environment';
 import {Instance} from '../models/instance.model';
 import {getAdded, getCenter, Point, toTranslate} from '../models/point.model';
 import {toStorageElement} from '../models/result.model';
 import {ApiService} from '../services/api.service';
-import {ConfigService} from '../services/config.service';
 import {DataService} from '../services/data.service';
 import {SoundService} from '../services/sound.service';
 import {StateService} from '../services/state.service';
@@ -58,7 +58,6 @@ export class InstancesComponent {
 
   changeDetectorRef = inject(ChangeDetectorRef);
   utilityService = inject(UtilityService);
-  configService = inject(ConfigService);
   stateService = inject(StateService);
   soundService = inject(SoundService);
   dataService = inject(DataService);
@@ -102,7 +101,7 @@ export class InstancesComponent {
       }
       const angle = Math.atan2(deltaY, deltaX);
 
-      if (angle > this.configService.instancesMaxTouchScrollAngle) {
+      if (angle > environment.instancesMaxTouchScrollAngle) {
         this.touchedItemComponent!.onMouseDown(touchedMouseEvent);
       }
 

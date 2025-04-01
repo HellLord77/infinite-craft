@@ -8,10 +8,10 @@ import {
   viewChild,
 } from '@angular/core';
 
+import {environment} from '../../environments/environment';
 import {Color, get} from '../models/color.model';
 import {Particle, update} from '../models/particle.model';
 import {getDistance, Point} from '../models/point.model';
-import {ConfigService} from '../services/config.service';
 import {DataService} from '../services/data.service';
 import {StateService} from '../services/state.service';
 
@@ -24,7 +24,6 @@ import {StateService} from '../services/state.service';
 })
 export class ParticlesComponent implements OnInit {
   ngZone = inject(NgZone);
-  configService = inject(ConfigService);
   stateService = inject(StateService);
   dataService = inject(DataService);
 
@@ -72,7 +71,7 @@ export class ParticlesComponent implements OnInit {
 
   createParticles() {
     const count = Math.min(
-      this.configService.particlesMinParticleCount,
+      environment.particlesMinParticleCount,
       (innerWidth * innerHeight) / 12e3,
     );
     for (let index = 0; index < count; ++index) {
@@ -116,9 +115,9 @@ export class ParticlesComponent implements OnInit {
 
   frameRequestCallback(time: DOMHighResTimeStamp) {
     let deltaTime = time - this.lastTime;
-    if (deltaTime > this.configService.particlesMinFrameInterval) {
+    if (deltaTime > environment.particlesMinFrameInterval) {
       this.lastTime = time;
-      deltaTime = Math.min(deltaTime, this.configService.particlesMaxFrameInterval);
+      deltaTime = Math.min(deltaTime, environment.particlesMaxFrameInterval);
 
       for (const particle of this.particles) {
         this.updateParticle(particle, deltaTime);
@@ -142,18 +141,18 @@ export class ParticlesComponent implements OnInit {
       for (const particle of this.particles) {
         for (const instance of this.stateService.iterInstances()) {
           if (
-            particle.lineCount! < this.configService.particlesMaxParticleLineCount &&
-            instance.lineCount! < this.configService.particlesMaxInstanceLineCount
+            particle.lineCount! < environment.particlesMaxParticleLineCount &&
+            instance.lineCount! < environment.particlesMaxInstanceLineCount
           ) {
             const lineLength = getDistance(particle.center, instance.center);
-            if (lineLength < this.configService.particlesMaxLineLength) {
+            if (lineLength < environment.particlesMaxLineLength) {
               ++particle.lineCount!;
               ++instance.lineCount!;
 
               this.drawLine(
                 particle,
                 instance.center,
-                Math.min(1, 1 - lineLength / this.configService.particlesMaxLineLength),
+                Math.min(1, 1 - lineLength / environment.particlesMaxLineLength),
               );
             }
           }

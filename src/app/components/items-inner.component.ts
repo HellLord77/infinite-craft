@@ -1,8 +1,8 @@
 import {Component, inject, input} from '@angular/core';
 
+import {environment} from '../../environments/environment';
 import {Sort} from '../enums/sort';
 import {StorageElement} from '../models/storage-element.model';
-import {ConfigService} from '../services/config.service';
 import {DataService} from '../services/data.service';
 import {StateService} from '../services/state.service';
 import {InstancesComponent} from './instances.component';
@@ -21,7 +21,6 @@ export class ItemsInnerComponent {
   sidebarComponent = input.required<SidebarComponent>();
   instancesComponent = input.required<InstancesComponent>();
 
-  configService = inject(ConfigService);
   stateService = inject(StateService);
   dataService = inject(DataService);
 
@@ -54,7 +53,7 @@ export class ItemsInnerComponent {
     if (!deleteMode) {
       elements = elements.filter((element) => !element.hidden);
     }
-    elements = elements.slice(0, this.configService.itemsInnerMaxElementCount);
+    elements = elements.slice(0, environment.itemsInnerMaxElementCount);
 
     if (sort === Sort.name) {
       elements = elements.sort((element1, element2) => element1.text.localeCompare(element2.text));

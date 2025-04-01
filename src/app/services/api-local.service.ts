@@ -54,7 +54,7 @@ export class ApiLocalService extends ApiService {
           worker.db.query(this.query, [element1.text, element2.text]) as Promise<Element[]>,
       ),
       map((result) => {
-        return (result.length ? result[0] : get()) as Element;
+        return result.length ? result[0] : get();
       }),
       map((element) => {
         return toResult(element);

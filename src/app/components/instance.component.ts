@@ -9,12 +9,12 @@ import {
   viewChild,
 } from '@angular/core';
 
+import {environment} from '../../environments/environment';
 import {TouchContextDirective} from '../directives/touch-context.directive';
 import {TouchDoubleDirective} from '../directives/touch-double.directive';
 import {MouseButton} from '../enums/mouse-button';
 import {Instance} from '../models/instance.model';
 import {clone, equals, get, getSubtracted, Point, toTranslate, update} from '../models/point.model';
-import {ConfigService} from '../services/config.service';
 import {SoundService} from '../services/sound.service';
 import {StateService} from '../services/state.service';
 import {UtilityService} from '../services/utility.service';
@@ -49,7 +49,6 @@ export class InstanceComponent implements OnInit {
 
   elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   utilityService = inject(UtilityService);
-  configService = inject(ConfigService);
   stateService = inject(StateService);
   soundService = inject(SoundService);
 
@@ -183,13 +182,13 @@ export class InstanceComponent implements OnInit {
     const width = this.elementRef.nativeElement.offsetWidth;
     const height = this.elementRef.nativeElement.offsetHeight;
 
-    const minX = this.configService.instanceMarginX + width / 2;
-    const maxX = offsetX - this.configService.instanceMarginX + innerWidth - width / 2;
+    const minX = environment.instanceMarginX + width / 2;
+    const maxX = offsetX - environment.instanceMarginX + innerWidth - width / 2;
     center.x =
       minX > maxX ? (minX + maxX) / 2 : this.utilityService.numberClamp(center.x, minX, maxX);
 
-    const minY = this.configService.instanceMarginY + height / 2;
-    const maxY = offsetY - this.configService.instanceMarginY + innerHeight - height / 2;
+    const minY = environment.instanceMarginY + height / 2;
+    const maxY = offsetY - environment.instanceMarginY + innerHeight - height / 2;
     center.y =
       minY > maxY ? (minY + maxY) / 2 : this.utilityService.numberClamp(center.y, minY, maxY);
 
