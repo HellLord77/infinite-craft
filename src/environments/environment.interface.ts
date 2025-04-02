@@ -2,6 +2,7 @@ export interface Environment {
   readonly dataKey: string;
 
   readonly apiRemote: boolean;
+  readonly apiLocalUrl: string;
   readonly apiRemoteBaseUrl: string;
 
   readonly cacheStorage: boolean;

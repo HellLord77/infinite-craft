@@ -3,6 +3,7 @@ import {concatMap, first, from, map, Observable, ReplaySubject} from 'rxjs';
 import {createDbWorker, WorkerHttpvfs} from 'sql.js-httpvfs';
 import {SplitFileConfig} from 'sql.js-httpvfs/dist/sqlite.worker';
 
+import {environment} from '../../environments/environment';
 import {Element, get, toResult} from '../models/element.model';
 import {Result} from '../models/result.model';
 import {ApiService} from './api.service';
@@ -16,21 +17,21 @@ export class ApiLocalService extends ApiService {
     config: {
       serverMode: 'full',
       requestChunkSize: 4096,
-      url: 'data.sqlite',
+      url: environment.apiLocalUrl,
     },
   };
   private readonly query = `
-    SELECT
-      result.text,
-      result.emoji
-    FROM
-      pair
-        JOIN element AS first ON first_id = first.id
-      JOIN element AS second ON second_id = second.id
-      JOIN element AS result ON result_id = result.id
-    WHERE
-      first.text = ?
-      AND second.text = ?;
+  SELECT
+    result.text,
+    result.emoji
+  FROM
+    pair
+      JOIN element AS first ON first_id = first.id
+    JOIN element AS second ON second_id = second.id
+    JOIN element AS result ON result_id = result.id
+  WHERE
+    first.text = ?
+    AND second.text = ?;
   `;
   private readonly worker$ = new ReplaySubject<WorkerHttpvfs>();
 

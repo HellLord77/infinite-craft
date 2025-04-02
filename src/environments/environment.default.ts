@@ -4,6 +4,7 @@ export const environment: Environment = {
   dataKey: 'infinite-craft-data',
 
   apiRemote: true,
+  apiLocalUrl: 'data.sqlite',
   apiRemoteBaseUrl: 'http://localhost:8000',
 
   cacheStorage: true,
