@@ -18,19 +18,19 @@
   font-size: 15.4px;
 }
 
-:host(.is-delete-mode) {
+:host(.hidden-mode) {
   contain: layout style;
   position: relative;
 }
 
-:host(.is-delete-mode:hover) {
+:host(.hidden-mode:hover) {
   background: 0 0;
   border: 1px solid #c8c8c8;
   cursor: auto;
 }
 
 :host(.hidden) {
-  opacity: 0.35;
+  opacity: 0.5;
 }
 
 @media screen and (min-width: 1150px) {

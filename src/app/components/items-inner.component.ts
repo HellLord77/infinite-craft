@@ -6,14 +6,14 @@ import {StorageElement} from '../models/storage-element.model';
 import {DataService} from '../services/data.service';
 import {StateService} from '../services/state.service';
 import {InstancesComponent} from './instances.component';
-import {ItemComponent} from './item.component';
+import {ItemWrapperComponent} from './item-wrapper.component';
 import {ItemsRowComponent} from './items-row.component';
 import {SidebarComponent} from './sidebar.component';
 
 @Component({
   selector: 'app-items-inner',
   standalone: true,
-  imports: [ItemComponent, ItemsRowComponent],
+  imports: [ItemsRowComponent, ItemWrapperComponent],
   templateUrl: './items-inner.component.html',
   styleUrl: './items-inner.component.css',
 })
@@ -31,10 +31,10 @@ export class ItemsInnerComponent {
   getElements() {
     const search = this.stateService.searchControl.value!.toLowerCase();
     const discoveriesActive = this.stateService.isDiscoveriesActive();
-    const deleteMode = this.stateService.isDeleteMode();
+    const hiddenMode = this.stateService.isHiddenMode();
     const sort = this.stateService.getSort();
 
-    const key = JSON.stringify([search, discoveriesActive, deleteMode, sort]);
+    const key = JSON.stringify([search, discoveriesActive, hiddenMode, sort]);
     if (
       !this.dataService.elementsChanged &&
       this.cachedValue !== undefined &&
@@ -50,7 +50,7 @@ export class ItemsInnerComponent {
     if (discoveriesActive) {
       elements = elements.filter((element) => element.discovered);
     }
-    if (!deleteMode) {
+    if (!hiddenMode) {
       elements = elements.filter((element) => !element.hidden);
     }
     elements = elements.slice(0, environment.itemsInnerMaxElementCount);

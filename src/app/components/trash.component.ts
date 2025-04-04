@@ -15,6 +15,6 @@ export class TrashComponent {
   stateService = inject(StateService);
 
   @HostListener('click') onClick() {
-    this.active = this.stateService.toggleDeleteMode();
+    this.active = this.stateService.toggleHiddenMode();
   }
 }

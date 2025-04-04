@@ -1,0 +1,4 @@
+@if (stateService.isHiddenMode()) {
+  <app-item-hidden-toggle [itemComponent]="itemComponent" />
+}
+<app-item #itemComponent [element]="element()" [instancesComponent]="instancesComponent()" />

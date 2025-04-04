@@ -1,0 +1,6 @@
+:host {
+  contain: layout style;
+  display: inline-block;
+  max-width: calc(100% - 5px);
+  position: relative;
+}

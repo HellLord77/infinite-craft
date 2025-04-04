@@ -15,12 +15,11 @@ import {StateService} from '../services/state.service';
 import {UtilityService} from '../services/utility.service';
 import {InstancesComponent} from './instances.component';
 import {ItemEmojiComponent} from './item-emoji.component';
-import {ItemHiddenToggleComponent} from './item-hidden-toggle.component';
 
 @Component({
   selector: 'app-item',
   standalone: true,
-  imports: [ItemEmojiComponent, ItemHiddenToggleComponent],
+  imports: [ItemEmojiComponent],
   templateUrl: './item.component.html',
   styleUrl: './item.component.css',
 })
@@ -41,13 +40,13 @@ export class ItemComponent implements OnInit {
     this.hidden = this.element().hidden!;
   }
 
-  @HostBinding('class.is-delete-mode') get isDeleteMode() {
-    return !this.instance && this.stateService.isDeleteMode();
+  @HostBinding('class.hidden-mode') get isHiddenMode() {
+    return !this.instance && this.stateService.isHiddenMode();
   }
 
   @HostListener('mousedown', ['$event']) onMouseDown(mouseEvent: MouseEvent) {
     if (mouseEvent.button === MouseButton.Left) {
-      if (!this.instance && !this.stateService.isDeleteMode()) {
+      if (!this.instance && !this.stateService.isHiddenMode()) {
         const center = this.utilityService.elementRefGetCenter(this.elementRef);
         const instance = this.stateService.addInstance(this.element(), center);
 

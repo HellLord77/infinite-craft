@@ -15,7 +15,7 @@ export class StateService {
   private readonly instances = new Map<number, Instance>();
 
   private id = 0;
-  private deleteMode = false;
+  private hiddenMode = false;
   private discoveriesActive = false;
   private sort = Sort.time;
   private zIndex = 10;
@@ -42,16 +42,16 @@ export class StateService {
     this.instances.delete(instance.id);
   }
 
-  isDeleteMode() {
-    return this.deleteMode;
+  isHiddenMode() {
+    return this.hiddenMode;
   }
 
   normalMode() {
-    this.deleteMode = false;
+    this.hiddenMode = false;
   }
 
-  toggleDeleteMode() {
-    return (this.deleteMode = !this.deleteMode);
+  toggleHiddenMode() {
+    return (this.hiddenMode = !this.hiddenMode);
   }
 
   isDiscoveriesActive() {

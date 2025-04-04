@@ -2,12 +2,12 @@ import {Component, input} from '@angular/core';
 
 import {StorageElement} from '../models/storage-element.model';
 import {InstancesComponent} from './instances.component';
-import {ItemComponent} from './item.component';
+import {ItemWrapperComponent} from './item-wrapper.component';
 
 @Component({
   selector: 'app-items-row',
   standalone: true,
-  imports: [ItemComponent],
+  imports: [ItemWrapperComponent],
   templateUrl: './items-row.component.html',
   styleUrl: './items-row.component.css',
 })

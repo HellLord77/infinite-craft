@@ -22,3 +22,9 @@
 :host(:hover.dark-mode) {
   background: #444;
 }
+
+:host {
+  /* TODO */
+  right: -7px;
+  top: -7px;
+}

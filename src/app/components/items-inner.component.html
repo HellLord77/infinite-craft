@@ -4,6 +4,6 @@
   }
 } @else {
   @for (element of getElements(); track element.text) {
-    <app-item [element]="element" [instancesComponent]="instancesComponent()" />
+    <app-item-wrapper [element]="element" [instancesComponent]="instancesComponent()" />
   }
 }
