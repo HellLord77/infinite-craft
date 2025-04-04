@@ -10,6 +10,7 @@ import {StorageElement} from '../models/storage-element.model';
   providedIn: 'root',
 })
 export class StateService {
+  readonly sortMax = Object.keys(Sort).filter((k) => isNaN(Number(k))).length;
   readonly searchControl = new FormControl('');
 
   private readonly instances = new Map<number, Instance>();
@@ -67,7 +68,7 @@ export class StateService {
   }
 
   nextSort() {
-    return (this.sort = (this.sort + 1) % 5) as Sort;
+    return (this.sort = (this.sort + 1) % this.sortMax) as Sort;
   }
 
   nextZIndex() {

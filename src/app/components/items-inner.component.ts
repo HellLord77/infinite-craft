@@ -1,7 +1,7 @@
 import {Component, inject, input} from '@angular/core';
 
 import {environment} from '../../environments/environment';
-import {Sort} from '../enums/sort';
+import {toCompareFn} from '../enums/sort';
 import {StorageElement} from '../models/storage-element.model';
 import {DataService} from '../services/data.service';
 import {StateService} from '../services/state.service';
@@ -55,29 +55,8 @@ export class ItemsInnerComponent {
     }
     elements = elements.slice(0, environment.itemsInnerMaxElementCount);
 
-    switch (sort) {
-      case Sort.name:
-        elements = elements.sort((element1, element2) =>
-          element1.text.localeCompare(element2.text),
-        );
-        break;
-      case Sort.emoji:
-        elements = elements.sort((element1, element2) =>
-          element1.emoji.localeCompare(element2.emoji),
-        );
-        break;
-      case Sort.length:
-        elements = elements.sort((element1, element2) => {
-          return (
-            element1.text.length - element2.text.length ||
-            element1.text.localeCompare(element2.text)
-          );
-        });
-        break;
-      case Sort.random:
-        elements = elements.sort(() => Math.random() - 0.5);
-        break;
-    }
+    const compareFn = toCompareFn(sort);
+    elements = compareFn ? elements.sort(compareFn) : elements;
 
     this.dataService.elementsChanged = false;
     this.cachedKey = key;
