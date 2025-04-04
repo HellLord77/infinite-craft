@@ -1,6 +1,6 @@
 import {Component, HostListener, inject} from '@angular/core';
 
-import {SoundService} from '../services/sound.service';
+import {DataService} from '../services/data.service';
 
 @Component({
   selector: 'app-sound',
@@ -10,9 +10,9 @@ import {SoundService} from '../services/sound.service';
   styleUrl: './sound.component.css',
 })
 export class SoundComponent {
-  soundService = inject(SoundService);
+  dataService = inject(DataService);
 
   @HostListener('click') onClick() {
-    this.soundService.toggleMuted();
+    this.dataService.toggleMuted();
   }
 }

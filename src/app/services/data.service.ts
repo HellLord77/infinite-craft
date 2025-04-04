@@ -1,10 +1,11 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
 import {environment} from '../../environments/environment';
 import {Element} from '../models/element.model';
 import {HasToJSON} from '../models/has-to-json.model';
 import {InfiniteCraftData} from '../models/infinite-craft-data.model';
 import {instanceOf, StorageElement} from '../models/storage-element.model';
+import {SoundService} from './sound.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +13,11 @@ import {instanceOf, StorageElement} from '../models/storage-element.model';
 export class DataService implements HasToJSON {
   elementsChanged = false;
 
+  soundService = inject(SoundService);
+
   private elements!: Map<string, StorageElement>;
   private darkMode!: boolean;
+  private muted!: boolean;
 
   constructor() {
     this.init();
@@ -35,7 +39,8 @@ export class DataService implements HasToJSON {
         }
       }
 
-      this.darkMode = Boolean(infiniteCraftData.darkMode);
+      this.darkMode = Boolean(infiniteCraftData.isDarkMode);
+      this.muted = Boolean(infiniteCraftData.isMuted);
     }
   }
 
@@ -45,7 +50,7 @@ export class DataService implements HasToJSON {
         delete element.hidden;
       }
     }
-    return {elements: [...this.elements.values()], darkMode: this.darkMode};
+    return {elements: [...this.elements.values()], isDarkMode: this.darkMode, isMuted: this.muted};
   }
 
   init() {
@@ -65,6 +70,7 @@ export class DataService implements HasToJSON {
       ]),
     );
     this.darkMode = false;
+    this.muted = false;
   }
 
   exists() {
@@ -107,5 +113,15 @@ export class DataService implements HasToJSON {
   toggleDarkMode() {
     this.darkMode = !this.darkMode;
     this.store();
+  }
+
+  isMuted() {
+    return this.muted;
+  }
+
+  toggleMuted() {
+    this.muted = !this.muted;
+    this.store();
+    this.soundService.setMuted(this.muted);
   }
 }

@@ -9,7 +9,6 @@ import {UtilityService} from './utility.service';
 export class SoundNativeService extends SoundService {
   utilityService = inject(UtilityService);
 
-  private muted = false;
   private instanceRate = 1;
 
   private readonly audioInstance = new Audio('assets/sounds/instance.mp3');
@@ -35,18 +34,12 @@ export class SoundNativeService extends SoundService {
     this.audioDiscovery.preservesPitch = false;
   }
 
-  isMuted() {
-    return this.muted;
-  }
-
-  toggleMuted() {
-    this.muted = !this.muted;
-
-    this.audioInstance.muted = this.muted;
-    this.audioReward.muted = this.muted;
-    this.audioDelete.muted = this.muted;
-    this.audioError.muted = this.muted;
-    this.audioDiscovery.muted = this.muted;
+  setMuted(muted: boolean) {
+    this.audioInstance.muted = muted;
+    this.audioReward.muted = muted;
+    this.audioDelete.muted = muted;
+    this.audioError.muted = muted;
+    this.audioDiscovery.muted = muted;
   }
 
   playInstance(volume = 0.3) {

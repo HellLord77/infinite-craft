@@ -10,7 +10,6 @@ import {UtilityService} from './utility.service';
 export class SoundHowlerService extends SoundService {
   utilityService = inject(UtilityService);
 
-  private muted = false;
   private instanceRate = 1;
 
   private readonly instanceSound = new Howl({
@@ -34,12 +33,8 @@ export class SoundHowlerService extends SoundService {
     rate: 1.1,
   });
 
-  isMuted() {
-    return this.muted;
-  }
-
-  toggleMuted() {
-    Howler.mute((this.muted = !this.muted));
+  setMuted(muted: boolean) {
+    Howler.mute(muted);
   }
 
   playInstance(volume = 0.3) {
