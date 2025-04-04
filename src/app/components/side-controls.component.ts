@@ -21,5 +21,5 @@ import {TrashComponent} from './trash.component';
   styleUrl: './side-controls.component.css',
 })
 export class SideControlsComponent {
-  pariclesComponent = input.required<ParticlesComponent>();
+  particlesComponent = input.required<ParticlesComponent>();
 }
