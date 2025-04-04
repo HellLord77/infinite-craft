@@ -3,15 +3,16 @@ import {Component, HostBinding, HostListener, inject, input} from '@angular/core
 import {DataService} from '../services/data.service';
 import {SoundService} from '../services/sound.service';
 import {ItemComponent} from './item.component';
+import {ItemHiddenToggleIconComponent} from './item-hidden-toggle-icon.component';
 
 @Component({
-  selector: 'app-item-remove',
+  selector: 'app-item-hidden-toggle',
   standalone: true,
-  imports: [],
-  templateUrl: './item-remove.component.html',
-  styleUrl: './item-remove.component.css',
+  imports: [ItemHiddenToggleIconComponent],
+  templateUrl: './item-hidden-toggle.component.html',
+  styleUrl: './item-hidden-toggle.component.css',
 })
-export class ItemRemoveComponent {
+export class ItemHiddenToggleComponent {
   itemComponent = input.required<ItemComponent>();
 
   soundService = inject(SoundService);

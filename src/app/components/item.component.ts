@@ -15,12 +15,12 @@ import {StateService} from '../services/state.service';
 import {UtilityService} from '../services/utility.service';
 import {InstancesComponent} from './instances.component';
 import {ItemEmojiComponent} from './item-emoji.component';
-import {ItemRemoveComponent} from './item-remove.component';
+import {ItemHiddenToggleComponent} from './item-hidden-toggle.component';
 
 @Component({
   selector: 'app-item',
   standalone: true,
-  imports: [ItemEmojiComponent, ItemRemoveComponent],
+  imports: [ItemEmojiComponent, ItemHiddenToggleComponent],
   templateUrl: './item.component.html',
   styleUrl: './item.component.css',
 })

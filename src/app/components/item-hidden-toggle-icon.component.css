@@ -1,0 +1,18 @@
+:host {
+  height: 11px;
+  width: 11px;
+}
+
+:host {
+  filter: var(--dark-mode-filter);
+}
+
+:host {
+  /* TODO */
+  display: flex;
+}
+
+img {
+  /* TODO */
+  width: 11px;
+}
