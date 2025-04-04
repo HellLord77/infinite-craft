@@ -26,7 +26,7 @@ export class ApiLocalService extends ApiService {
     result.emoji
   FROM
     pair
-      JOIN element AS first ON first_id = first.id
+    JOIN element AS first ON first_id = first.id
     JOIN element AS second ON second_id = second.id
     JOIN element AS result ON result_id = result.id
   WHERE

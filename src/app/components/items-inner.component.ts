@@ -55,12 +55,28 @@ export class ItemsInnerComponent {
     }
     elements = elements.slice(0, environment.itemsInnerMaxElementCount);
 
-    if (sort === Sort.name) {
-      elements = elements.sort((element1, element2) => element1.text.localeCompare(element2.text));
-    } else if (sort === Sort.emoji) {
-      elements = elements.sort((element1, element2) =>
-        element1.emoji.localeCompare(element2.emoji),
-      );
+    switch (sort) {
+      case Sort.name:
+        elements = elements.sort((element1, element2) =>
+          element1.text.localeCompare(element2.text),
+        );
+        break;
+      case Sort.emoji:
+        elements = elements.sort((element1, element2) =>
+          element1.emoji.localeCompare(element2.emoji),
+        );
+        break;
+      case Sort.length:
+        elements = elements.sort((element1, element2) => {
+          return (
+            element1.text.length - element2.text.length ||
+            element1.text.localeCompare(element2.text)
+          );
+        });
+        break;
+      case Sort.random:
+        elements = elements.sort(() => Math.random() - 0.5);
+        break;
     }
 
     this.dataService.elementsChanged = false;
