@@ -1,17 +1,17 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {TrashComponent} from './trash.component';
+import {SidebarTrashComponent} from './sidebar-trash.component';
 
-describe('TrashComponent', () => {
-  let component: TrashComponent;
-  let fixture: ComponentFixture<TrashComponent>;
+describe('SidebarTrashComponent', () => {
+  let component: SidebarTrashComponent;
+  let fixture: ComponentFixture<SidebarTrashComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TrashComponent],
+      imports: [SidebarTrashComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TrashComponent);
+    fixture = TestBed.createComponent(SidebarTrashComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

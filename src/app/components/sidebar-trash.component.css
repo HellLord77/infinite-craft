@@ -31,5 +31,23 @@ img {
 }
 
 img {
+  margin-right: 0;
+  transform: scale(1.2);
+}
+
+img {
   filter: var(--dark-mode-filter);
+}
+
+:host(.active) img {
+  animation: trashIconAnimate .5s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes trashIconAnimate {
+  0% {
+    rotate: -5deg;
+  }
+  to {
+    rotate: 5deg;
+  }
 }

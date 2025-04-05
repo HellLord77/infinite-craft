@@ -10,11 +10,11 @@ import {StateService} from '../services/state.service';
   styleUrl: './sidebar-discoveries.component.css',
 })
 export class SidebarDiscoveriesComponent {
-  @HostBinding('class.discoveries-active') discoveriesActive = false;
+  @HostBinding('class.active') active = false;
 
   stateService = inject(StateService);
 
   @HostListener('click') onClick() {
-    this.discoveriesActive = this.stateService.toggleDiscoveriesActive();
+    this.active = this.stateService.toggleDiscoveriesActive();
   }
 }

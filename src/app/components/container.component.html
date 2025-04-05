@@ -1,7 +1,11 @@
 <app-side-controls [particlesComponent]="particlesComponent" />
 <app-side-controls-mobile />
 <app-particles #particlesComponent />
-<app-sidebar #sidebarComponent [instancesComponent]="instancesComponent" />
+<app-sidebar
+  #sidebarComponent
+  [instancesComponent]="instancesComponent"
+  style="width: var(--sidebar-width)"
+/>
 <app-instances
   #instancesComponent
   [pinwheelComponent]="pinwheelComponent"

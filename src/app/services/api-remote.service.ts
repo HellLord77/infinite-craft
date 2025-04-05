@@ -11,9 +11,8 @@ import {ApiService} from './api.service';
   providedIn: 'root',
 })
 export class ApiRemoteService extends ApiService {
-  private readonly pairUrl!: string;
-
   httpClient = inject(HttpClient);
+  private readonly pairUrl!: string;
 
   constructor() {
     super();

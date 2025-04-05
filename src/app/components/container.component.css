@@ -1,13 +1,13 @@
 :host {
+  font-family: Roboto, sans-serif;
+  height: 100%;
+  left: 0;
   position: fixed;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  font-family: Roboto, sans-serif;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+  width: 100%;
   --text-color: #040404;
   --background-color: #fff;
   --border-color: #c8c8c8;
@@ -16,9 +16,11 @@
   --instance-bg-hover: linear-gradient(0deg, #d6fcff, #fff 90%);
   --instance-border: #91a8c1;
   --instance-border-hover: #91a8c1;
-  --sidebar-bg: hsla(0, 0%, 100%, 0.93);
-  --discoveries-bg-active: #fff9ea;
+  --sidebar-bg: #fff;
+  --discoveries-bg-active: linear-gradient(0deg, #e4d9ff 0%, #fff 50%);
+  background: #fff;
   background: var(--background-color);
+  color: #040404;
   color: var(--text-color);
 }
 
@@ -26,7 +28,7 @@
   --border-color: #d1d1d1;
   --item-bg: #000;
   --instance-bg: linear-gradient(180deg, #22252b, #000 80%);
-  --instance-bg-hover: linear-gradient(180deg, #3d4249, #000 80%);
+  --instance-bg-hover: linear-gradient(180deg, #516772, #131313 80%);
   --instance-border: #dcdcdc;
   --instance-border-hover: #c7e0ff;
   --sidebar-bg: #000;

@@ -1,26 +1,25 @@
 :host {
+  pointer-events: none;
   position: fixed;
+  right: calc(var(--sidebar-width) + 13px);
   top: 10px;
-  right: 320px;
-  width: 80px;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-  pointer-events: none;
+  width: 80px;
 }
 
 @media screen and (min-width: 1150px) {
   :host {
-    right: 362px;
-    width: 85px;
+    width: 86px;
   }
 }
 
 @media screen and (max-width: 800px) {
   :host {
+    left: auto;
     position: absolute;
     right: 10px;
-    left: auto;
     top: 10px;
   }
 }

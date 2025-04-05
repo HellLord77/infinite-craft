@@ -36,12 +36,12 @@ export class ItemComponent implements OnInit {
   stateService = inject(StateService);
   soundService = inject(SoundService);
 
-  ngOnInit() {
-    this.hidden = this.element().hidden!;
-  }
-
   @HostBinding('class.hidden-mode') get isHiddenMode() {
     return !this.instance && this.stateService.isHiddenMode();
+  }
+
+  ngOnInit() {
+    this.hidden = this.element().hidden!;
   }
 
   @HostListener('mousedown', ['$event']) onMouseDown(mouseEvent: MouseEvent) {

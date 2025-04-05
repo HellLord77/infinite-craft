@@ -1,31 +1,27 @@
 :host {
-  position: sticky;
   bottom: 0;
-  left: 0;
+  margin-top: 20px;
+  position: sticky;
   width: 100%;
-  font-size: 13px;
-  text-align: right;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  background: var(--sidebar-bg);
+  z-index: 2;
 }
 
-:host(:after) {
-  content: '';
-  position: absolute;
-  top: -30px;
+:host(:before) {
+  background: linear-gradient(180deg, hsla(0, 0%, 100%, 0), #fff 60%);
+  content: "";
+  height: 100px;
   left: 0;
-  width: 100%;
-  height: 30px;
-  background: linear-gradient(180deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, 0.9));
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.15s linear;
+  position: absolute;
+  right: 0;
+  top: -50px
+}
+
+:host(.dark-mode:before) {
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .9) 60%);
 }
 
 :host(.dark-mode:after) {
-  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.9));
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .9));
 }
 
 :host(.fade-show:after) {
