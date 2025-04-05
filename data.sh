@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -e
 
-version=$(jq -r .version package.json)
+version=$(curl -s https://codeberg.org/api/v1/repos/HellLord77/infinite-craft-data/tags | jq -r '.[0].name')
 wget -O data.tar.gz "https://codeberg.org/HellLord77/infinite-craft-data/archive/$version.tar.gz"
 tar -xzvf data.tar.gz
 mv infinite-craft-data data
