@@ -1,5 +1,7 @@
 export interface Environment {
   readonly dataKey: string;
+  readonly dataDefaultDarkMode: boolean;
+  readonly dataDefaultMuted: boolean;
 
   readonly apiRemote: boolean;
   readonly apiLocalUrl: string;

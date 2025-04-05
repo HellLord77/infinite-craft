@@ -2,6 +2,8 @@ import {Environment} from './environment.interface';
 
 export const environment: Environment = {
   dataKey: 'infinite-craft-data',
+  dataDefaultDarkMode: true,
+  dataDefaultMuted: false,
 
   apiRemote: true,
   apiLocalUrl: 'data.sqlite',
