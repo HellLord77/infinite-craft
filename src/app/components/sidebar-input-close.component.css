@@ -7,20 +7,20 @@ img {
 }
 
 img {
+  cursor: pointer;
+  opacity: .45;
   right: 10px;
   top: calc(50% + 1px);
-  cursor: pointer;
-  opacity: 0.45;
   width: 15px;
 }
 
-@media screen and (min-width: 1150px) {
-  :host {
-    width: 18px;
-    right: 12px;
-  }
+img {
+  filter: var(--dark-mode-filter);
 }
 
-:host {
-  filter: var(--dark-mode-filter);
+@media screen and (min-width: 1150px) {
+  img {
+    right: 12px;
+    width: 18px;
+  }
 }
