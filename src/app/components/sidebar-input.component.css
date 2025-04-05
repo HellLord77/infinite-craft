@@ -20,7 +20,7 @@ input::placeholder {
   opacity: 0.8;
 }
 
-input.dark-mode::placeholder {
+:host(.dark-mode) input::placeholder {
   opacity: 0.75;
 }
 

@@ -1,4 +1,12 @@
-import {Component, ElementRef, HostListener, inject, input, viewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  inject,
+  input,
+  viewChild,
+} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 
 import {DataService} from '../services/data.service';
@@ -19,6 +27,10 @@ export class SidebarInputComponent {
   dataService = inject(DataService);
 
   private inputElementRef = viewChild.required<ElementRef<HTMLInputElement>>('inputElement');
+
+  @HostBinding('class.dark-mode') get darkMode() {
+    return this.dataService.isDarkMode();
+  }
 
   @HostListener('window:keydown', ['$event']) onWindowKeyDown(keyboardEvent: KeyboardEvent) {
     if (keyboardEvent.key === 'Escape') {

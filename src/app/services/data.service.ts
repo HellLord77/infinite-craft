@@ -1,4 +1,5 @@
 import {inject, Injectable} from '@angular/core';
+import {Meta} from '@angular/platform-browser';
 
 import {environment} from '../../environments/environment';
 import {Element} from '../models/element.model';
@@ -13,6 +14,7 @@ import {SoundService} from './sound.service';
 export class DataService implements HasToJSON {
   elementsChanged = false;
 
+  meta = inject(Meta);
   soundService = inject(SoundService);
 
   private elements!: Map<string, StorageElement>;
@@ -42,6 +44,7 @@ export class DataService implements HasToJSON {
       this.darkMode = Boolean(infiniteCraftData.isDarkMode);
       this.muted = Boolean(infiniteCraftData.isMuted);
 
+      this.#setDarkMode();
       this.soundService.setMuted(this.muted);
     }
   }
@@ -119,6 +122,7 @@ export class DataService implements HasToJSON {
   toggleDarkMode() {
     this.darkMode = !this.darkMode;
     this.store();
+    this.#setDarkMode();
   }
 
   isMuted() {
@@ -129,5 +133,13 @@ export class DataService implements HasToJSON {
     this.muted = !this.muted;
     this.store();
     this.soundService.setMuted(this.muted);
+  }
+
+  #setDarkMode() {
+    if (this.darkMode) {
+      this.meta.addTag({name: 'color-scheme', content: 'dark'});
+    } else {
+      this.meta.removeTag('name=color-scheme');
+    }
   }
 }
