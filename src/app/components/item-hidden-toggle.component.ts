@@ -3,12 +3,11 @@ import {Component, HostBinding, HostListener, inject, input} from '@angular/core
 import {DataService} from '../services/data.service';
 import {SoundService} from '../services/sound.service';
 import {ItemComponent} from './item.component';
-import {ItemHiddenToggleIconComponent} from './item-hidden-toggle-icon.component';
 
 @Component({
   selector: 'app-item-hidden-toggle',
   standalone: true,
-  imports: [ItemHiddenToggleIconComponent],
+  imports: [],
   templateUrl: './item-hidden-toggle.component.html',
   styleUrl: './item-hidden-toggle.component.css',
 })

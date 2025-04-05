@@ -23,6 +23,15 @@
   background: #444;
 }
 
+img {
+  height: 11px;
+  width: 11px;
+}
+
+img {
+  filter: var(--dark-mode-filter);
+}
+
 :host {
   /* TODO */
   right: -5px;

@@ -1,1 +1,5 @@
-<app-item-hidden-toggle-icon [itemComponent]="this.itemComponent()" />
+@if (itemComponent().hidden) {
+  <img alt="plus" src="assets/images/svgs/plus.svg" />
+} @else {
+  <img alt="minus" src="assets/images/svgs/minus.svg" />
+}
