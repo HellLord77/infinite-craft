@@ -1,0 +1,38 @@
+:host {
+  border-left: 1px solid var(--border-color);
+  border-top-right-radius: 10px;
+  height: 100%;
+  width: 100%;
+}
+
+:host {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+:host(:hover) {
+  background: var(--instance-bg-hover);
+}
+
+img {
+  line-height: 0;
+  pointer-events: none;
+}
+
+img {
+  height: 11px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+img {
+  filter: var(--dark-mode-filter);
+}
+
+:host(:not(.flip)) img {
+  transform: rotate(180deg);
+}

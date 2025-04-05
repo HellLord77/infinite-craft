@@ -19,6 +19,7 @@ export class StateService {
   private hiddenMode = false;
   private discoveriesActive = false;
   private sort = Sort.time;
+  private sortFlip = false;
   private zIndex = 10;
 
   isMobile() {
@@ -69,6 +70,14 @@ export class StateService {
 
   nextSort() {
     return (this.sort = (this.sort + 1) % this.sortMax) as Sort;
+  }
+
+  isSortFlip() {
+    return this.sortFlip;
+  }
+
+  toggleSortFlip() {
+    return (this.sortFlip = !this.sortFlip);
   }
 
   nextZIndex() {

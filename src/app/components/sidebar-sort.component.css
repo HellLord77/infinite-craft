@@ -11,26 +11,3 @@
   justify-content: center;
   transform: translateY(1px);
 }
-
-:host(:hover) {
-  background: var(--instance-bg-hover);
-}
-
-img {
-  height: 13px;
-  margin-right: 5px;
-}
-
-img {
-  line-height: 0;
-  pointer-events: none;
-}
-
-img {
-  filter: var(--dark-mode-filter);
-}
-
-:host {
-  /* TODO */
-  text-transform: capitalize;
-}

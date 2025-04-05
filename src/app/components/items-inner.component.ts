@@ -33,8 +33,9 @@ export class ItemsInnerComponent {
     const discoveriesActive = this.stateService.isDiscoveriesActive();
     const hiddenMode = this.stateService.isHiddenMode();
     const sort = this.stateService.getSort();
+    const sortFlip = this.stateService.isSortFlip();
 
-    const key = JSON.stringify([search, discoveriesActive, hiddenMode, sort]);
+    const key = JSON.stringify([search, discoveriesActive, hiddenMode, sort, sortFlip]);
     if (
       !this.dataService.elementsChanged &&
       this.cachedValue !== undefined &&
@@ -57,6 +58,10 @@ export class ItemsInnerComponent {
 
     const compareFn = toCompareFn(sort);
     elements = compareFn ? elements.sort(compareFn) : elements;
+
+    if (sortFlip) {
+      elements = elements.reverse();
+    }
 
     this.dataService.elementsChanged = false;
     this.cachedKey = key;

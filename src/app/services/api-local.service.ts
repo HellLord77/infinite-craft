@@ -21,17 +21,16 @@ export class ApiLocalService extends ApiService {
     },
   };
   private readonly query = `
-  SELECT
-    result.text,
-    result.emoji
-  FROM
-    pair
-    JOIN element AS first ON first_id = first.id
-    JOIN element AS second ON second_id = second.id
-    JOIN element AS result ON result_id = result.id
-  WHERE
-    first.text = ?
-    AND second.text = ?;
+    SELECT result.text,
+           result.emoji
+    FROM pair
+           JOIN element AS first
+    ON first_id = first.id
+      JOIN element AS second ON second_id = second.id
+      JOIN element AS result ON result_id = result.id
+    WHERE
+      first.text = ?
+      AND second.text = ?;
   `;
   private readonly worker$ = new ReplaySubject<WorkerHttpvfs>();
 
