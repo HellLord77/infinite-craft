@@ -25,7 +25,3 @@ img {
   top: 5px;
   width: 22px;
 }
-
-img {
-  filter: var(--dark-mode-filter);
-}

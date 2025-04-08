@@ -35,10 +35,6 @@ img {
   transform: scale(1.2);
 }
 
-img {
-  filter: var(--dark-mode-filter);
-}
-
 :host(.active) img {
   animation: trashIconAnimate .5s ease-in-out infinite alternate-reverse;
 }

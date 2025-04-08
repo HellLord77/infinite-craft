@@ -29,10 +29,6 @@ img {
   user-select: none;
 }
 
-img {
-  filter: var(--dark-mode-filter);
-}
-
 :host(:not(.flip)) img {
   transform: rotate(180deg);
 }

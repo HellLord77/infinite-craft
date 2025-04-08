@@ -5,10 +5,6 @@
   margin-right: 3px;
 }
 
-:host {
-  filter: var(--dark-mode-filter);
-}
-
 img {
   /* TODO */
   width: 12px;

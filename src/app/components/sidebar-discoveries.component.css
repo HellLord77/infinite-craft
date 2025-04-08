@@ -29,7 +29,3 @@ img {
   line-height: 0;
   pointer-events: none;
 }
-
-img {
-  filter: var(--dark-mode-filter);
-}

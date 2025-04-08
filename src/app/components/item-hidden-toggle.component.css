@@ -28,10 +28,6 @@ img {
   width: 11px;
 }
 
-img {
-  filter: var(--dark-mode-filter);
-}
-
 :host {
   /* TODO */
   right: -5px;

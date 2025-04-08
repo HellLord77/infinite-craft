@@ -24,10 +24,6 @@ img {
   pointer-events: none;
 }
 
-img {
-  filter: var(--dark-mode-filter);
-}
-
 :host {
   /* TODO */
   text-transform: capitalize;

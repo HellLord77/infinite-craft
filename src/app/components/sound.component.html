@@ -1,5 +1,1 @@
-@if (dataService.isMuted()) {
-  <img alt="mute" src="assets/images/svgs/mute.svg" />
-} @else {
-  <img alt="sound" src="assets/images/svgs/sound.svg" />
-}
+<img alt="sound" src="assets/images/svgs/{{ dataService.isMuted() ? 'mute' : 'sound' }}.svg" />

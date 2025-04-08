@@ -37,6 +37,6 @@
   --text-color: #fff;
 }
 
-:host(.dark-mode) {
-  --dark-mode-filter: invert(1);
+:host(.dark-mode::ng-deep) img {
+  filter: invert(1);
 }

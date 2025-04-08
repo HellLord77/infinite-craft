@@ -44,7 +44,7 @@ export class DataService implements HasToJSON {
       this.darkMode = Boolean(infiniteCraftData.isDarkMode);
       this.muted = Boolean(infiniteCraftData.isMuted);
 
-      this.#setDarkMode();
+      this.setDarkMode();
       this.soundService.setMuted(this.muted);
     }
   }
@@ -122,7 +122,7 @@ export class DataService implements HasToJSON {
   toggleDarkMode() {
     this.darkMode = !this.darkMode;
     this.store();
-    this.#setDarkMode();
+    this.setDarkMode();
   }
 
   isMuted() {
@@ -135,7 +135,7 @@ export class DataService implements HasToJSON {
     this.soundService.setMuted(this.muted);
   }
 
-  #setDarkMode() {
+  private setDarkMode() {
     if (this.darkMode) {
       this.meta.addTag({name: 'color-scheme', content: 'dark'});
     } else {

@@ -13,10 +13,6 @@
 }
 
 :host {
-  filter: var(--dark-mode-filter);
-}
-
-:host {
   /* TODO */
   height: 20.45px;
 }

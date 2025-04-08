@@ -1,5 +1,4 @@
-@if (dataService.isDarkMode()) {
-  <img src="assets/images/svgs/dark-mode-on.svg" alt="dark-mode-on" />
-} @else {
-  <img src="assets/images/svgs/dark-mode.svg" alt="dark-mode" />
-}
+<img
+  src="assets/images/svgs/dark-mode{{ dataService.isDarkMode() ? '-on' : '' }}.svg"
+  alt="color-scheme"
+/>

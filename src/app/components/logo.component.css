@@ -25,10 +25,6 @@
 }
 
 :host {
-  filter: var(--dark-mode-filter);
-}
-
-:host {
   /* TODO */
   display: flex;
 }
