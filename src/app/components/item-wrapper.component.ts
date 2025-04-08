@@ -8,7 +8,6 @@ import {ItemHiddenToggleComponent} from './item-hidden-toggle.component';
 
 @Component({
   selector: 'app-item-wrapper',
-  standalone: true,
   imports: [ItemHiddenToggleComponent, ItemComponent],
   templateUrl: './item-wrapper.component.html',
   styleUrl: './item-wrapper.component.css',

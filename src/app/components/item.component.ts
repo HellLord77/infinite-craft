@@ -18,7 +18,6 @@ import {ItemEmojiComponent} from './item-emoji.component';
 
 @Component({
   selector: 'app-item',
-  standalone: true,
   imports: [ItemEmojiComponent],
   templateUrl: './item.component.html',
   styleUrl: './item.component.css',

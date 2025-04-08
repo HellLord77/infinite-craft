@@ -7,7 +7,6 @@ import {SidebarSortingComponent} from './sidebar-sorting.component';
 
 @Component({
   selector: 'app-sidebar-controls',
-  standalone: true,
   imports: [SidebarSortingComponent, SidebarSearchComponent],
   templateUrl: './sidebar-controls.component.html',
   styleUrl: './sidebar-controls.component.css',

@@ -4,7 +4,6 @@ import {DataService} from '../services/data.service';
 
 @Component({
   selector: 'app-dark-mode-icon',
-  standalone: true,
   imports: [],
   templateUrl: './dark-mode-icon.component.html',
   styleUrl: './dark-mode-icon.component.css',

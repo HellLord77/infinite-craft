@@ -7,7 +7,6 @@ import {SidebarComponent} from './sidebar.component';
 
 @Component({
   selector: 'app-sidebar-inner',
-  standalone: true,
   imports: [ItemsComponent, EmptySidebarComponent],
   templateUrl: './sidebar-inner.component.html',
   styleUrl: './sidebar-inner.component.css',

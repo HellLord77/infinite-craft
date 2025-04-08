@@ -4,7 +4,6 @@ import {interval, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-pinwheel',
-  standalone: true,
   imports: [],
   templateUrl: './pinwheel.component.html',
   styleUrl: './pinwheel.component.css',

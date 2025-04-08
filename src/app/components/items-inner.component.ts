@@ -12,7 +12,6 @@ import {SidebarComponent} from './sidebar.component';
 
 @Component({
   selector: 'app-items-inner',
-  standalone: true,
   imports: [ItemsRowComponent, ItemWrapperComponent],
   templateUrl: './items-inner.component.html',
   styleUrl: './items-inner.component.css',

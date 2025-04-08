@@ -6,7 +6,6 @@ import {SidebarInputCloseComponent} from './sidebar-input-close.component';
 
 @Component({
   selector: 'app-sidebar-search',
-  standalone: true,
   imports: [SidebarInputComponent, SidebarInputCloseComponent],
   templateUrl: './sidebar-search.component.html',
   styleUrl: './sidebar-search.component.css',

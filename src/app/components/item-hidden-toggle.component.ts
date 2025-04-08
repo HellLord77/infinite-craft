@@ -6,7 +6,6 @@ import {ItemComponent} from './item.component';
 
 @Component({
   selector: 'app-item-hidden-toggle',
-  standalone: true,
   imports: [],
   templateUrl: './item-hidden-toggle.component.html',
   styleUrl: './item-hidden-toggle.component.css',

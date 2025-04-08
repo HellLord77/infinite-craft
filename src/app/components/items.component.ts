@@ -8,7 +8,6 @@ import {SidebarComponent} from './sidebar.component';
 
 @Component({
   selector: 'app-items',
-  standalone: true,
   imports: [ItemsInnerComponent, InstructionComponent],
   templateUrl: './items.component.html',
   styleUrl: './items.component.css',

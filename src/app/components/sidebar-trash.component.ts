@@ -4,7 +4,6 @@ import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-sidebar-trash',
-  standalone: true,
   imports: [],
   templateUrl: './sidebar-trash.component.html',
   styleUrl: './sidebar-trash.component.css',

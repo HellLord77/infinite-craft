@@ -17,7 +17,6 @@ import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-particles',
-  standalone: true,
   imports: [],
   templateUrl: './particles.component.html',
   styleUrl: './particles.component.css',

@@ -4,7 +4,6 @@ import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-sidebar-discoveries',
-  standalone: true,
   imports: [],
   templateUrl: './sidebar-discoveries.component.html',
   styleUrl: './sidebar-discoveries.component.css',

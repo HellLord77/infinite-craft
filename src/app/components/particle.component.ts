@@ -4,7 +4,6 @@ import {ParticlesComponent} from './particles.component';
 
 @Component({
   selector: 'app-particle',
-  standalone: true,
   imports: [],
   templateUrl: './particle.component.html',
   styleUrl: './particle.component.css',

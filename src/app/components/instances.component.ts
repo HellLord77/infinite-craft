@@ -25,7 +25,6 @@ import {SidebarComponent} from './sidebar.component';
 
 @Component({
   selector: 'app-instances',
-  standalone: true,
   imports: [InstanceComponent],
   templateUrl: './instances.component.html',
   styleUrl: './instances.component.css',

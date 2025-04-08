@@ -5,7 +5,6 @@ import {SortNameComponent} from './sort-name.component';
 
 @Component({
   selector: 'app-sort-wrapper',
-  standalone: true,
   imports: [SortNameComponent, SortDirectionComponent],
   templateUrl: './sort-wrapper.component.html',
   styleUrl: './sort-wrapper.component.css',

@@ -6,7 +6,6 @@ import {ItemWrapperComponent} from './item-wrapper.component';
 
 @Component({
   selector: 'app-items-row',
-  standalone: true,
   imports: [ItemWrapperComponent],
   templateUrl: './items-row.component.html',
   styleUrl: './items-row.component.css',

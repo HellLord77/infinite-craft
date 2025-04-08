@@ -5,7 +5,6 @@ import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-sort-name',
-  standalone: true,
   imports: [],
   templateUrl: './sort-name.component.html',
   styleUrl: './sort-name.component.css',

@@ -4,7 +4,6 @@ import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-sidebar-input-close',
-  standalone: true,
   imports: [],
   templateUrl: './sidebar-input-close.component.html',
   styleUrl: './sidebar-input-close.component.css',

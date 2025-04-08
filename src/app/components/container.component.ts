@@ -11,7 +11,6 @@ import {SidebarComponent} from './sidebar.component';
 
 @Component({
   selector: 'app-container',
-  standalone: true,
   imports: [
     SideControlsComponent,
     ParticlesComponent,

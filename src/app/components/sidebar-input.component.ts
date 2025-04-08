@@ -15,7 +15,6 @@ import {ItemsInnerComponent} from './items-inner.component';
 
 @Component({
   selector: 'app-sidebar-input',
-  standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './sidebar-input.component.html',
   styleUrl: './sidebar-input.component.css',

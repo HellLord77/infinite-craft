@@ -5,7 +5,6 @@ import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-clear',
-  standalone: true,
   imports: [],
   templateUrl: './clear.component.html',
   styleUrl: './clear.component.css',

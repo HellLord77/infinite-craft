@@ -4,7 +4,6 @@ import {InstanceDiscoveredEmojiComponent} from './instance-discovered-emoji.comp
 
 @Component({
   selector: 'app-instance-discovered-text',
-  standalone: true,
   imports: [InstanceDiscoveredEmojiComponent],
   templateUrl: './instance-discovered-text.component.html',
   styleUrl: './instance-discovered-text.component.css',

@@ -8,7 +8,6 @@ import {SoundComponent} from './sound.component';
 
 @Component({
   selector: 'app-side-controls',
-  standalone: true,
   imports: [DarkModeIconComponent, ClearComponent, SoundComponent, ParticleComponent],
   templateUrl: './side-controls.component.html',
   styleUrl: './side-controls.component.css',

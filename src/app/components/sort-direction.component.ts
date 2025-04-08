@@ -4,7 +4,6 @@ import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-sort-direction',
-  standalone: true,
   imports: [],
   templateUrl: './sort-direction.component.html',
   styleUrl: './sort-direction.component.css',
