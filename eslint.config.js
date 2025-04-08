@@ -1,9 +1,10 @@
 // @ts-check
 const eslint = require('@eslint/js');
+const css = require('@eslint/css');
 const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
-const import_ = require('eslint-plugin-import');
 
+const import_ = require('eslint-plugin-import');
 const unusedImports = require('eslint-plugin-unused-imports');
 const simpleImportSort = require('eslint-plugin-simple-import-sort');
 const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
@@ -40,6 +41,11 @@ module.exports = tseslint.config(
   {
     files: ['**/*.html'],
     extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
+  },
+  {
+    files: ['**/*.css'],
+    language: 'css/css',
+    ...css.default.configs.recommended,
   },
   {
     files: ['**/*.ts'],
