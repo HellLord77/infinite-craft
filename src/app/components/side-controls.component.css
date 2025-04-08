@@ -1,12 +1,13 @@
 :host {
-  position: fixed;
-  right: 314px;
   bottom: 7px;
+  display: flex;
+  position: fixed;
+  right: calc(var(--sidebar-width) + 13px);
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-  display: flex;
   grid-gap: 19px;
+  z-index: 3;
 }
 
 @media screen and (min-width: 1150px) {
@@ -17,6 +18,8 @@
 
 @media screen and (max-width: 800px) {
   :host {
-    display: none;
+    bottom:188px;
+    right: 8px;
+    grid-gap: 15px;
   }
 }

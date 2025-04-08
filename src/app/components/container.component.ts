@@ -7,7 +7,6 @@ import {ParticlesComponent} from './particles.component';
 import {PinwheelComponent} from './pinwheel.component';
 import {ResetComponent} from './reset.component';
 import {SideControlsComponent} from './side-controls.component';
-import {SideControlsMobileComponent} from './side-controls-mobile.component';
 import {SidebarComponent} from './sidebar.component';
 
 @Component({
@@ -15,7 +14,6 @@ import {SidebarComponent} from './sidebar.component';
   standalone: true,
   imports: [
     SideControlsComponent,
-    SideControlsMobileComponent,
     ParticlesComponent,
     SidebarComponent,
     InstancesComponent,

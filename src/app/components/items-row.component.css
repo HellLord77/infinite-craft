@@ -1,4 +1,4 @@
 :host {
-  /* TODO */
   display: flex;
+  white-space: nowrap;
 }
