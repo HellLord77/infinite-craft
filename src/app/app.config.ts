@@ -17,7 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(withFetch(), withInterceptors([pairCacheInterceptor, pairErrorInterceptor])),
     apiServiceProvider,
-    soundServiceProvider,
     cacheServiceProvider,
+    soundServiceProvider,
   ],
 };

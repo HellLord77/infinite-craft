@@ -24,7 +24,7 @@ export class CacheNativeService extends CacheService {
   set(params: string, httpResponse: HttpResponse<unknown>) {
     if (this.cache.size === environment.cacheNativeMaxSize) {
       const keyIterator = this.cache.keys().next();
-      this.cache.delete(keyIterator.value);
+      this.cache.delete(keyIterator.value!);
     }
     this.cache.set(params, httpResponse);
   }
