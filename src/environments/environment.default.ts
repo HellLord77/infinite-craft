@@ -5,7 +5,7 @@ export const environment: Environment = {
   dataDefaultDarkMode: true,
   dataDefaultMuted: false,
 
-  apiRemote: true,
+  apiRemote: false,
   apiLocalUrl: 'data.sqlite',
   apiRemoteBaseUrl: 'http://localhost:8000',
 

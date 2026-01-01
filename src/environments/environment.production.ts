@@ -4,7 +4,5 @@ import {Environment} from './environment.interface';
 export const environment: Environment = {
   ...defaultEnvironment,
 
-  apiRemote: false,
-
   soundHowler: true,
 };
