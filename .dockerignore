@@ -1,6 +1,9 @@
-.github
-.vscode
+.git
+
 .idea
-node_modules
+.vscode
+
 .angular
+
 dist
+node_modules
