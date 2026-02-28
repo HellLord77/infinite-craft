@@ -21,11 +21,12 @@ export class ApiLocalService extends ApiService {
     },
   };
   private readonly query = `
-    SELECT result.text,
-           result.emoji
-    FROM pair
-           JOIN element AS first
-    ON first_id = first.id
+    SELECT
+      result.text,
+      result.emoji
+    FROM
+      pair
+      JOIN element AS first ON first_id = first.id
       JOIN element AS second ON second_id = second.id
       JOIN element AS result ON result_id = result.id
     WHERE
@@ -44,7 +45,7 @@ export class ApiLocalService extends ApiService {
 
   pair(element1: Element, element2: Element): Observable<Result> {
     if (element1.text > element2.text) {
-      return this.pair(element2, element1);
+      [element1, element2] = [element2, element1];
     }
 
     return this.worker$.pipe(

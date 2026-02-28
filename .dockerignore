@@ -1,9 +1,13 @@
 .git
 
-.idea
-.vscode
+/dist
 
-.angular
+/node_modules
 
-dist
-node_modules
+.idea/
+
+.vscode/*
+
+/.angular/cache
+
+/public/data.sqlite

@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM node:alpine AS build
+FROM --platform=$BUILDPLATFORM node:lts-alpine AS build
 
 WORKDIR /infinite-craft
 RUN apk add curl jq sqlite
